@@ -1,0 +1,1 @@
+import"./hoisted.DzEfYrSA.js";const n=()=>{const o=document.querySelectorAll(".reason-item"),s=new IntersectionObserver((e,r)=>{e.forEach(t=>{t.isIntersecting&&(t.target.classList.add("in-view"),r.unobserve(t.target))})},{threshold:.3});o.forEach(e=>s.observe(e))};document.addEventListener("astro:page-load",n);document.addEventListener("DOMContentLoaded",n);

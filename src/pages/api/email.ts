@@ -1,8 +1,6 @@
 import type { APIRoute } from 'astro'
-import { validEmail, validPhone } from '../../utils/validInputs'
+import { validEmail } from '../../utils/validInputs'
 import { sendEmail } from '../../utils/sendEmail'
-
-const errors = { name: '', phone: '', email: '', message: '' }
 
 export const POST: APIRoute = async ({ request }) => {
   const data = await request.formData()
@@ -19,15 +17,6 @@ export const POST: APIRoute = async ({ request }) => {
       },
     )
   }
-
-  // if (typeof phone !== 'string' || !validPhone(phone)) {
-  //   return new Response(
-  //     JSON.stringify({ success: false, error: 'Phone is not valid. ' }),
-  //     {
-  //       status: 500,
-  //     },
-  //   )
-  // }
 
   // compose body
   const body = `

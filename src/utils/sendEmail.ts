@@ -1,11 +1,5 @@
 import nodemailer from 'nodemailer'
 
-/**
- * Sends an email using Gmail SMTP.
- * @param {string} recipient - The email address to send the email to.
- * @param {string} subject - The subject of the email.
- * @param {string} body - The body content of the email.
- */
 export async function sendEmail(name: string, body: string) {
   const SMTP_USER = import.meta.env.SMTP_USER
   const SMTP_PASS = import.meta.env.SMTP_PASS

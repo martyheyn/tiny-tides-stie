@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const pageTitle = 'Contact Us'
+
+import { Image } from 'astro:assets'
+
+import BaltimoreCity from '../assets/images/bmore_inner_harbor.jpg'
+import ContactForm from '../components/ContactForm.svelte'
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <div class="relative w-full h-[85vh] pt-14 sm:pt-[76px]">
+    <Image
+      src={BaltimoreCity}
+      alt="Toddlers playing"
+      class="w-full h-full object-cover object-center contrast-125"
+    />
+    <h1
+      class="header-title text-7xl text-white absolute top-1/2 left-1/2 -translate-x-[60%] bg-black/20 px-4 py-2 rounded-md"
+    >
+      Contact Us
+    </h1>
+  </div>
+
+  <div class="bg-primary py-16 px-4 md:px-8 lg:px-12 flex justify-center">
+    <div class="max-w-6xl">
+      <div
+        class="flex flex-col h-full md:flex-row gap-y-12 md:gap-y-0 md:gap-x-6 lg:gap-x-12 justify-between items-center"
+      >
+        <div class="w-full md:w-1/2 h-full">
+          <div
+            class="h-full flex flex-col justify-center gap-y-4 rounded-md shadow-lg bg-secondary py-4 md:py-8 px-4 md:px-6 lg:px-12"
+          >
+            <h1 class="text-3xl md:text-5xl">Book an Evaluation Today!</h1>
+            <p class="text-base">
+              We proudly serve families in Baltimore City and the surrounding
+              areas, offering personalized care to support your child’s
+              development and well-being.
+              <br />
+              <br />
+              Getting started is simple: reach out to us through our contact form
+              to share your concerns and we will work to schedule an initial evaluation.
+              During the evaluation, we’ll discuss your goals, observe your child’s
+              needs, and develop a customized plan to help them thrive. From there,
+              we’ll schedule sessions tailored to your family’s needs, working together
+              every step of the way. We’re here to make the process as smooth and
+              supportive as possible for you and your child.
+            </p>
+          </div>
+        </div>
+
+        <div class="w-full h-full md:w-1/2 flex justify-center">
+          <ContactForm />
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
