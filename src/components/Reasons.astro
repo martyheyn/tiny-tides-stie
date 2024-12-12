@@ -1,0 +1,58 @@
+---
+const { serviceTitle, reasonsList } = Astro.props
+---
+
+<div
+  class="w-full flex flex-col justify-center items-center mt-12 max-w-7xl px-4 md:px-12 md:-mb-16"
+>
+  <h1 class="text-5xl md:text-6xl text-center">We can help with:</h1>
+  <div class="w-full grid gap-y-6 md:gap-y-12 grid-cols-2 md:grid-cols-3 mt-8">
+    {
+      reasonsList.map((reason: string, i: number) => (
+        <div
+          class="flex gap-x-2 items-center transition-all duration-200 ease-out reason-item pl-6 sm:pl-16 lg:pl-24"
+          style={`transition-delay: ${i * 0.075}s`}
+        >
+          <div class="w-2 h-2 bg-[#282082] rounded-full mt-1" />
+          <p class="text-base md:text-lg font-semibold">{reason}</p>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .reason-item {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .reason-item.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  const handleNavigation = () => {
+    const elements = document.querySelectorAll('.reason-item')
+
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.3 },
+    )
+
+    elements.forEach((el) => observer.observe(el))
+  }
+
+  // Reinitialize on navigation
+  document.addEventListener('astro:page-load', handleNavigation) // Astro-specific event
+  document.addEventListener('DOMContentLoaded', handleNavigation)
+</script>

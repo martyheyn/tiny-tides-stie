@@ -1,0 +1,153 @@
+---
+import Hambuger from './Hambuger.astro'
+
+import WaveLogo from '../../assets/images/wave.png'
+
+import { Image } from 'astro:assets'
+---
+
+<nav class="bg-[#232020]/60 w-full z-30 fixed">
+  <div class="mx-auto border-b border-white">
+    <div
+      class="hidden sm:flex justify-between items-center transition-all duration-300 sm:px-10 md:px-20 lg:px-28 text-white"
+    >
+      <div>
+        <a href="/">
+          <svg
+            version="1.0"
+            xmlns="http://www.w3.org/2000/svg"
+            width="300.000000pt"
+            height="300.000000pt"
+            viewBox="0 0 300.000000 300.000000"
+            preserveAspectRatio="xMidYMid meet"
+            class="stroke-white w-12 h-12 mt-.5"
+          >
+            <metadata>
+              Created by potrace 1.10, written by Peter Selinger 2001-2011
+            </metadata>
+            <g
+              transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)"
+              class="fill-white"
+            >
+              <path
+                d="M1520 2265 c-166 -27 -340 -94 -473 -182 -43 -28 -160 -134 -292
+-263 -279 -272 -424 -376 -640 -460 -88 -34 -102 -48 -84 -82 15 -28 49 -20
+194 51 226 109 390 233 597 452 73 78 169 168 213 202 100 75 249 148 380 184
+89 24 117 27 255 28 126 0 165 -3 210 -19 156 -53 239 -133 289 -277 20 -59
+45 -189 37 -196 -2 -2 -21 27 -41 67 -93 176 -249 236 -398 152 -138 -77 -182
+-252 -123 -483 73 -288 263 -528 507 -644 131 -61 212 -78 394 -78 160 0 221
+8 362 49 63 18 89 53 61 81 -15 14 -20 14 -64 -1 -116 -38 -208 -51 -364 -50
+-205 0 -305 26 -452 120 -210 134 -380 422 -395 669 -9 146 25 233 108 275 61
+32 118 36 171 12 57 -25 89 -64 158 -194 51 -95 57 -103 85 -103 43 0 55 31
+55 145 0 139 -29 234 -103 341 -63 93 -165 160 -292 194 -86 22 -253 27 -355
+10z m710 -594 c0 -37 -19 -50 -37 -26 -23 33 -16 47 30 54 4 0 7 -12 7 -28z"
+              ></path>
+            </g>
+          </svg>
+        </a>
+      </div>
+
+      <div class="flex gap-x-6">
+        <div class="navbtn sm:my-6 hover:scale-[1.04]">
+          <a href="/">Home</a>
+        </div>
+
+        <div class="navbtn sm:my-6 hover:scale-[1.04]">
+          <a href="/about">About</a>
+        </div>
+
+        <div
+          class="navbtn sm:py-6 flex justify-between group relative before:bottom-4"
+          id="services-navitem"
+        >
+          <a href="/services">Services</a>
+          <!-- <div class="">Services</div> -->
+          <!-- <div
+            class="flex items-center ml-2 mt-[1px] transition-all duration-300 ease-in-out opacity-0 -translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 group-hover:rotate-180"
+          >
+            <svg
+              data-baseweb="icon"
+              viewBox="0 0 24 24"
+              class="w-4 h-4 fill-white chevron"
+            >
+              <title>Chevron Down</title>
+              <path
+                transform="rotate(90, 12, 12)"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M9 12C9 12.2652 9.10536 12.5196 9.29289 12.7071L13.2929 16.7071C13.6834 17.0976 14.3166 17.0976 14.7071 16.7071C15.0976 16.3166 15.0976 15.6834 14.7071 15.2929L11.4142 12L14.7071 8.70711C15.0976 8.31658 15.0976 7.68342 14.7071 7.29289C14.3166 6.90237 13.6834 6.90237 13.2929 7.29289L9.29289 11.2929C9.10536 11.4804 9 11.7348 9 12Z"
+              ></path>
+            </svg>
+          </div>
+
+          <div
+            class="absolute bg-[#232020]/60 rounded-sm mx-4 w-40 z-20 -right-8 -bottom-[121px] transition-all duration-300 ease-in-out opacity-0 transform -translate-y-4 invisible flex flex-col"
+            id="services-dropdown"
+          >
+            <a
+              href="/services"
+              class="py-4 px-2 border-white border-b border-l border-r hover:bg-gray-700 w-full h-full"
+              >Services</a
+            >
+            <a
+              href="/what-we-treat"
+              class="py-4 px-2 border-white border-b border-l border-r hover:bg-gray-700 w-full h-full"
+              >What We Treat</a
+            >
+          </div> -->
+        </div>
+
+        <div class="-ml-6 navbtn sm:my-6 hover:scale-[1.04]">
+          <a href="/faqs">FAQs</a>
+        </div>
+
+        <div
+          class="hidden md:flex items-center text-[18px] justify-center transition-all duration-300 cursor-pointer"
+        >
+          <a
+            href="/contact"
+            class="px-4 rounded-xl hover:bg-slate-100 hover:ring-2 hover:ring-slate-300 bg-white text-black"
+            >Contact Us</a
+          >
+        </div>
+      </div>
+    </div>
+    <div
+      class="pt-2 flex flex-col justify-center items-center sm:hidden text-white"
+    >
+      <Hambuger />
+    </div>
+  </div>
+</nav>
+
+<script>
+  const handleNavigation = () => {
+    const serviceNavitem = document.getElementById('services-navitem')
+
+    function toggleServices() {
+      console.log('Clicking Services')
+
+      const serviceDropdown = document.getElementById('services-dropdown')
+
+      if (serviceDropdown) {
+        serviceDropdown.classList.toggle('expanded')
+      }
+    }
+
+    if (serviceNavitem) {
+      serviceNavitem.addEventListener('click', toggleServices)
+    }
+  }
+
+  // Reinitialize on navigation
+  document.addEventListener('astro:page-load', handleNavigation) // Astro-specific event
+</script>
+
+<style>
+  /* Active dropdown state */
+  .expanded {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>

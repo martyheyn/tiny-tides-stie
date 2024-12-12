@@ -1,0 +1,25 @@
+---
+const {
+  text,
+  color = '#9ddcdc',
+  hoverColor = '#90e8e8',
+  textColor = 'black',
+} = Astro.props
+---
+
+<button
+  class="font-semibold px-6 py-3 transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl"
+>
+  {text}
+</button>
+
+<style define:vars={{ color, hoverColor, textColor }}>
+  button {
+    background-color: var(--color);
+    color: var(--textColor);
+  }
+
+  button:hover {
+    background-color: var(--hoverColor);
+  }
+</style>

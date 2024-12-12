@@ -1,0 +1,33 @@
+---
+const testimonials = [
+  {
+    text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus expedita minus totam sint, voluptates eos incidunt molestiae rem omnis dolore. Voluptatum cumque quidem impedit quod et non dicta velit quis?',
+    author: 'satisfied patient',
+  },
+  {
+    text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus expedita minus totam sint, voluptates eos incidunt molestiae rem omnis dolore. Voluptatum cumque quidem impedit quod et non dicta velit quis?',
+    author: 'satisfied patient',
+  },
+  {
+    text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus expedita minus totam sint, voluptates eos incidunt molestiae rem omnis dolore. Voluptatum cumque quidem impedit quod et non dicta velit quis?',
+    author: 'satisfied patient',
+  },
+  {
+    text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus expedita minus totam sint, voluptates eos incidunt molestiae rem omnis dolore. Voluptatum cumque quidem impedit quod et non dicta velit quis?',
+    author: 'satisfied patient',
+  },
+]
+---
+
+<div class="carousel rounded-box w-full md:w-[680px]">
+  {
+    testimonials.map((testimonial) => (
+      <div class="carousel-item w-full flex justify-center">
+        <div class="w-full px-6 md:max-w-xl flex flex-col gap-y-4 justify-center">
+          <p class="text-center">{testimonial.text}</p>
+          <p class="text-center italic">- {testimonial.author}</p>
+        </div>
+      </div>
+    ))
+  }
+</div>

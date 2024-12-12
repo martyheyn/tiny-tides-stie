@@ -1,0 +1,70 @@
+---
+const { img, title, description, link } = Astro.props
+
+import { Image } from 'astro:assets'
+---
+
+<div
+  class="w-full flex flex-col gap-y-6 justify-between items-center service-landing-item"
+>
+  <a
+    href={link}
+    class="hover:scale-[1.02] transition-all duration-200 ease-in-out"
+  >
+    <Image
+      src={img}
+      alt="Toddlers playing"
+      class="w-36 h-36 rounded-full bg-[#e7e1d1]"
+    />
+  </a>
+
+  <div
+    class="max-w-[350px] md:max-w-[300px] md:min-h-[200px] flex flex-col justify-between gap-y-2"
+  >
+    <a
+      href={link}
+      class="hover:scale-[1.02] transition-all duration-200 ease-in-out flex justify-center items-center h-full"
+    >
+      <p class="text-2xl italic font-semibold text-center mb-1">{title}</p>
+    </a>
+    <p class="text-center">{description}</p>
+  </div>
+</div>
+
+<style>
+  .service-landing-item {
+    opacity: 0;
+    transform: translateY(44px);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .service-landing-item.in-view {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s ease-in-out;
+  }
+</style>
+
+<script>
+  const handleNavigation = () => {
+    const elements = document.querySelectorAll('.service-landing-item')
+
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.4 },
+    )
+
+    elements.forEach((el) => observer.observe(el))
+  }
+
+  // Reinitialize on navigation
+  document.addEventListener('astro:page-load', handleNavigation) // Astro-specific event
+  document.addEventListener('DOMContentLoaded', handleNavigation)
+</script>

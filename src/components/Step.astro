@@ -1,0 +1,55 @@
+---
+const { stepNum, description } = Astro.props
+
+let delay = `${stepNum * 0.3}s`
+---
+
+<div
+  class={`flex flex-col gap-y-6 justify-center items-center bg-gradient-to-r from-primary to-[#d6f1f1] w-60 h-60 rounded-2xl px-8 shadow-2xl step-item`}
+>
+  <h2 class="text-5xl font-semibold text-shadow">{stepNum}</h2>
+  <p class="text-xl italic text-center">{description}</p>
+</div>
+
+<style define:vars={{ delay }}>
+  .step-item {
+    opacity: 0;
+    transform: translateX(-44px);
+    transition: all 0.3s ease-in-out var(--delay);
+  }
+
+  @media screen and (max-width: 640px) {
+    .step-item {
+      transition: all 0.3s ease-in-out;
+    }
+  }
+
+  .step-item.in-view {
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>
+
+<script>
+  const handleNavigation = () => {
+    const elements = document.querySelectorAll('.step-item')
+
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.4 },
+    )
+
+    elements.forEach((el) => observer.observe(el))
+  }
+
+  // Reinitialize on navigation
+  document.addEventListener('astro:page-load', handleNavigation) // Astro-specific event
+  document.addEventListener('DOMContentLoaded', handleNavigation)
+</script>
