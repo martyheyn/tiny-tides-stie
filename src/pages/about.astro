@@ -2,9 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro'
 
 const pageTitle = 'About'
-
-import { Image } from 'astro:assets'
-import ErinSmileBaby from '../assets/images/erin/erin_smile_baby.jpeg'
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -16,8 +13,8 @@ import ErinSmileBaby from '../assets/images/erin/erin_smile_baby.jpeg'
         class="max-w-6xl grid grid-cols-1 md:grid-cols-8 gap-y-12 md:gap-y-0 md:gap-x-4 lg:gap-x-12 transition-all duration-300 ease-in-out"
       >
         <div class="w-full flex justify-center items-start md:col-span-3">
-          <Image
-            src={ErinSmileBaby}
+          <img
+            src="/assets/images/erin/erin_smile_baby.jpeg"
             alt="Toddlers playing"
             class="w-full max-w-md rounded-md object-cover object-center shadow-lg md:min-h-[675px]"
           />

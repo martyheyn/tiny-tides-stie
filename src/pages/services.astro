@@ -2,21 +2,17 @@
 import BaseLayout from '../layouts/BaseLayout.astro'
 const markdownFiles = await Astro.glob('./services/*md')
 
-// cXjG8Y!h1aN*K4
-
 const services = Object.values(markdownFiles)
 
 const pageTitle = 'Services'
 
-import { Image } from 'astro:assets'
-
-import BreastFeeding from '../assets/images/breast_feeding.jpg'
-import TummyTime from '../assets/images/erin/erin_tummy_baby.jpeg'
-import BabyFeeding from '../assets/images/baby_seat_feeding.jpg'
-
 import Reasons from '../components/Reasons.astro'
 
-const serviceImgs = [TummyTime, BreastFeeding, BabyFeeding]
+const serviceImgs = [
+  '/assets/images/erin/erin_tummy_baby.jpeg',
+  '/assets/images/breast_feeding.jpg',
+  '/assets/images/baby_seat_feeding.jpg',
+]
 
 // reasons for treatment
 const reasons = {
@@ -68,7 +64,7 @@ const reasons = {
                   id="lactation-counseling"
                 >
                   <div class="w-full h-full flex justify-center items-center">
-                    <Image
+                    <img
                       src={serviceImgs[i]}
                       alt="Toddlers playing"
                       class="w-full max-w-md rounded-md object-cover object-center shadow-lg max-h-[500px] lg:min-w-[500px] lg:h-[450px]"
@@ -110,7 +106,7 @@ const reasons = {
                     </div>
                   </div>
                   <div class="w-full h-full flex justify-center items-center">
-                    <Image
+                    <img
                       src={serviceImgs[i]}
                       alt="Toddlers playing"
                       class="w-full max-w-md rounded-md object-cover object-center shadow-lg max-h-[500px] lg:min-w-[500px] lg:h-[450px]"

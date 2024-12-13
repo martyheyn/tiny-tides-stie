@@ -3,16 +3,13 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 
 const pageTitle = 'Contact Us'
 
-import { Image } from 'astro:assets'
-
-import BaltimoreCity from '../assets/images/bmore_inner_harbor.jpg'
 import ContactForm from '../components/ContactForm.svelte'
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <div class="relative w-full h-[85vh] pt-14 sm:pt-[76px]">
-    <Image
-      src={BaltimoreCity}
+    <img
+      src="/assets/images/bmore_inner_harbor.jpg"
       alt="Toddlers playing"
       class="w-full h-full object-cover object-center contrast-125"
     />
