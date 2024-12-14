@@ -64,11 +64,13 @@ const services = [
 
       <video
         class="absolute top-0 left-0 h-full w-full z-10 object-cover opacity-100 grayscale-[10%]"
+        playsinline
         autoplay
         loop
         muted
       >
         <source src={WaveVideo} type="video/mp4" />
+        <source src={WaveVideo} type="video/webm" />
         <source src={WaveVideo} type="video/ogg" />
       </video>
 
