@@ -234,18 +234,6 @@ const services = [
 </style>
 
 <script>
-  let videoElement = document.querySelector('video')
-
-  window.addEventListener('pagehide', () => {
-    if (videoElement) videoElement.pause()
-  })
-
-  window.addEventListener('pageshow', () => {
-    if (videoElement) {
-      videoElement.load() // Reload video
-      videoElement.play() // Restart playback
-    }
-  })
   const handleNavigation = () => {
     const elements = document.querySelectorAll('.step-arrow-1, .step-arrow-2')
 
