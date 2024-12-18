@@ -6,13 +6,15 @@ const services = Object.values(markdownFiles)
 
 const pageTitle = 'Services'
 
+import { Image } from 'astro:assets'
+
 import Reasons from '../components/Reasons.astro'
 
-const serviceImgs = [
-  '/assets/images/erin/erin_tummy_baby.jpeg',
-  '/assets/images/breast_feeding.jpg',
-  '/assets/images/baby_seat_feeding.jpg',
-]
+import TummyTimeImg from '../../public/assets/images/erin/erin_tummy_baby.jpeg'
+import BreastFeedingImg from '../../public/assets/images/breast_feeding.jpg'
+import BabyFeedingImg from '../../public/assets/images/baby_seat_feeding.jpg'
+
+const serviceImgs = [TummyTimeImg, BreastFeedingImg, BabyFeedingImg]
 
 // reasons for treatment
 const reasons = {
@@ -64,7 +66,7 @@ const reasons = {
                   id={service.frontmatter.id}
                 >
                   <div class="w-full h-full flex justify-center items-center">
-                    <img
+                    <Image
                       src={serviceImgs[i]}
                       alt="Toddlers playing"
                       class="w-full max-w-md rounded-md object-cover object-center shadow-lg max-h-[500px] lg:min-w-[500px] lg:h-[450px]"
@@ -106,7 +108,7 @@ const reasons = {
                     </div>
                   </div>
                   <div class="w-full h-full flex justify-center items-center">
-                    <img
+                    <Image
                       src={serviceImgs[i]}
                       alt="Toddlers playing"
                       class="w-full max-w-md rounded-md object-cover object-center shadow-lg max-h-[500px] lg:min-w-[500px] lg:h-[450px]"

@@ -1,5 +1,7 @@
 ---
 const { img, title, description, link } = Astro.props
+
+import { Image } from 'astro:assets'
 ---
 
 <div
@@ -9,7 +11,7 @@ const { img, title, description, link } = Astro.props
     href={link}
     class="hover:scale-[1.02] transition-all duration-200 ease-in-out"
   >
-    <img
+    <Image
       src={img}
       alt="Toddlers playing"
       class="w-36 h-36 rounded-full bg-[#e7e1d1]"

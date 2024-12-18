@@ -10,23 +10,30 @@ import WaveDivider from '../components/WaveDivider.astro'
 import WaveVideo from '/assets/videos/wave-birdeye-view.mp4'
 import Step from '../components/Step.astro'
 
+import { Image } from 'astro:assets'
+
+import BabyBounceImg from '../../public/assets/images/erin/erin_baby_bounce.jpeg'
+import BreastFeedingImg from '../../public/assets/images/baby_breastfeeding.png'
+import ToddlersPlayingImg from '../../public/assets/images/toddlers-playing.png'
+import BabyFeedingImg from '../../public/assets/images/baby-eating.png'
+
 const services = [
   {
-    img: '/assets/images/baby_breastfeeding.png',
+    img: BreastFeedingImg,
     title: 'Lactation Counseling',
     description:
       'Feeding challenges can make the early days with your baby stressful. Tiny Tides offers tailored support to help you achieve a comfortable, effective feeding routine',
     link: '/services/#lactation-consulting',
   },
   {
-    img: '/assets/images/toddlers-playing.png',
+    img: ToddlersPlayingImg,
     title: 'Developmental Milestones',
     description:
       'Concerns about missed milestones can cause worry. Tiny Tides assesses and supports each child’s unique needs, encouraging steady progress in a warm environment',
     link: '/services/#developmental-milestones',
   },
   {
-    img: '/assets/images/baby-eating.png',
+    img: BabyFeedingImg,
     title: 'Transition to Solids',
     description:
       'Mealtime struggles with picky eating can frustrate both kids and parents. Tiny Tides uses a gentle, child-led approach to make meals more enjoyable and nutritious',
@@ -190,8 +197,8 @@ const services = [
         class="w-full mt-8 md:mt-12 grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 md:gap-x-8 border border-black rounded-md transition-all duration-300 ease-in-out"
       >
         <div class="w-full md:h-screen flex justify-center items-center">
-          <img
-            src="/assets/images/erin/erin_baby_bounce.jpeg"
+          <Image
+            src={BabyBounceImg}
             alt="Toddlers playing"
             class="w-full h-full rounded-md object-cover"
           />
