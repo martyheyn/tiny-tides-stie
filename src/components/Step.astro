@@ -5,10 +5,10 @@ let delay = `${stepNum * 0.3}s`
 ---
 
 <div
-  class={`flex flex-col gap-y-6 justify-center items-center bg-gradient-to-r from-primary to-[#d6f1f1] w-60 h-60 rounded-2xl px-8 shadow-2xl step-item`}
+  class={`flex flex-col gap-y-4 justify-center items-center bg-gradient-to-r from-primary to-[#d6f1f1] w-60 h-60 rounded-full px-8 shadow-2xl step-item`}
 >
   <h2 class="text-5xl font-semibold text-shadow">{stepNum}</h2>
-  <p class="text-xl italic text-center">{description}</p>
+  <p class="text-2xl italic text-center">{description}</p>
 </div>
 
 <style define:vars={{ delay }}>

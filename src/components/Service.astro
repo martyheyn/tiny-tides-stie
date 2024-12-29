@@ -1,0 +1,21 @@
+---
+const { title, duration, price, text } = Astro.props
+---
+
+<div class="flex flex-col gap-y-4 border border-black/50 rounded-md p-6">
+  <div class="w-full md:w-[45%]">
+    <h4 class="text-5xl border-b border-black w-fit">{title}</h4>
+  </div>
+  <div class="flex flex-col md:flex-row gap-4 md:gap-12 w-full h-full">
+    <div class="md:w-1/2">
+      <p class="text-xl">
+        {duration} minutes: <span class="ml-2 font-semibold">{price}</span>
+      </p>
+    </div>
+    <div
+      class="md:w-1/2 flex flex-col gap-y-4 h-full justify-center md:mt-1 md:border border-black/50 rounded-md px-6 py-4 text-xl"
+    >
+      <slot />
+    </div>
+  </div>
+</div>

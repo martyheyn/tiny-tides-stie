@@ -1,10 +1,10 @@
 ---
-title: 'Developmental Milestones'
-id: 'developmental-milestones'
+title: 'Occupational Therapy'
+id: 'occupational-therapy'
 pubDate: 2024-10-05
 description: 'Lactation service brief description'
 author: 'Tiny Tides Brah'
-tags: ['astro', 'developmental milestones', 'services']
+tags: ['astro', 'occupational therapy', 'services']
 ---
 
 You’ve noticed your toddler isn’t walking, talking, or engaging like other kids their age, and it’s hard not to worry. Maybe they struggle with balance, coordination, or completing simple tasks you think they should have mastered.

@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
-const pageTitle = 'Home Page'
+const pageTitle = 'Home'
 
-import ServicesLanding from '../components/ServicesLanding.astro'
+import WhatWeTreat from '../components/WhatWeTreat.astro'
 import Button from '../components/Button.astro'
 import ContactForm from '../components/ContactForm.svelte'
 import WaveDivider from '../components/WaveDivider.astro'
@@ -13,31 +13,34 @@ import Step from '../components/Step.astro'
 import { Image } from 'astro:assets'
 
 import BabyBounceImg from '../../public/assets/images/erin/erin_baby_bounce.jpeg'
-import BreastFeedingImg from '../../public/assets/images/baby_breastfeeding.png'
-import ToddlersPlayingImg from '../../public/assets/images/toddlers-playing.png'
-import BabyFeedingImg from '../../public/assets/images/baby-eating.png'
+import BreastFeedingImg from '../../public/assets/images/breast_feeding_icon.png'
+import BabyFeedingImg from '../../public/assets/images/infant_feeding_icon.png'
+import BabyCrawlingImg from '../../public/assets/images/infant_crawling_icon.png'
+import LandingLogo from '../../public/assets/images/landing_logo.png'
+import LandingLogoWhite from '../../public/assets/images/landing_logo_white.png'
+import Logo from '../components/Logo.astro'
 
 const services = [
+  {
+    img: BabyCrawlingImg,
+    title: 'Occupational Therapy',
+    description:
+      "Don’t “wait it out” when it comes to your baby's development! Early OT intervention can help set your little one up for success with meeting milestones and provide a strong foundation for future growth and independence.",
+    link: '/what-we-treat/#occupational-therapy',
+  },
   {
     img: BreastFeedingImg,
     title: 'Lactation Counseling',
     description:
-      'Feeding challenges can make the early days with your baby stressful. Tiny Tides offers tailored support to help you achieve a comfortable, effective feeding routine',
-    link: '/services/#lactation-consulting',
-  },
-  {
-    img: ToddlersPlayingImg,
-    title: 'Developmental Milestones',
-    description:
-      'Concerns about missed milestones can cause worry. Tiny Tides assesses and supports each child’s unique needs, encouraging steady progress in a warm environment',
-    link: '/services/#developmental-milestones',
+      'Breastfeeding can be TOUGH! Tiny Tides offers tailored strategies to support successful breastfeeding. Let’s work together to enhance the feeding experience with your little one.',
+    link: '/what-we-treat/#lactation-consulting',
   },
   {
     img: BabyFeedingImg,
-    title: 'Transition to Solids',
+    title: 'Feeding Therapy',
     description:
-      'Mealtime struggles with picky eating can frustrate both kids and parents. Tiny Tides uses a gentle, child-led approach to make meals more enjoyable and nutritious',
-    link: '/services/#transition-to-solids',
+      'Whether you are struggling with bottle feeding, transitioning to solids, or picky eating, Tiny Tides provides individualized support to help you and your little one reach your feeding goals.',
+    link: '/what-we-treat/#transition-to-solids',
   },
 ]
 ---
@@ -47,25 +50,33 @@ const services = [
   <section class="bg-gradient-to-b from-primary to-secondary">
     <div class="h-[106vh] w-full relative overflow-hidden pt-14 md:pt-[76px]">
       <div
-        class="relative bg-transparent md:bg-gradient-to-b md:from-primary md:to-[#c5e8e8] flex flex-col w-full md:w-1/2 h-full justify-center items-center z-20 px-4 md:px-12 rounded-b-lg"
+        class="relative bg-transparent md:bg-gradient-to-b md:from-primary md:to-[#c5e8e8] w-full md:w-1/2 h-full flex justify-center items-center z-20 px-4 md:px-12 rounded-b-lg"
       >
-        <h1
-          class="header-title text-8xl mb-6 text-center text-white md:text-black bg-black/20 md:bg-inherit px-4 md:px-0"
+        <div
+          class="flex flex-col gap-y-4 justify-center items-center bg-black/30 md:bg-transparent rounded-lg p-4 md:p-0"
         >
-          <span class="text-[100px]">Tiny Tides</span>
-          <br /> Therapy
-        </h1>
+          <Logo fill="#172554" width="400px" />
+          <p class="header-title lowercase">
+            <span class="mx-1">tiny</span>
+            <span class="mx-1">tides</span>
+            <span class="mx-1">therapy</span>
+          </p>
 
-        <h1
-          class="text-4xl text-center my-2 md:my-4 text-white md:text-black font-semibold md:font-normal bg-black/20 md:bg-inherit"
-        >
-          Pediatric Occupational Therapy Lactation <span class="px-1">&</span> Feeding
-        </h1>
+          <p
+            class="font-header text-xl lowercase text-center text-white md:text-blue-950"
+          >
+            Occupational Therapy <span class="mx-1">-</span> Lactation <span
+              class="mx-1">-</span
+            > Feeding <span class="mx-1">-</span> Development
+          </p>
 
-        <div class="flex justify-center md:hidden lg:block mt-4 mb-12 md:mb-6">
-          <a href="/contact">
-            <Button text="Schedule Free Consultation" />
-          </a>
+          <div
+            class="flex justify-center md:hidden lg:block mt-4 mb-12 md:mb-6"
+          >
+            <a href="/contact">
+              <Button text="Schedule Free Consultation" textColor="#173f69bf" />
+            </a>
+          </div>
         </div>
       </div>
 
@@ -99,16 +110,18 @@ const services = [
       >
       </div>
 
-      <div class="py-16 px-6 md:px-12">
+      <div class="py-16 px-6 lg:px-12">
         <div class="flex flex-col justify-center items-center gap-y-20">
-          <h1 class="header-title">For all your pedatric therapy needs</h1>
+          <h1 class="header-title text-[#031930bf]">
+            For all your pedatric therapy needs
+          </h1>
 
           <div
-            class="md:max-w-6xl grid grid-cols-1 md:grid-cols-3 content-center w-full gap-y-16 md:gap-y-0 md:gap-x-16"
+            class="md:max-w-6xl grid grid-cols-1 md:grid-cols-3 content-center w-full gap-y-16 md:gap-y-0 md:gap-x-4 lg:gap-x-16"
           >
             {
               services.map((service) => (
-                <ServicesLanding
+                <WhatWeTreat
                   img={service.img}
                   title={service.title}
                   description={service.description}
@@ -119,8 +132,8 @@ const services = [
           </div>
         </div>
 
-        <h4 class="text-center mt-32 text-4xl">
-          Serving Families in Baltimore City and Surrounding Areas
+        <h4 class="mt-32 header-title max-w-full">
+          Providing Support in Baltimore City, Surrounding Areas, and Virtually
         </h4>
         <div class="flex justify-center mt-24">
           <a href="/contact">
@@ -141,12 +154,12 @@ const services = [
         >
           <Step stepNum="1" description="Schedule a free consultation" />
           <div
-            class="absolute top-[27%] md:top-[40%] md:left-[31%] hidden lg:block step-arrow-1"
+            class="absolute top-[27%] md:top-[40%] md:left-[28%] hidden lg:block step-arrow-1"
           >
             <svg
               viewBox="0 0 24 24"
-              width="72"
-              height="72"
+              width="100"
+              height="100"
               xmlns="http://www.w3.org/2000/svg"
               fill-rule="evenodd"
               clip-rule="evenodd"
@@ -160,12 +173,12 @@ const services = [
           <Step stepNum="2" description="Get a comprehensive evaluation" />
 
           <div
-            class="absolute lg:top-[40%] lg:left-[62%] hidden lg:block step-arrow-2"
+            class="absolute lg:top-[40%] lg:left-[64%] hidden lg:block step-arrow-2"
           >
             <svg
               viewBox="0 0 24 24"
-              width="72"
-              height="72"
+              width="100"
+              height="100"
               xmlns="http://www.w3.org/2000/svg"
               fill-rule="evenodd"
               clip-rule="evenodd"
@@ -206,7 +219,7 @@ const services = [
 
         <div class="flex flex-col justify-center items-center md:py-20">
           <p class="text-xl max-w-md px-4 md:px-8">
-            Submit an inquiry and we will reach back out to you!
+            Submit an inquiry and we will be in touch!
           </p>
           <ContactForm homepage={true} client:load />
         </div>

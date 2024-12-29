@@ -1,4 +1,5 @@
 ---
+import Logo from '../Logo.astro'
 import Hambuger from './Hambuger.astro'
 ---
 
@@ -9,43 +10,13 @@ import Hambuger from './Hambuger.astro'
     <div
       class="hidden sm:flex justify-between items-center transition-all duration-300 sm:px-10 md:px-20 lg:px-28 text-white"
     >
-      <div>
+      <div class="hidden md:block">
         <a href="/">
-          <svg
-            version="1.0"
-            xmlns="http://www.w3.org/2000/svg"
-            width="300.000000pt"
-            height="300.000000pt"
-            viewBox="0 0 300.000000 300.000000"
-            preserveAspectRatio="xMidYMid meet"
-            class="stroke-white w-12 h-12 mt-.5"
-          >
-            <metadata>
-              Created by potrace 1.10, written by Peter Selinger 2001-2011
-            </metadata>
-            <g
-              transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)"
-              class="fill-white"
-            >
-              <path
-                d="M1520 2265 c-166 -27 -340 -94 -473 -182 -43 -28 -160 -134 -292
--263 -279 -272 -424 -376 -640 -460 -88 -34 -102 -48 -84 -82 15 -28 49 -20
-194 51 226 109 390 233 597 452 73 78 169 168 213 202 100 75 249 148 380 184
-89 24 117 27 255 28 126 0 165 -3 210 -19 156 -53 239 -133 289 -277 20 -59
-45 -189 37 -196 -2 -2 -21 27 -41 67 -93 176 -249 236 -398 152 -138 -77 -182
--252 -123 -483 73 -288 263 -528 507 -644 131 -61 212 -78 394 -78 160 0 221
-8 362 49 63 18 89 53 61 81 -15 14 -20 14 -64 -1 -116 -38 -208 -51 -364 -50
--205 0 -305 26 -452 120 -210 134 -380 422 -395 669 -9 146 25 233 108 275 61
-32 118 36 171 12 57 -25 89 -64 158 -194 51 -95 57 -103 85 -103 43 0 55 31
-55 145 0 139 -29 234 -103 341 -63 93 -165 160 -292 194 -86 22 -253 27 -355
-10z m710 -594 c0 -37 -19 -50 -37 -26 -23 33 -16 47 30 54 4 0 7 -12 7 -28z"
-              ></path>
-            </g>
-          </svg>
+          <Logo fill="white" height="68px" width="68px" />
         </a>
       </div>
 
-      <div class="flex gap-x-6">
+      <div class="w-full flex sm:justify-center md:justify-end gap-x-6">
         <div class="navbtn sm:my-6 hover:scale-[1.04]">
           <a href="/">Home</a>
         </div>
@@ -58,9 +29,9 @@ import Hambuger from './Hambuger.astro'
           class="navbtn sm:py-6 flex justify-between group relative before:bottom-4"
           id="services-navitem"
         >
-          <a href="/services">Services</a>
-          <!-- <div class="">Services</div> -->
-          <!-- <div
+          <!-- <a href="/what-we-treat">What We Treat</a> -->
+          <div class="">Services</div>
+          <div
             class="flex items-center ml-2 mt-[1px] transition-all duration-300 ease-in-out opacity-0 -translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 group-hover:rotate-180"
           >
             <svg
@@ -83,17 +54,21 @@ import Hambuger from './Hambuger.astro'
             id="services-dropdown"
           >
             <a
-              href="/services"
-              class="py-4 px-2 border-white border-b border-l border-r hover:bg-gray-700 w-full h-full"
-              >Services</a
-            >
-            <a
               href="/what-we-treat"
               class="py-4 px-2 border-white border-b border-l border-r hover:bg-gray-700 w-full h-full"
               >What We Treat</a
             >
-          </div> -->
+            <a
+              href="/services"
+              class="py-4 px-2 border-white border-b border-l border-r hover:bg-gray-700 w-full h-full"
+              >Services</a
+            >
+          </div>
         </div>
+
+        <!-- <div class="navbtn sm:my-6 hover:scale-[1.04]">
+          <a href="/faqs">Services</a>
+        </div> -->
 
         <div class="navbtn sm:my-6 hover:scale-[1.04]">
           <a href="/faqs">FAQs</a>

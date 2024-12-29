@@ -6,13 +6,14 @@ export default {
       colors: {
         primary: '#f3ffff',
         secondary: '#9ddcdc',
+        text: '#173f69bf',
         accent: '#f0f0f0',
         dark: '#1a1a1a',
         light: '#f0f0f0',
         error: '#ff0000',
       },
       fontFamily: {
-        header: ['Square Peg', 'sans-serif'],
+        header: ['Lora', 'sans-serif'],
         body: ['Quicksand', 'sans-serif'],
       },
     },

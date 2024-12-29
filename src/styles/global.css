@@ -14,16 +14,16 @@
     @apply py-8 w-full text-center transition-all ease-in duration-300 hover:bg-gray-400/50 cursor-pointer border-b border-black text-lg;
   }
 
-  .header-title {
-    @apply text-7xl dark:text-black;
-  }
-
   .text-shadow {
     @apply [text-shadow:_#343131_2px_0_2px];
   }
+  /* 
+  .header-title {
+    @apply max-w-xl md:max-w-2xl text-6xl md:text-7xl text-center transition-all duration-300 ease-in-out;
+  } */
 
   .header-title {
-    @apply text-shadow max-w-xl md:max-w-2xl text-6xl md:text-7xl text-center transition-all duration-300 ease-in-out;
+    @apply max-w-xl md:max-w-2xl font-header font-bold text-4xl md:text-3xl lg:text-4xl tracking-[.15em] md:text-blue-950 text-center transition-all duration-300 ease-in-out;
   }
 }
 
