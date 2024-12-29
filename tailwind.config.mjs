@@ -14,7 +14,7 @@ export default {
       },
       fontFamily: {
         header: ['Lora', 'sans-serif'],
-        body: ['Quicksand', 'sans-serif'],
+        body: ['Lora', 'sans-serif'],
       },
     },
   },

@@ -6,7 +6,7 @@ const treating = Object.values(markdownFiles)
 
 const pageTitle = 'What We Treat'
 
-import { Image } from 'astro:assets'
+import { Image, Picture } from 'astro:assets'
 
 import Reasons from '../components/Reasons.astro'
 
@@ -66,10 +66,11 @@ const reasons = {
                   id={treat.frontmatter.id}
                 >
                   <div class="w-full h-full flex justify-center items-center">
-                    <Image
+                    <Picture
                       src={treatImgs[i]}
                       alt="Toddlers playing"
                       class="w-full max-w-md rounded-md object-cover object-center shadow-lg max-h-[500px] lg:min-w-[500px] lg:h-[450px]"
+                      formats={['avif', 'webp']}
                     />
                   </div>
                   <div class="flex flex-col gap-y-4 w-full h-full justify-center md:px-8">
@@ -107,10 +108,11 @@ const reasons = {
                     </div>
                   </div>
                   <div class="w-full h-full flex justify-center items-center">
-                    <Image
+                    <Picture
                       src={treatImgs[i]}
                       alt="Toddlers playing"
                       class="w-full max-w-md rounded-md object-cover object-center shadow-lg max-h-[500px] lg:min-w-[500px] lg:h-[450px]"
+                      formats={['avif', 'webp']}
                     />
                   </div>
                 </div>
