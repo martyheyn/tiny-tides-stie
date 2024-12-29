@@ -10,6 +10,9 @@ tags: ['astro', 'Follow up session', 'services']
 
 Includes:
 
-<ul>
-    <li> - Individualized treatment plan based on your Cahsdfkljasdlfkjasdf</li>
+<ul class="ml-2">
+    <li class="flex gap-x-2 items-center"> 
+        <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full mt-1"></div>
+        <p>Individualized treatment plan based on your childs needs</p>
+    </li>
 </ul>

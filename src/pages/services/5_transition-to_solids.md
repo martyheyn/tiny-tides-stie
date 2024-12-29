@@ -10,7 +10,13 @@ tags: ['astro', 'transition-to-solids-consultation', 'services']
 
 Includes:
 
-<ul>
-    <li> - Individualized support for feeling confident and ready to help your little one start solid foods</li>
-    <li> - Coaching you through offering your child solids in real time</li>
+<ul class="ml-2">
+    <li class="flex gap-x-2 items-center"> 
+        <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full mt-1"></div> 
+        <p>Individualized support for feeling confident and ready to help your little one start solid foods</p>
+        </li>
+    <li class="flex gap-x-2 items-center"> 
+        <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full mt-1"></div>
+        <p>Coaching you through offering your child solids in real time</p>
+    </li>
 </ul>

@@ -10,7 +10,13 @@ tags: ['astro', 'baby-bootcamp', 'services']
 
 Includes:
 
-<ul>
-    <li> - Erin will come to your house to provide support with feeding, diaper changes, sleep, wake windows</li>
-    <li> - Individualized activity plan to support development</li>
+<ul class="ml-2">
+    <li class="flex gap-x-2 items-center"> 
+        <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full mt-1"></div>
+        <p>Erin will come to your house to provide support with feeding, diaper changes, sleep, wake windows</p>
+    </li>
+    <li class="flex gap-x-2 items-center"> 
+        <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full mt-1"></div>
+        <p>Individualized activity plan to support development</p>
+    </li>
 </ul>

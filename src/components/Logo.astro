@@ -20,4 +20,11 @@ const { fill = 'white', width, height } = Astro.props
     width: var(--width);
     height: var(--height);
   }
+
+  @media screen and (max-width: 768px) {
+    svg {
+      width: 75%;
+      height: 100%;
+    }
+  }
 </style>
