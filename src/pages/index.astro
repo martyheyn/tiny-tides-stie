@@ -254,6 +254,12 @@ const services = [
 </style>
 
 <script>
+  const video = document.querySelector('video')
+  if (video) {
+    video.currentTime = 0
+    video.play()
+  }
+
   const handleNavigation = () => {
     const elements = document.querySelectorAll('.step-arrow-1, .step-arrow-2')
 
