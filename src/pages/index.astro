@@ -78,19 +78,10 @@ const services = [
         autoplay
         loop
         muted
-        preload="auto"
       >
         <source
           src="https://dkbi9cj3nodif.cloudfront.net/wave-birdeye-view.mp4"
           type="video/mp4"
-        />
-        <source
-          src="https://dkbi9cj3nodif.cloudfront.net/wave-birdeye-view.mp4"
-          type="video/webm"
-        />
-        <source
-          src="https://dkbi9cj3nodif.cloudfront.net/wave-birdeye-view.mp4"
-          type="video/ogg"
         />
       </video>
 
@@ -254,12 +245,6 @@ const services = [
 </style>
 
 <script>
-  const video = document.querySelector('video')
-  if (video) {
-    video.currentTime = 0
-    video.play()
-  }
-
   const handleNavigation = () => {
     const elements = document.querySelectorAll('.step-arrow-1, .step-arrow-2')
 
