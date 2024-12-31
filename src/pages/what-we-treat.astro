@@ -6,15 +6,13 @@ const treating = Object.values(markdownFiles)
 
 const pageTitle = 'What We Treat'
 
-import { Image, Picture } from 'astro:assets'
-
 import Reasons from '../components/Reasons.astro'
 
-import TummyTimeImg from '../../public/assets/images/erin/erin_tummy_baby.jpeg'
-import BreastFeedingImg from '../../public/assets/images/breast_feeding.jpg'
-import BabyFeedingImg from '../../public/assets/images/baby_seat_feeding.jpg'
-
-const treatImgs = [TummyTimeImg, BreastFeedingImg, BabyFeedingImg]
+const treatImgs = [
+  'https://dkbi9cj3nodif.cloudfront.net/erin_tummy_baby.jpeg',
+  'https://dkbi9cj3nodif.cloudfront.net/breast_feeding.jpg',
+  'https://dkbi9cj3nodif.cloudfront.net/baby_seat_feeding.jpg',
+]
 
 // reasons for treatment
 const reasons = {
@@ -66,11 +64,10 @@ const reasons = {
                   id={treat.frontmatter.id}
                 >
                   <div class="w-full h-full flex justify-center items-center">
-                    <Picture
+                    <img
                       src={treatImgs[i]}
                       alt="Toddlers playing"
                       class="w-full max-w-md rounded-md object-cover object-center shadow-lg max-h-[500px] lg:min-w-[500px] lg:h-[450px]"
-                      formats={['avif', 'webp']}
                     />
                   </div>
                   <div class="flex flex-col gap-y-4 w-full h-full justify-center md:px-8">
@@ -108,11 +105,10 @@ const reasons = {
                     </div>
                   </div>
                   <div class="w-full h-full flex justify-center items-center">
-                    <Picture
+                    <img
                       src={treatImgs[i]}
                       alt="Toddlers playing"
                       class="w-full max-w-md rounded-md object-cover object-center shadow-lg max-h-[500px] lg:min-w-[500px] lg:h-[450px]"
-                      formats={['avif', 'webp']}
                     />
                   </div>
                 </div>

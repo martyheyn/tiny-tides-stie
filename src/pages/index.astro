@@ -7,17 +7,11 @@ import Button from '../components/Button.astro'
 import ContactForm from '../components/ContactForm.svelte'
 import WaveDivider from '../components/WaveDivider.astro'
 
-import WaveVideo from '/assets/videos/wave-birdeye-view.mp4'
 import Step from '../components/Step.astro'
 
-import { Image } from 'astro:assets'
-
-import BabyBounceImg from '../../public/assets/images/erin/erin_baby_bounce.jpeg'
 import BreastFeedingImg from '../../public/assets/images/breast_feeding_icon.png'
 import BabyFeedingImg from '../../public/assets/images/infant_feeding_icon.png'
 import BabyCrawlingImg from '../../public/assets/images/infant_crawling_icon.png'
-import LandingLogo from '../../public/assets/images/landing_logo.png'
-import LandingLogoWhite from '../../public/assets/images/landing_logo_white.png'
 import Logo from '../components/Logo.astro'
 
 const services = [
@@ -86,9 +80,18 @@ const services = [
         muted
         preload="auto"
       >
-        <source src={WaveVideo} type="video/mp4" />
-        <source src={WaveVideo} type="video/webm" />
-        <source src={WaveVideo} type="video/ogg" />
+        <source
+          src="https://dkbi9cj3nodif.cloudfront.net/wave-birdeye-view.mp4"
+          type="video/mp4"
+        />
+        <source
+          src="https://dkbi9cj3nodif.cloudfront.net/wave-birdeye-view.mp4"
+          type="video/webm"
+        />
+        <source
+          src="https://dkbi9cj3nodif.cloudfront.net/wave-birdeye-view.mp4"
+          type="video/ogg"
+        />
       </video>
 
       <div
@@ -208,8 +211,8 @@ const services = [
         class="w-full mt-8 md:mt-12 grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 md:gap-x-8 border border-black rounded-md transition-all duration-300 ease-in-out"
       >
         <div class="w-full md:h-screen flex justify-center items-center">
-          <Image
-            src={BabyBounceImg}
+          <img
+            src="https://dkbi9cj3nodif.cloudfront.net/erin_baby_bounce.jpeg"
             alt="Toddlers playing"
             class="w-full h-full rounded-md object-cover"
           />
