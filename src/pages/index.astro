@@ -253,6 +253,17 @@ const services = [
 </style>
 
 <script>
+  let pageLoadNumber = 0
+  document.addEventListener('astro:page-load', () => {
+    if (pageLoadNumber > 0) {
+      let video = document.querySelector('video')
+      if (video) {
+        video.load()
+      }
+    }
+    pageLoadNumber++
+  })
+
   const handleNavigation = () => {
     const elements = document.querySelectorAll('.step-arrow-1, .step-arrow-2')
 
