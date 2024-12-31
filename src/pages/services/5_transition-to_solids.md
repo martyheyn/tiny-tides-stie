@@ -1,5 +1,5 @@
 ---
-title: 'Transition to Solids Consultation'
+title: 'Virtual Transition to Solids Consultation'
 id: 'transition-to-solids-consultation'
 duration: '30 minutes'
 price: '$80'

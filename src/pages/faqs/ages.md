@@ -6,4 +6,4 @@ question: 'What ages do you work with?'
 tags: ['astro', 'ages', 'faqs']
 ---
 
-We specialize in working with infants, toddlers, and young children, focusing on feeding, eating, and developmental milestones from birth through early childhood.
+We specialize in working with infants, toddlers, and young children, focusing on feeding, eating, and developmental milestones from birth through 24 months.

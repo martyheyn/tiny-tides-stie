@@ -8,6 +8,8 @@ author: 'Tiny Tides Brah'
 tags: ['astro', 'Follow up session', 'services']
 ---
 
+After your initial evaluation, you can set up individual sessions in your home where Erin will provide an individualized treatment plan based on your childs needs.
+
 Includes:
 
 <ul class="ml-2">

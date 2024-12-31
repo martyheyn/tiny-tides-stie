@@ -7,6 +7,4 @@ author: 'Tiny Tides Brah'
 tags: ['astro', 'Transition to Solids', 'services']
 ---
 
-<span class=" font-semibold bg-blue-600/10">Do mealtimes feel like a constant negotiation or a source of stress for your family?</span> Maybe your child sticks to a handful of foods, refuses new textures, or struggles to sit at the table. Our service focuses on transforming these mealtime challenges into opportunities for growth.
-
-Using a responsive, child-led approach, we explore sensory and behavioral barriers to eating, introducing gentle strategies to expand your child’s palate. These sessions are designed to make mealtimes more relaxed and enjoyable while ensuring your child builds a healthy relationship with food. The result? A happier, more adventurous eater and a calmer dining experience for the whole family!
+Is your little one struggling to take a bottle? Getting ready to transition to solid foods? Or maybe they are having a hard time drinking from a straw or open cup! Using a responsive, child-led approach, we explore sensory and oral factors that may be impacting feeding success, while guiding your family in the right direction! Feeding therapy sessions are designed to support your family’s unique feeding goals and make feeding and mealtime a success!

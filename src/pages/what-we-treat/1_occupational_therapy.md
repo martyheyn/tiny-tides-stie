@@ -7,6 +7,6 @@ author: 'Tiny Tides Brah'
 tags: ['astro', 'occupational therapy', 'services']
 ---
 
-You’ve noticed your toddler isn’t walking, talking, or engaging like other kids their age, and it’s hard not to worry. Maybe they struggle with balance, coordination, or completing simple tasks you think they should have mastered.
+Wondering what pediatric occupational therapy (OT) is and how it helps babies? Occupational therapy for infants focuses on supporting babies in developing essential skills they need for growth, comfort, and exploration. From building motor skills, easing feeding challenges, to supporting sensory processing and regulation, OT helps babies reach key milestones at their own pace. With gentle, guided activities, Dr. Erin works to boost strength, coordination, regulation, and overall development so babies can make big waves!
 
-<span class=" font-semibold bg-blue-600/10">Our developmental milestone service identifies where your child may need support and creates a plan to help them build critical skills.</span> Through engaging, play-based activities tailored to your child’s unique needs, we foster progress in areas like motor skills, communication, and self-care. These sessions not only help your child catch up but also boost their confidence and independence. With this service, you’ll see your toddler thrive at their own pace.
+<!-- <span class=" font-semibold bg-blue-600/10"></span>  -->
