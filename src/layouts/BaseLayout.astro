@@ -13,6 +13,21 @@ import '../styles/global.css'
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/wave.svg?" />
+
+    <link
+      rel="icon"
+      href="/https://dkbi9cj3nodif.cloudfront.net/logo.svg"
+      sizes="32x32"
+    />
+    <link
+      rel="icon"
+      href="/https://dkbi9cj3nodif.cloudfront.net/logo.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="/https://dkbi9cj3nodif.cloudfront.net/logo.svg"
+    />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
@@ -34,8 +49,13 @@ import '../styles/global.css'
       href="https://fonts.googleapis.com/css2?family=Lora&display=swap"
       rel="stylesheet"
     />
-    <ViewTransitions />
+
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
+  <ViewTransitions />
+
   <body class="">
     <Navbar />
 
@@ -43,7 +63,8 @@ import '../styles/global.css'
 
     <Footer />
   </body>
-</html>
 
-<!-- Square+Peg -->
-<!-- Dancing+Script -->
+
+  <!-- Square+Peg -->
+  <!-- Dancing+Script -->
+</html>

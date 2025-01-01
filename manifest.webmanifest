@@ -1,0 +1,20 @@
+{
+  "icons": [
+    {
+      "src": "/https://dkbi9cj3nodif.cloudfront.net/logo.svg",
+      "type": "image/svg",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/https://dkbi9cj3nodif.cloudfront.net/logo.svg",
+      "type": "image/svg",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/https://dkbi9cj3nodif.cloudfront.net/logo.svg",
+      "type": "image/svg",
+      "sizes": "512x512"
+    }
+  ]
+}
