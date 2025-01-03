@@ -10,10 +10,10 @@ const { reasonsList } = Astro.props
     {
       reasonsList.map((reason: string, i: number) => (
         <div
-          class="flex gap-x-2 items-center transition-all duration-200 ease-out reason-item pl-6 sm:pl-16 lg:pl-24"
+          class="flex gap-x-2 items-start transition-all duration-200 ease-out reason-item pl-6 sm:pl-16 lg:pl-24"
           style={`transition-delay: ${i * 0.075}s`}
         >
-          <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full mt-1" />
+          <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full mt-3" />
           <p class="text-base md:text-lg font-semibold">{reason}</p>
         </div>
       ))

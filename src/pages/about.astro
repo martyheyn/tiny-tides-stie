@@ -2,9 +2,41 @@
 title: 'About Tiny Tides Therapy, Erin Helms OTR/L, CLC'
 description: 'Meet Erin, the founder of Tiny Tides Therapy. She holds a Doctorate in Occupational Therapy and is a Certified Lactation Counselor. Her passion is providing holistic, functional therapy that meets families where they are, targeting specific goals to support each unique journey.'
 
+import Bullet from '../components/Bullet.astro'
 import BaseLayout from '../layouts/BaseLayout.astro'
 
 const pageTitle = 'About'
+
+const certifications = [
+  {
+    title: 'Infant Development:',
+    items: [
+      'Doctor of Occupational Therapy',
+      'Infant Positioning and Handling',
+      'A Holistic Approach to Supporting Sleep for Breastfeeding Dyads',
+      'Certified Tummy Time! Method Provider',
+      'Bodywork for Better Breastfeeding: Hands-on Modalities to Improve Feeding Readiness and Outcomes',
+      'Understanding Primitive Reflexes',
+      'The DIR Floortime Approach',
+      'Making Sense of Meltdowns',
+      'Sensory Integration and Processing 101',
+    ],
+  },
+  {
+    title: 'Feeding/Lactation:',
+    items: [
+      'Certified Lactation Counselor',
+      'Tongue Ties, Breastfeeding and The Lactation Savvy Therapist-The Lactation OT',
+      'Gastrointestinal System Disorders in Infancy and Childhood and their Impact on Feeding',
+      'Failure to Thrive, Suboptimal Weight Gain, and The Lactation Savvy Therapist-The Lactation OT',
+      'The Occupational Therapist’s Role in Breastfeeding',
+      'Bottle Feeding Skills: Refining Clinical Reasoning for Selection and Use-The Lactation OT',
+      'Feed the Peds Certification',
+      'AEIOU Approach to Feeding',
+      'Mouth Moves',
+    ],
+  },
+]
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -70,152 +102,20 @@ const pageTitle = 'About'
         <h1 class="text-4xl text-center">Trainings and Certifications:</h1>
 
         <div class="py-8 grid grid-cols-1 md:grid-cols-2 gap-16">
-          <div>
-            <p class="mb-4 text-2xl underline text-center">
-              Infant Development:
-            </p>
-            <ul class="flex flex-col gap-y-1.5 text-xl ml-2">
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                Doctor of Occupational Therapy
-              </li>
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                Infant Positioning and Handling
-              </li>
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                A Holistic Approach to Supporting Sleep for Breastfeeding Dyads
-              </li>
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                Certified Tummy Time! Method Provider
-              </li>
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                Bodywork for Better Breastfeeding: Hands-on Modalities to Improve
-                Feeding Readiness and Outcomes
-              </li>
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                Understanding Primitive Reflexes
-              </li>
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                The DIR Floortime Approach
-              </li>
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                Making Sense of Meltdowns
-              </li>
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                Sensory Integration and Processing 101
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <p class="mb-4 text-2xl underline text-center">
-              Feeding/Lactation:
-            </p>
-            <ul class="flex flex-col gap-y-1.5 text-xl ml-2">
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                Certified Lactation Counselor
-              </li>
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                Tongue Ties, Breastfeeding and The Lactation Savvy Therapist-The
-                Lactation OT
-              </li>
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                Gastrointestinal System Disorders in Infancy and Childhood and their
-                Impact on Feeding
-              </li>
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                Failure to Thrive, Suboptimal Weight Gain, and The Lactation Savvy
-                Therapist-The Lactation OT
-              </li>
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                The Occupational Therapist’s Role in Breastfeeding
-              </li>
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                Bottle Feeding Skills: Refining Clinical Reasoning for Selection
-                and Use-The Lactation OT
-              </li>
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                Feed the Peds Certification
-              </li>
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                AEIOU Approach to Feeding
-              </li>
-              <li
-                class="flex gap-x-2 items-center transition-all duration-200 ease-out"
-              >
-                <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full">
-                </div>
-                Mouth Moves
-              </li>
-            </ul>
-          </div>
+          {
+            certifications.map((certification) => (
+              <div>
+                <p class="mb-4 text-2xl underline text-center">
+                  {certification.title}
+                </p>
+                <ul class="flex flex-col gap-y-2 text-xl ml-2">
+                  {certification.items.map((item) => (
+                    <Bullet text={item} />
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
         </div>
       </div>
     </div>
