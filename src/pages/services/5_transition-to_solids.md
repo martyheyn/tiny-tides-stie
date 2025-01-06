@@ -1,7 +1,7 @@
 ---
 title: 'Virtual Transition to Solids Consultation'
 id: 'transition-to-solids-consultation'
-duration: '30 minutes'
+duration: '45 minutes'
 price: '$80'
 pubDate: 2024-10-05
 author: 'Tiny Tides Brah'
