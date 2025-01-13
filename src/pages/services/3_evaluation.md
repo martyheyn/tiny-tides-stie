@@ -2,7 +2,7 @@
 title: 'Initial Evaluation'
 id: 'evaluation'
 duration: '60 - 90 minutes'
-price: '$230'
+price: '$200'
 pubDate: 2024-10-05
 author: 'Tiny Tides Brah'
 tags: ['astro', 'Initial Infant Feeding/Development Evaluation', 'services']

@@ -1,5 +1,5 @@
 ---
-const { title, duration } = Astro.props
+const { title, duration, price } = Astro.props
 ---
 
 <div
@@ -13,9 +13,9 @@ const { title, duration } = Astro.props
         {title}
       </h4>
     </a>
-    <!-- <p class="text-xl">
-      {duration}: <span class="ml-2 font-semibold">{price}</span>
-    </p> -->
+    <p class="text-xl">
+      <span class="ml-2 font-semibold">{price}</span>
+    </p>
   </div>
   <div class="md:w-1/2 flex flex-col gap-y-4 h-full justify-center text-xl">
     <slot />

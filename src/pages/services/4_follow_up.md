@@ -2,7 +2,7 @@
 title: 'Follow up Session'
 id: 'follow-up-session'
 duration: '60 - 75 minutes'
-price: '$150'
+price: '$125'
 pubDate: 2024-10-05
 author: 'Tiny Tides Brah'
 tags: ['astro', 'Follow up session', 'services']
