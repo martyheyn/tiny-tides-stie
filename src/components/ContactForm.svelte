@@ -12,14 +12,15 @@
   let name = "";
   let phone = "";
   let email = "";
+  let heaAboutUs = ""
   let message = "";
 
   const resetForm = () => {
     name = "";
     phone = "";
     email = "";
+    heaAboutUs = "";
     message = "";
-
   };
 
   async function submit(e: SubmitEvent) {
@@ -109,6 +110,27 @@
           />
         </label>
       </div>
+
+      <div>
+        <label for="email" class="block text-sm font-semibold text-gray-800"
+          ><span class="pl-[2px]">How did you hear about us?</span>
+          <select
+            required
+            id="heaAboutUs"
+            name="heaAboutUs"
+            bind:value={heaAboutUs}
+            class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+          >
+          <option value="facebook">Facebook</option>
+          <option value="instagram">Instagram</option>
+          <option value="google">Google</option>
+          <option value="friend-family">Friend or Family</option>
+          <option value="tummy-time">Tummy Time!</option>
+          <option value="other">Other</option>
+        </select>
+        </label>
+      </div>
+
 
       <div>
         <label for="message" class="block text-sm font-semibold text-gray-800"

@@ -2,11 +2,31 @@ import type { APIRoute } from 'astro'
 import { validEmail } from '../../utils/validInputs'
 import { sendEmail } from '../../utils/sendEmail'
 
+const heaAboutUsMap = (heaAboutUs: string) => {
+  switch (heaAboutUs) {
+    case 'google':
+      return 'Google'
+    case 'facebook':
+      return 'Facebook'
+    case 'instagram':
+      return 'Instagram'
+    case 'friend-family':
+      return 'Friends or Family'
+    case 'tummy-time':
+      return 'Tummy Time'
+    case 'other':
+      return 'Other'
+    default:
+      return 'Other'
+  }
+}
+
 export const POST: APIRoute = async ({ request }) => {
   const data = await request.formData()
   const name = data.get('name')
   const phone = data.get('phone')
   const email = data.get('email')
+  const heaAboutUs = data.get('heaAboutUs')
   const message = data.get('message')
 
   if (typeof email !== 'string' || !validEmail(email)) {
@@ -23,6 +43,7 @@ export const POST: APIRoute = async ({ request }) => {
       Name: ${name}
       Phone: ${phone}
       Email: ${email}
+      How did you hear about us: ${heaAboutUsMap(heaAboutUs as string)}
       Mesage: ${message}
     `
 
