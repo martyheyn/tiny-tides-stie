@@ -126,6 +126,7 @@
           <option value="google">Google</option>
           <option value="friend-family">Friend or Family</option>
           <option value="tummy-time">Tummy Time!</option>
+          <option value="flyer">Flyer</option>
           <option value="other">Other</option>
         </select>
         </label>
