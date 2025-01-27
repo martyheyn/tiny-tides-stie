@@ -12,14 +12,16 @@
   let name = "";
   let phone = "";
   let email = "";
-  let heaAboutUs = ""
+  let hearAboutUs = ""
+  let referral = "";
   let message = "";
 
   const resetForm = () => {
     name = "";
     phone = "";
     email = "";
-    heaAboutUs = "";
+    hearAboutUs = "";
+    referral = "";
     message = "";
   };
 
@@ -116,9 +118,9 @@
           ><span class="pl-[2px]">How did you hear about us?</span>
           <select
             required
-            id="heaAboutUs"
-            name="heaAboutUs"
-            bind:value={heaAboutUs}
+            id="hearAboutUs"
+            name="hearAboutUs"
+            bind:value={hearAboutUs}
             class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
           >
           <option value="facebook">Facebook</option>
@@ -127,10 +129,29 @@
           <option value="friend-family">Friend or Family</option>
           <option value="tummy-time">Tummy Time!</option>
           <option value="flyer">Flyer</option>
+          <option value="referral">Referral</option>
           <option value="other">Other</option>
         </select>
         </label>
       </div>
+
+      {#if hearAboutUs === 'referral'}
+        <div transition:slide={{ duration: 200 }}>
+          <label for="referral" class="block text-sm font-semibold text-gray-800"
+            ><span class="pl-[2px]">Referral</span>
+            <input
+              required={hearAboutUs === 'referral'}
+              id="referral"
+              name="referral"
+              type="text"
+              placeholder="Which provider pointed you our way?"
+              bind:value={referral}
+              class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            />
+          </label>
+        </div>
+      {/if}
+
 
 
       <div>
