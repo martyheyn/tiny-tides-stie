@@ -4,11 +4,12 @@ const {
   color = '#9ddcdc',
   hoverColor = '#90e8e8',
   textColor = 'black',
+  textSize = 'text-xl',
 } = Astro.props
 ---
 
 <button
-  class="font-semibold text-xl px-6 py-3 transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl"
+  class={`font-semibold ${textSize === 'text-xl' ? 'text-xl' : ' text-base'}  px-6 py-3 transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl`}
 >
   {text}
 </button>
