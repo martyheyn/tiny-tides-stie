@@ -27,6 +27,9 @@ export const POST: APIRoute = async ({ request }) => {
   const phone = data.get('phone')
   const email = data.get('email')
   const hearAboutUs = data.get('hearAboutUs')
+  const hearAboutUsOther = data.get('hearAboutUsOther')
+  const location = data.get('location')
+  const locationOther = data.get('locationOther')
   const referral = data.get('referral')
   const message = data.get('message')
 
@@ -44,8 +47,9 @@ export const POST: APIRoute = async ({ request }) => {
       Name: ${name}
       Phone: ${phone}
       Email: ${email}
-      How did you hear about us: ${hearAboutUsMap(hearAboutUs as string)}
-      Referral: ${referral}
+      Location: ${locationOther ? locationOther : location}
+      How did you hear about us: ${hearAboutUsOther ? hearAboutUsOther : hearAboutUsMap(hearAboutUs as string)}
+      ${referral ? `Referral: ${referral}` : ''}
       Mesage: ${message}
     `
 

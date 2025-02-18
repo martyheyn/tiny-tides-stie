@@ -12,7 +12,10 @@
   let name = "";
   let phone = "";
   let email = "";
-  let hearAboutUs = ""
+  let hearAboutUs = "";
+  let hearAboutUsOther = "";
+  let location = "";
+  let locationOther = "";
   let referral = "";
   let message = "";
 
@@ -21,6 +24,9 @@
     phone = "";
     email = "";
     hearAboutUs = "";
+    hearAboutUsOther = "";
+    location = "";
+    locationOther = "";
     referral = "";
     message = "";
   };
@@ -114,7 +120,7 @@
       </div>
 
       <div>
-        <label for="email" class="block text-sm font-semibold text-gray-800"
+        <label for="hearAboutUs" class="block text-sm font-semibold text-gray-800"
           ><span class="pl-[2px]">How did you hear about us?</span>
           <select
             required
@@ -146,6 +152,65 @@
               type="text"
               placeholder="Which provider pointed you our way?"
               bind:value={referral}
+              class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            />
+          </label>
+        </div>
+      {/if}
+
+      {#if hearAboutUs === 'other'}
+        <div transition:slide={{ duration: 200 }}>
+          <label for="hearAboutUsOther" class="block text-sm font-semibold text-gray-800"
+            >
+            <input
+              required={hearAboutUs === 'other'}
+              id="hearAboutUsOther"
+              name="hearAboutUsOther"
+              type="text"
+              placeholder="How did you hear about us? (Other)"
+              bind:value={hearAboutUsOther}
+              class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            />
+          </label>
+        </div>
+      {/if}
+
+
+      <div>
+        <label for="location" class="block text-sm font-semibold text-gray-800"
+          ><span class="pl-[2px]">Where do you live?</span>
+          <select
+            required
+            id="location"
+            name="location"
+            bind:value={location}
+            class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+          >
+          <option value="Fed Hill">Fed Hill</option>
+          <option value="Locust Point">Locust Point</option>
+          <option value="Canton">Canton</option>
+          <option value="Fells Point">Fells Point</option>
+          <option value="Roland Park">Roland Park</option>
+          <option value="Hampden">Hampden</option>
+          <option value="Columbia">Columbia</option>
+          <option value="Towson">Towson</option>
+          <option value="Annapolis">Annapolis</option>
+          <option value="other">Other</option>
+        </select>
+        </label>
+      </div>
+
+      {#if location === 'other'}
+        <div transition:slide={{ duration: 200 }}>
+          <label for="locationOther" class="block text-sm font-semibold text-gray-800"
+            ><span class="pl-[2px]">Location</span>
+            <input
+              required={location === 'other'}
+              id="locationOther"
+              name="locationOther"
+              type="text"
+              placeholder="Where do you live?"
+              bind:value={locationOther}
               class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
             />
           </label>
