@@ -77,7 +77,7 @@
 
 
       <div class="flex flex-col sm:flex-row gap-4">
-        <label for="name" class="block text-sm font-semibold text-gray-800"
+        <label for="name" class="block text-sm font-semibold text-gray-800 flex-1"
           ><span class="pl-[2px">Name</span>
           <input
             required
@@ -90,7 +90,7 @@
           />
         </label>
 
-        <label for="phone" class="block text-sm font-semibold text-gray-800"
+        <label for="phone" class="block text-sm font-semibold text-gray-800 flex-1"
           ><span class="pl-[2px]">Phone</span>
           <input
             required
