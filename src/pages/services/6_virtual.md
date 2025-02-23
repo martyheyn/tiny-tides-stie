@@ -1,5 +1,5 @@
 ---
-title: 'Virtual Follow Up Appointment'
+title: 'Virtual Appointment'
 id: 'Virtual'
 duration: '30 - 45 minutes'
 price: '$100'

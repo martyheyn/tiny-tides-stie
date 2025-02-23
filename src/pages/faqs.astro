@@ -21,7 +21,9 @@ const faqs = markdownFiles.map((file) => ({
     <div
       class="flex flex-col max-w-2xl items-center justify-center my-8 px-4 transition-all duration-300 ease-in-out"
     >
-      <h1 class="header-title mb-4 md:mb-8 text-center">FAQs</h1>
+      <h1 class="header-title mb-4 md:mb-8 text-center">
+        <span class="straight_underline z-10">FAQs</span>
+      </h1>
 
       <Faq client:load faqs={faqs} />
     </div>

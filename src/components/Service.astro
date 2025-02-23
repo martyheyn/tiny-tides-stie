@@ -3,19 +3,21 @@ const { title, duration, price } = Astro.props
 ---
 
 <div
-  class="flex flex-col md:flex-row gap-y-4 md:gap-y-0 gap-x-12 border border-black/50 rounded-md p-6"
+  class="flex flex-col md:flex-row gap-y-4 md:gap-y-0 gap-x-12 bg-[#ecf7f7] shadow-lg border border-black/50 rounded-md p-6"
 >
   <div class="flex flex-col gap-y-2 w-full md:w-[45%]">
     <a href="/contact">
       <h4
-        class="text-4xl border-b border-black w-fit hover:scale-[1.01] hover:shadow-sm transition-all duration-300 ease-in-out"
+        class="text-4xl w-fit hover:scale-[1.01] hover:shadow-sm transition-all duration-300 ease-in-out"
       >
-        {title}
+        <span class="straight_underline z-10">
+          {title}
+        </span>
       </h4>
     </a>
-    <p class="text-xl">
+    <!-- <p class="text-xl">
       <span class="ml-2 font-semibold">{price}</span>
-    </p>
+    </p> -->
   </div>
   <div class="md:w-1/2 flex flex-col gap-y-4 h-full justify-center text-xl">
     <slot />
