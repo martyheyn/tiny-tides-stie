@@ -8,7 +8,11 @@ author: 'Tiny Tides Brah'
 tags: ['astro', 'tummy-time', 'services']
 ---
 
-Come join a FREE class
+For babies from birth to pre-crawling: a supportive environment for babies and caregivers to learn the basics of tummy time while connecting and socializing with other families.
+
+Join a tummy time, its FREE!!!
+
+Every Monday at 10am in Locust Point
 
 <a class="text-lg cursor-pointer text-blue-500 hover:scale-[1.005] transition-all ease-in-out duration-150" 
 href="https://docs.google.com/forms/d/e/1FAIpQLSdJmoALqsuaC2Nt3XHqcHrzddZou9N_jpOasOTkmYKT0D_blA/viewform" target="_blank"
