@@ -1,0 +1,52 @@
+---
+const { userName, numReviews, sincePost, indx } = Astro.props
+---
+
+<div class="google-border p-[1.5px] rounded-lg">
+  <div
+    class="flex flex-row w-[400px] h-[340px] bg-primary rounded-lg gap-x-2 p-4 relative"
+  >
+    <div class="mt-1.5">
+      <div
+        class="w-10 h-10 bg-green-600 rounded-full flex justify-center items-center"
+      >
+        <p class="text-white">A</p>
+      </div>
+    </div>
+    <div class="flex flex-col gap-y-[2px] justify-start">
+      <h4 class="font-bold text-lg">{userName}</h4>
+      <p class="text-gray-500 text-sm">
+        {numReviews}
+        {numReviews === 1 ? 'review' : 'reviews'}
+      </p>
+      <div class="flex flex-row gap-x-2 my-1 items-center">
+        <span>
+          <span
+            style="clip-path: polygon(6px 0, 4.31px 3.98px, 0 4.34px, 3.28px 7.18px, 2.29px 11.4px, 6px 9.16px, 9.71px 11.4px, 8.72px 7.18px, 12px 4.34px, 7.69px 3.98px, 6px 0, 20px 0, 18.31px 3.98px, 14px 4.34px, 17.28px 7.18px, 16.29px 11.4px, 20px 9.16px, 23.71px 11.4px, 22.72px 7.18px, 26px 4.34px, 21.69px 3.98px, 20px 0, 34px 0, 32.31px 3.98px, 28px 4.34px, 31.28px 7.18px, 30.29px 11.4px, 34px 9.16px, 37.71px 11.4px, 36.72px 7.18px, 40px 4.34px, 35.69px 3.98px, 34px 0, 48px 0, 46.31px 3.98px, 42px 4.34px, 45.28px 7.18px, 44.29px 11.4px, 48px 9.16px, 51.71px 11.4px, 50.72px 7.18px, 54px 4.34px, 49.69px 3.98px, 48px 0, 62px 0, 60.31px 3.98px, 56px 4.34px, 59.28px 7.18px, 58.29px 11.4px, 62px 9.16px, 65.71px 11.4px, 64.72px 7.18px, 68px 4.34px, 63.69px 3.98px, 62px 0);"
+            class="inline-block w-[70px] h-3 text-yellow-400 bg-yellow-400"
+          ></span>
+        </span>
+        <p class="text-gray-500 text-sm">{sincePost} ago</p>
+      </div>
+      <div class="mt-1 overflow-hidden">
+        <slot />
+      </div>
+      <!-- <div class="absolute bottom-0 w-full h-4 backdrop-blur-sm"></div> -->
+      <div class="absolute bottom-0 right-6 py-">
+        <button>^</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .google-border {
+    background: linear-gradient(
+      to right,
+      #4285f4,
+      /* Google Blue */ #34a853,
+      /* Google Green */ #fbbc05,
+      /* Google Yellow */ #ea4335 /* Google Red */
+    );
+  }
+</style>

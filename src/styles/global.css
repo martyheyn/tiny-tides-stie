@@ -19,7 +19,7 @@
   }
 
   .straight_underline {
-    @apply relative after:absolute after:-bottom-[3px] after:left-0 after:w-full after:h-1.5 after:bg-secondary 
+    @apply relative after:absolute after:-bottom-[3px] after:left-0 after:w-full after:h-[2.5px] after:sm:h-1 after:bg-secondary 
     after:rounded-xl after:-z-30;
   }
 
