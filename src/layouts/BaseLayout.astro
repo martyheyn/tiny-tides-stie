@@ -30,7 +30,7 @@ import '../styles/global.css'
     />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>{pageTitle}</title>
+    <title>{pageTitle} | Tiny Tides Therapy</title>
 
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -50,6 +50,36 @@ import '../styles/global.css'
       rel="stylesheet"
     />
 
+    <!-- Socials -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Lactation Help & Infant Feeding Support"
+    />
+    <meta
+      property="og:description"
+      content="Get expert lactation and infant feeding guidance from a certified occupational therapist."
+    />
+    <meta
+      property="og:image"
+      content="https://dkbi9cj3nodif.cloudfront.net/logo.svg"
+    />
+    <meta property="og:url" content="https://tinytidestherapy.com" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Lactation Help & Infant Feeding Support"
+    />
+    <meta
+      name="twitter:description"
+      content="Expert lactation and infant feeding guidance from a certified occupational therapist."
+    />
+    <meta
+      name="twitter:image"
+      content="https://dkbi9cj3nodif.cloudfront.net/logo.svg"
+    />
+
     <link rel="manifest" href="/manifest.webmanifest" />
 
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -63,5 +93,30 @@ import '../styles/global.css'
 
     <Footer />
   </body>
+
+  <script is:inline type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MedicalClinic",
+      "name": "Tiny Tides Therapy",
+      "description": "Specialized lactation support and infant occupational therapy.",
+      "url": "https://tinytidestherapy.com",
+      "logo": "https://dkbi9cj3nodif.cloudfront.net/logo.svg",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "1348 Andre St",
+        "addressLocality": "Baltimore",
+        "addressRegion": "MD",
+        "postalCode": "21230",
+        "addressCountry": "US"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "(410) 490-8440",
+        "contactType": "customer service"
+      }
+    }
+  </script>
+
 
 </html>
