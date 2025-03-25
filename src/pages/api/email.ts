@@ -26,6 +26,7 @@ export const POST: APIRoute = async ({ request }) => {
   const name = data.get('name')
   const phone = data.get('phone')
   const email = data.get('email')
+  const birthDate = data.get('birthDate')
   const hearAboutUs = data.get('hearAboutUs')
   const hearAboutUsOther = data.get('hearAboutUsOther')
   const location = data.get('location')
@@ -42,11 +43,23 @@ export const POST: APIRoute = async ({ request }) => {
     )
   }
 
+  if (!birthDate) {
+    console.error('Birth date is required.')
+    return new Response(
+      JSON.stringify({
+        message: 'Missing required fields',
+      }),
+      { status: 400 },
+    )
+  }
+  const babyAge = timeDifference(birthDate.toString())
+
   // compose body
   const body = `
       Name: ${name}
       Phone: ${phone}
       Email: ${email}
+      Patient Age: ${babyAge}
       Location: ${locationOther ? locationOther : location}
       How did you hear about us: ${hearAboutUsOther ? hearAboutUsOther : hearAboutUsMap(hearAboutUs as string)}
       ${referral ? `Referral: ${referral}` : ''}
@@ -77,4 +90,39 @@ export const POST: APIRoute = async ({ request }) => {
       status: 500,
     })
   }
+}
+
+function timeDifference(dateString: string) {
+  const givenDate = new Date(dateString)
+  const currentDate = new Date()
+
+  let years = currentDate.getFullYear() - givenDate.getFullYear()
+  let months = currentDate.getMonth() - givenDate.getMonth()
+  let days = currentDate.getDate() - givenDate.getDate()
+
+  if (days < 0) {
+    months -= 1
+    const lastMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      0,
+    )
+    days += lastMonth.getDate()
+  }
+  if (months < 0) {
+    years -= 1
+    months += 12
+  }
+
+  const parts = []
+  if (years)
+    parts.push(`${Math.abs(years)} ${Math.abs(years) > 1 ? 'years' : 'year'}`)
+  if (months)
+    parts.push(
+      `${Math.abs(months)} ${Math.abs(months) > 1 ? 'months' : 'month'}`,
+    )
+  if (days)
+    parts.push(`${Math.abs(days)} ${Math.abs(days) > 1 ? 'days' : 'day'}`)
+
+  return parts.join(', ')
 }

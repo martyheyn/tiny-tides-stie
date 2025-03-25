@@ -12,6 +12,7 @@
   let name = "";
   let phone = "";
   let email = "";
+  let birthDate = "";
   let hearAboutUs = "";
   let hearAboutUsOther = "";
   let location = "";
@@ -23,6 +24,7 @@
     name = "";
     phone = "";
     email = "";
+    birthDate = "";
     hearAboutUs = "";
     hearAboutUsOther = "";
     location = "";
@@ -55,6 +57,8 @@
       }, 5000);
     }
   }
+
+  let monthAhead = new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split("T")[0]
 </script>
 
 
@@ -104,8 +108,8 @@
         </label>
       </div>
 
-      <div>
-        <label for="email" class="block text-sm font-semibold text-gray-800"
+      <div class="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-4">
+        <label for="email" class="block text-sm font-semibold text-gray-800 flex-1"
           ><span class="pl-[2px]">Email</span>
           <input
             required
@@ -117,7 +121,24 @@
             class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
           />
         </label>
+
+        <label for="birthDate" class="block text-sm font-semibold text-gray-800 flex-1"
+          ><span class="pl-[2px]">Patient Brith Date</span>
+          <input
+            required
+            id="birthDate"
+            name="birthDate"
+            type="date"
+            min="2018-01-01"
+            max={monthAhead}
+            bind:value={birthDate}
+            class={`mt-[2px] py-2 text-black !bg-[#fcfeff] px-2 border focus:outline-none focus:border-blue-300
+             w-full rounded-md transition duration-150 ease-in-out ${birthDate ? '' : 'text-gray-400'}`}
+          />
+        </label>
+
       </div>
+
 
       <div>
         <label for="hearAboutUs" class="block text-sm font-semibold text-gray-800"
