@@ -83,6 +83,21 @@ import '../styles/global.css'
     <link rel="manifest" href="/manifest.webmanifest" />
 
     <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=AW-11534598862"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+
+      gtag('config', 'AW-11534598862')
+    </script>
   </head>
   <ViewTransitions />
 
@@ -117,6 +132,4 @@ import '../styles/global.css'
       }
     }
   </script>
-
-
 </html>
