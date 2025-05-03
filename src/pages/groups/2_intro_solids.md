@@ -1,6 +1,7 @@
 ---
 title: 'Virtual Intro to Solids Class'
 id: 'intro-to-solids'
+img: ''
 duration: '1 hour'
 price: '$15$'
 pubDate: 2025-02-27

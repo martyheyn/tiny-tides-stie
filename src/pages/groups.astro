@@ -1,42 +1,43 @@
 ---
-title: 'Services, Baltimore Pediatric Occupational Therapy, Erin Helms OTR/L, CLC'
-description: 'Tiny Tides Therapy offers a variety of services to support your child’s development. From feeding therapy to sensory processing, we provide individualized care to help your child reach their full potential. Baltimore Pediatric Occupational Therapy'
+title: 'Free Groups in Baltimore Pediatric Occupational Therapy, Erin Helms OTR/L, CLC'
+description: 'Free Groups run by Tiny Tides Therapy Baltimore Pediatric Occupational Therapy'
 
 import Service from '../components/Service.astro'
 import BaseLayout from '../layouts/BaseLayout.astro'
-const markdownFiles = await Astro.glob('./services/*md')
+const markdownFiles = await Astro.glob('./groups/*md')
 
-const services = Object.values(markdownFiles)
+const groups = Object.values(markdownFiles)
 
-const pageTitle = 'Services'
+const pageTitle = 'Groups'
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <div class="w-full h-full bg-primary transition-all duration-300 ease-in-out">
     <div class="relative w-full h-[85vh] pt-14 md:pt-[76px]">
       <img
-        src="https://dkbi9cj3nodif.cloudfront.net/bmore_inner_harbor.jpg"
+        src="https://dkbi9cj3nodif.cloudfront.net/tummy_time_in_park_riverside.jpg"
         alt="Toddlers playing"
         class="w-full h-full object-cover object-center contrast-125"
       />
       <h1
         class="header-title text-4xl sm:text-5xl text-white absolute w-3/5 sm:w-auto top-1/2 left-1/2 -translate-x-[50%] sm:-translate-x-[60%] bg-black/50 sm:px-4 py-2 rounded-md"
       >
-        Services
+        Groups
       </h1>
     </div>
     <div
       class="w-full flex flex-col gap-y-4 px-4 md:px-12 py-8 treat-item transition-all duration-300 ease-in-out"
     >
       {
-        services.map((service) => (
+        groups.map((group) => (
           <Service
-            title={service.frontmatter.title}
-            duration={service.frontmatter.duration}
-            price={service.frontmatter.price}
-            id={service.frontmatter.id}
+            title={group.frontmatter.title}
+            duration={group.frontmatter.duration}
+            price={group.frontmatter.price}
+            img={group.frontmatter.img}
+            id={group.frontmatter.id}
           >
-            <service.Content />
+            <group.Content />
           </Service>
         ))
       }
