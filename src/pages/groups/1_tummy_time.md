@@ -9,9 +9,12 @@ author: 'Tiny Tides Brah'
 tags: ['astro', 'tummy-time', 'services']
 ---
 
-For babies from birth to pre-crawling: a supportive environment for babies and caregivers to learn the basics of tummy time while connecting and socializing with other families.
+Tummy time is an essential part of your baby’s development. It helps to strengthen your baby’s neck, back, and shoulder muscles
+and promotes motor skills. Our groups are designed to provide a fun and engaging environment for your little one to explore and
+grow. For babies from birth to pre-crawling, come join a tummy time group for a supportive environment for babies and caregivers
+to learn the basics of tummy time while connecting and socializing with other families.
 
-Join a tummy time, its FREE!!!
+Its FREE!!
 
 <p class="font-semibold">
     Every Monday 10:00 - 10:45am in Latrobe Park in Locust Point <br/>

@@ -27,14 +27,6 @@ console.log('img', img)
   </div>
 
   <div class="lg:w-1/2 flex justify-center">
-    {
-      img && (
-        <img
-          class=" max-h-[400px] max-w-[425px] w-full"
-          src={img}
-          alt={`${title}-pic`}
-        />
-      )
-    }
+    {img && <img class="max-w-[425px] w-full" src={img} alt={`${title}-pic`} />}
   </div>
 </div>
