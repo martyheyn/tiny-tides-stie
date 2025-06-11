@@ -1,5 +1,5 @@
 ---
-title: 'Virtual Milestone Checkup'
+title: 'Wave Watch - Virtual Milestone Checkup'
 id: 'virtual-milestone-heckup'
 duration: '30 - 45 minutes'
 price: '$50'
