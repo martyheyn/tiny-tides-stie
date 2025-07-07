@@ -1,7 +1,7 @@
 ---
 title: 'Tummy Time Group'
 id: 'tummy-time'
-img: 'https://dkbi9cj3nodif.cloudfront.net/spring_tummy_time-1.png'
+img: 'https://dkbi9cj3nodif.cloudfront.net/tummy-time_flyer.png'
 duration: '1 hour'
 price: 'FREE'
 pubDate: 2024-10-05
