@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+
+const { course, chapter } = Astro.params
+
+const pageTitle = `${course} - ${chapter}`
+---
+
+<BaseLayout>
+  <body class="bg-gray-900 text-white font-sans">
+    <div class="flex min-h-screen">
+      <!-- Sidebar -->
+      <aside class="w-64 bg-gray-800 p-4 flex flex-col">
+        <h2 class="text-yellow-400 font-bold text-sm mb-4">
+          ⚡ NEXT.JS EXPLAINED
+        </h2>
+
+        <nav class="flex-1 space-y-2">
+          <div class="text-white font-bold flex items-center gap-2">
+            <span class="text-white">⬤</span>
+            <span>Next.js Tutorial</span>
+            <span class="ml-auto">🔥</span>
+          </div>
+
+          <div class="text-purple-400 flex justify-between items-center">
+            <span>🔒 App Router</span><span class="text-sm">2:01</span>
+          </div>
+          <div class="text-purple-400 flex justify-between items-center">
+            <span>🔒 Route Handlers</span><span class="text-sm">1:20</span>
+          </div>
+          <div class="text-purple-400 flex justify-between items-center">
+            <span>🔒 Layouts</span><span class="text-sm">2:40</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span>○ Rendering and SEO</span><span class="text-sm">2:35</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span>○ Data Fetching</span><span class="text-sm">1:50</span>
+          </div>
+          <div class="text-purple-400 flex justify-between items-center">
+            <span>🔒 Streaming and Suspense</span><span class="text-sm"
+              >2:02</span
+            >
+          </div>
+          <div class="flex justify-between items-center">
+            <span>○ Auth.js</span><span class="text-sm">1:40</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span>○ Prisma</span><span class="text-sm">2:40</span>
+          </div>
+        </nav>
+
+        <div class="mt-6 border-t border-gray-700 pt-4">
+          <h2 class="text-yellow-400 font-bold text-sm mb-2">
+            ⚡ BUILD AN APP
+          </h2>
+          <div class="text-purple-400 flex justify-between items-center">
+            <span>🔒 Project Setup and</span><span class="text-sm">2:23</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 p-6">
+        <!-- Video Area -->
+        <div class="bg-black rounded-md overflow-hidden shadow-lg relative">
+          <img
+            src="https://img.youtube.com/vi/0mVbNp1ol_w/maxresdefault.jpg"
+            alt="Video thumbnail"
+            class="w-full h-96 object-cover"
+          />
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div
+              class="bg-red-600 w-20 h-14 rounded-md flex items-center justify-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-8 w-8 text-white"
+                fill="currentColor"
+                viewBox="0 0 24 24"><path d="M10 15l5.19-3L10 9v6z"></path></svg
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="flex items-center justify-between mt-4">
+          <div class="flex items-center gap-4">
+            <label class="flex items-center gap-1">
+              <input
+                type="checkbox"
+                checked
+                class="form-checkbox text-green-500"
+              /> autoplay
+            </label>
+          </div>
+
+          <div class="flex gap-4">
+            <button class="text-white">🏠</button>
+            <button class="text-white">👉</button>
+          </div>
+
+          <div class="text-yellow-500 text-sm">incomplete</div>
+        </div>
+
+        <!-- Title -->
+        <h1 class="mt-6 text-yellow-400 text-3xl font-bold">
+          ⚡ NEXT.JS TUTORIAL
+        </h1>
+      </main>
+    </div>
+  </body>
+</BaseLayout>

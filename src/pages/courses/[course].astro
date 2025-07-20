@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { courseChapters } from '../../utils/chapters'
+
+const { course } = Astro.params
+const markdownFiles = await Astro.glob(`../courses-md/*md`)
+
+const courseMd = markdownFiles
+  .filter((file) => file.frontmatter.slug === course)
+  .map((file) => ({
+    content: file.compiledContent(), // Markdown HTML content
+    frontmatter: file.frontmatter, // Frontmatter data
+  }))
+
+const courseData = courseMd.length > 0 ? courseMd[0] : null
+
+const pageTitle = `Course ${courseData && `- ${courseData.frontmatter.title}`}`
+
+const chapters = course && courseChapters[course as keyof typeof courseChapters]
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <div class="w-full h-full px-4 sm:px-8 flex flex-col justify-center">
+    <div class="max-w-5xl pb-24">
+      {
+        courseData ? (
+          <>
+            <header class="text-center mb-8 mt-20">
+              <h1 class="text-[54px] mb-2 font-semibold">
+                {courseData.frontmatter.title}
+              </h1>
+              <p class="text-[14px] my-0 text-gray-700">
+                {courseData.frontmatter.description}
+              </p>
+            </header>
+            <div class="mx-auto w-24 h-1 my-12 bg-gradient-to-r from-slate-100 to-slate-300 rounded-full" />
+
+            <div class="w-full flex justify-center">
+              <video
+                src=""
+                class="w-full md:w-[75%] min-h-[315px] md:min-h-[400px] bg-blue-300/30"
+              />
+            </div>
+
+            <div class="mx-auto w-24 h-1 my-24 bg-gradient-to-r from-slate-100 to-slate-300 rounded-full" />
+
+            <article set:html={courseData.content} />
+          </>
+        ) : null
+      }
+    </div>
+
+    <div class="pb-24">
+      <h1 class="text-4xl uppercase text-center font-semibold">Chapters</h1>
+      <div
+        class="mx-auto w-24 h-1 my-16 bg-gradient-to-r from-blue-200 to-blue-100 rounded-full"
+      >
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {
+          chapters &&
+            chapters.map((chapter, i) => (
+              <div class="max-w-sm overflow-hidden shadow-3xl bg-secondary/20 p-6 rounded-xl hover:scale-105 cursor-pointer transition-all duration-300 relative">
+                <div class="absolute" />
+                <a href={`${course}/${chapter.slug}`}>
+                  <h5 class="text-xl uppercase font-semibold flex justify-start items-center">
+                    <span class="mr-1 bg-white px-2 py-1 rounded-md flex justify-center">
+                      {i + 1}
+                    </span>
+                    {chapter.title}
+                  </h5>
+                  <p class="my-5 text-base text-gray-700 ml-2">
+                    {chapter.description}
+                  </p>
+                </a>
+              </div>
+            ))
+        }
+      </div>
+    </div>
+  </div>
+</BaseLayout>
