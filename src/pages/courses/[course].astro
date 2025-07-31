@@ -20,7 +20,9 @@ const chapters = course && courseChapters[course as keyof typeof courseChapters]
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <div class="w-full h-full px-4 sm:px-8 flex flex-col justify-center">
+  <div
+    class="w-full h-full px-4 sm:px-8 flex flex-col justify-center items-center"
+  >
     <div class="max-w-5xl pb-24">
       {
         courseData ? (

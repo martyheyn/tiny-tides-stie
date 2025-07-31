@@ -1,53 +1,38 @@
-<script lang="ts"></script>
+<script lang="ts">
+  type Chapter = {
+      title: string
+      slug: string
+      description: string
+      length: string
+    }
 
-<div>
- <aside class="w-64 bg-gray-800 p-4 flex flex-col">
-    <h2 class="text-yellow-400 font-bold text-sm mb-4">
-      ⚡ NEXT.JS EXPLAINED
+
+  let { value = $bindable(), chapters }: { value: boolean, chapters: Chapter[] } = $props();
+</script>
+
+<div class={`${value ? 'w-full md:w-64' : 'w-full md:w-24'} px-6 py-4 flex flex-col gap-y-4 border-r border-black/20 transition-all ease-in-out duration-300`}>
+  <div class={`hidden md:block w-full py-2 ${value && 'border-b border-black/20'} md:flex md:justify-end `}>
+    <button 
+      class="px-4 py-1 border border-black hover:bg-primary/50 rounded-md transition-all ease-out duration-300 hover:"
+      onclick={() => value = !value}
+      aria-label="open-close-sidebar"
+      >
+      <svg viewBox="0 0 24 24" width="16" height="16" class={`${value && 'rotate-180'} stroke stroke-black transition-all duration-300 ease-out`} xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"/></svg>
+    </button>
+  </div>
+
+ <aside class={`${value ? 'opacity-100' : 'opacity-0'} transition-all ease-in-out duration-150 `}>
+    <h2 class="text-gray-800 font-bold text-xl mb-1 uppercase pb-4 border-b border-black/20">
+      ⚡ Intro to Solids
     </h2>
 
-    <nav class="flex-1 space-y-2">
-      <div class="text-white font-bold flex items-center gap-2">
-        <span class="text-white">⬤</span>
-        <span>Next.js Tutorial</span>
-        <span class="ml-auto">🔥</span>
+    <nav class="flex-1">
+      {#each chapters as chapter, index}
+      <div class="course-nav-item">
+        <span>{chapter.title}</span><span class="text-sm">{chapter.length}</span>
       </div>
-
-      <div class="text-purple-400 flex justify-between items-center">
-        <span>🔒 App Router</span><span class="text-sm">2:01</span>
-      </div>
-      <div class="text-purple-400 flex justify-between items-center">
-        <span>🔒 Route Handlers</span><span class="text-sm">1:20</span>
-      </div>
-      <div class="text-purple-400 flex justify-between items-center">
-        <span>🔒 Layouts</span><span class="text-sm">2:40</span>
-      </div>
-      <div class="flex justify-between items-center">
-        <span>○ Rendering and SEO</span><span class="text-sm">2:35</span>
-      </div>
-      <div class="flex justify-between items-center">
-        <span>○ Data Fetching</span><span class="text-sm">1:50</span>
-      </div>
-      <div class="text-purple-400 flex justify-between items-center">
-        <span>🔒 Streaming and Suspense</span><span class="text-sm"
-          >2:02</span
-        >
-      </div>
-      <div class="flex justify-between items-center">
-        <span>○ Auth.js</span><span class="text-sm">1:40</span>
-      </div>
-      <div class="flex justify-between items-center">
-        <span>○ Prisma</span><span class="text-sm">2:40</span>
-      </div>
+      {/each}
+     
     </nav>
-
-    <div class="mt-6 border-t border-gray-700 pt-4">
-      <h2 class="text-yellow-400 font-bold text-sm mb-2">
-        ⚡ BUILD AN APP
-      </h2>
-      <div class="text-purple-400 flex justify-between items-center">
-        <span>🔒 Project Setup and</span><span class="text-sm">2:23</span>
-      </div>
-    </div>
   </aside>
 </div>
