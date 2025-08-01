@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 import CourseLayout from '../../../layouts/CourseLayout.svelte'
+import Video from '../../../components/courses/Video.svelte'
 import { courseChapters } from '../../../utils/chapters'
 
 const { course, chapter } = Astro.params
@@ -16,49 +17,12 @@ const chapters = course && courseChapters[course as keyof typeof courseChapters]
       <!-- Main Content -->
       <main class="flex-1 p-6">
         <!-- Video Area -->
-        <div class="bg-black rounded-sm overflow-hidden shadow-lg relative">
-          <img
-            src="https://img.youtube.com/vi/0mVbNp1ol_w/maxresdefault.jpg"
-            alt="Video thumbnail"
-            class="w-full h-96 object-cover"
-          />
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div
-              class="bg-red-600 w-20 h-14 rounded-md flex items-center justify-center"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-8 w-8 text-white"
-                fill="currentColor"
-                viewBox="0 0 24 24"><path d="M10 15l5.19-3L10 9v6z"></path></svg
-              >
-            </div>
-          </div>
-        </div>
+        <Video client:load />
 
-        <!-- Controls -->
-        <div class="flex items-center justify-between mt-4">
-          <div class="flex items-center gap-4">
-            <label class="flex items-center gap-1">
-              <input
-                type="checkbox"
-                checked
-                class="form-checkbox text-green-500"
-              /> autoplay
-            </label>
-          </div>
-
-          <div class="flex gap-4">
-            <button class="text-white">🏠</button>
-            <button class="text-white">👉</button>
-          </div>
-
-          <div class="text-yellow-500 text-sm">incomplete</div>
-        </div>
 
         <!-- Title -->
-        <h1 class="mt-6 text-yellow-400 text-3xl font-bold">
-          ⚡ NEXT.JS TUTORIAL
+        <h1 class="mt-6 text-gray-800 text-3xl font-bold">
+          ⚡ Chapter Name
         </h1>
       </main>
     </div>
