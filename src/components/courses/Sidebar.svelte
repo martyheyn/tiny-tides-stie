@@ -10,10 +10,10 @@
   let { value = $bindable(), chapters }: { value: boolean, chapters: Chapter[] } = $props();
 </script>
 
-<div class={`${value ? 'w-full md:w-64' : 'w-full md:w-24'} px-6 py-4 flex flex-col gap-y-4 border-r border-black/20 transition-all ease-in-out duration-300`}>
-  <div class={`hidden md:block w-full py-2 ${value && 'border-b border-black/20'} md:flex md:justify-end `}>
+<div class={`${value ? 'w-full md:w-64' : 'w-full md:w-24'} px-6 py-4 flex flex-col gap-y-4 transition-all ease-in-out duration-300`}>
+  <div class={`hidden w-full py-2 md:flex md:justify-end`}>
     <button 
-      class="px-4 py-1 border border-black hover:bg-primary/50 rounded-md transition-all ease-out duration-300 hover:"
+      class="px-4 py-1 border border-black hover:bg-primary/50 rounded-md transition-all ease-out duration-300 hover:scale-[1.02]"
       onclick={() => value = !value}
       aria-label="open-close-sidebar"
       >
@@ -28,9 +28,9 @@
 
     <nav class="flex-1">
       {#each chapters as chapter, index}
-      <div class="course-nav-item">
+      <a class="course-nav-item" href={chapter.slug}>
         <span>{chapter.title}</span><span class="text-sm">{chapter.length}</span>
-      </div>
+      </a>
       {/each}
      
     </nav>

@@ -9,21 +9,22 @@ const { course, chapter } = Astro.params
 const pageTitle = `${course} - ${chapter}`
 
 const chapters = course && courseChapters[course as keyof typeof courseChapters]
+const chapterTitle = chapters && chapters.filter((chap) => chap.slug === chapter)
+const chapIndx = chapters && chapters.findIndex((chap) => chap.slug === chapter)
 ---
 
 <BaseLayout pageTitle={pageTitle}>
     <CourseLayout client:load chapters={chapters}>
 
       <!-- Main Content -->
-      <main class="flex-1 p-6">
-        <!-- Video Area -->
-        <Video client:load />
-
-
+      <main class="flex-1 p-2 md:p-6">
         <!-- Title -->
-        <h1 class="mt-6 text-gray-800 text-3xl font-bold">
-          ⚡ Chapter Name
+        <h1 class="mb-4 text-gray-800 text-3xl font-bold">
+          ⚡ {chapterTitle && chapterTitle[0].title}
         </h1>
+
+        <!-- Video Area -->
+        <Video client:load chapters={chapters} chapIndx={chapIndx} />
       </main>
     </div>
     </CourseLayout>

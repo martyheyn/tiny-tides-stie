@@ -1,11 +1,13 @@
 <script lang="ts">
+    let { chapters, chapIndx } = $props()
+
     let autoplay = $state(false)
     let incomplete = $state(true)
 </script>
 
 <div>
-    <div class="bg-black rounded-sm overflow-hidden shadow-lg relative">
-        <video controls controlslist="nodownload" class="w-full h-96 object-cover">
+    <div class="bg-black rounded-sm overflow-hidden shadow-lg">
+        <video controls controlslist="nodownload" class="w-full h-[72vh] object-cover">
             <track kind="captions">
         </video>
     </div>
@@ -43,11 +45,17 @@
         </div>
 
         <div class="flex gap-x-8 h-full">
-            <!-- if not 1st -->
-            <svg viewBox="0 0 24 24" width="24" height="24" class={`cursor-pointer rotate-180 stroke stroke-black hover:scale-[1.10] transition-all duration-300 ease-out`} xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"/></svg>
-            
-            <!-- if not last -->
-            <svg viewBox="0 0 24 24" width="24" height="24" class={`cursor-pointer stroke stroke-black hover:scale-[1.10] transition-all duration-300 ease-out`} xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"/></svg>
+             {#if chapIndx !== 0}
+                <a href={`${chapters[chapIndx - 1].slug}`} aria-label="prev-chapter-btn">
+                    <svg viewBox="0 0 24 24" width="24" height="24" class={`cursor-pointer rotate-180 stroke stroke-black hover:scale-[1.10] transition-all duration-300 ease-out`} xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"/></svg>
+                </a>
+            {/if}
+
+             {#if chapIndx !== chapters.length - 1}
+                <a href={`${chapters[chapIndx + 1].slug}`} aria-label="next-chapter-btn">
+                    <svg viewBox="0 0 24 24" width="24" height="24" class={`cursor-pointer stroke stroke-black hover:scale-[1.10] transition-all duration-300 ease-out`} xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"/></svg>
+                </a>
+            {/if}
         </div>
 
         <div class="w-16 flex flex-col items-center">
