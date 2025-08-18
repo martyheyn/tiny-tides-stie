@@ -123,7 +123,7 @@
         </label>
 
         <label for="birthDate" class="block text-sm font-semibold text-gray-800 flex-1"
-          ><span class="pl-[2px]">Patient Brith Date</span>
+          ><span class="pl-[2px]">Patient Birth Date</span>
           <input
             required
             id="birthDate"
