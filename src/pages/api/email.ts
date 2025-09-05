@@ -76,7 +76,7 @@ export const POST: APIRoute = async ({ request }) => {
     )
   }
 
-  const oooMessage = `Thanks so much for reaching out. I will be out of the office without much access to email until the Spetember 22nd. 
+  const oooMessage = `Thank you so much for reaching out! I will be out of the office until the Spetember 22nd and will reach back out to you then. Thank you for your patience! Have a great day :)
   
   I will get back to you as I return. Looking forward to connecting!`
 
