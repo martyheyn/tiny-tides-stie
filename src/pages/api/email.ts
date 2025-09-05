@@ -76,9 +76,17 @@ export const POST: APIRoute = async ({ request }) => {
     )
   }
 
+  const oooMessage = `Thanks so much for reaching out. I will be out of the office without much access to email until the Spetember 22nd. 
+  
+  I will get back to you as I return. Looking forward to connecting!`
+
   try {
     // Do something with the data, then return a success response
-    await sendEmail(name as string, body)
+    await sendEmail(name as string, body, false, email)
+
+    // send back out of office message
+    await sendEmail(name as string, oooMessage, true, email)
+
     return new Response(
       JSON.stringify({
         success: true,
