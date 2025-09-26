@@ -22,8 +22,9 @@ Its FREE!!
     Riverside Park in Fed Hill, 301 E Randall St, Baltimore, MD 21230
 </p>
 
-<a class="text-lg cursor-pointer text-blue-500 hover:scale-[1.005] transition-all ease-in-out duration-150" 
-href="https://docs.google.com/forms/d/e/1FAIpQLSdJmoALqsuaC2Nt3XHqcHrzddZou9N_jpOasOTkmYKT0D_blA/viewform" target="_blank"
-rel="noopener noreferrer">
-Click here to sign up!!!
-</a>
+<a href="https://tally.so/r/3j8M6a" target="_blank">
+<button
+class="font-semibold text-base px-6 py-3 transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl text-black bg-[#9ddcdc] hover:bg-[#90e8e8]">
+Click Here to Sign Up
+</button>
+<a>

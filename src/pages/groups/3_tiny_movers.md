@@ -12,8 +12,9 @@ Join us for Tiny Movers Playgroupâ€” a fun, supportive group for babies ages 6â€
 
 Next Group: <span class="font-bold">TBD</span>
 
-<a class="text-lg cursor-pointer text-blue-500 hover:scale-[1.005] transition-all ease-in-out duration-150" 
-href="https://docs.google.com/forms/d/18uC9neyJYczURw0cr26xJtiu5zjoFirCsMYO6yCz3yo" target="_blank"
-rel="noopener noreferrer">
-Click here to sign up!!!
-</a>
+<!-- <a href="">
+<button
+class="font-semibold text-base px-6 py-3 transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl text-black bg-[#9ddcdc] hover:bg-[#90e8e8]">
+Click Here to Sign Up
+</button>
+<a> -->
