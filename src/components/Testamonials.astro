@@ -2,41 +2,80 @@
 import { Image } from 'astro:assets'
 
 import GoogleLogo from '../../public/assets/images/google_logo.png'
-import Testamonial from './Testamonial.astro'
+import Testamonial from './Testamonial.svelte'
 
 const markdownFiles = await Astro.glob('../pages/testamonials/*md')
 
 const testamonials = Object.values(markdownFiles)
 ---
 
-<div class="py-16">
+<div class="py-8">
   <div class="w-full flex justify-center items-center">
-    <h1
-      class="header-title tracking-wider text-blue-950 py-8 pb-12 flex flex-row items-center text-[28px] md:text-4xl"
-    >
-      <span class="mb-2 straight_underline z-10">5.0 on</span>
-      <span>
-        <Image
-          src={GoogleLogo}
-          alt="google-logo"
-          class="w-[175px] sm:w-[200px] h-[44px] sm:h-[52px] px-4"
-        />
-      </span>
-      <span class="mb-2 straight_underline z-10">Reviews!</span>
-    </h1>
+    <a href="https://www.google.com/search?q=tiny+tides+therapy&sca_esv=6fbc5b85f7533cfa&authuser=2&sxsrf=AE3TifOxiD6J7c8zemvdRAi9NMgZqUJ4Cg%3A1758921846288&source=hp&ei=dgTXaKGbD8Tl5NoPzfumqQU&iflsig=AOw8s4IAAAAAaNcSht-bXFbXEF3v8dkVc05uNPZrEer-&oq=tiny&gs_lp=Egdnd3Mtd2l6IgR0aW55KgIIADIKECMYgAQYJxiKBTIEECMYJzIKECMYgAQYJxiKBTILEAAYgAQYkQIYigUyChAAGIAEGEMYigUyDhAuGIAEGMcBGI4FGK8BMgsQABiABBiRAhiKBTIKEAAYgAQYQxiKBTINEC4YgAQYsQMYQxiKBTITEC4YgAQYsQMY0QMYQxjHARiKBUi0EFAAWI4DcAB4AJABAJgBa6ABlgOqAQMxLjO4AQPIAQD4AQGYAgSgAqsDwgIQEAAYgAQYsQMYQxiDARiKBcICDhAuGIAEGLEDGIMBGIoFwgIOEC4YgAQYsQMY0QMYxwHCAhEQLhiABBixAxjRAxiDARjHAcICFhAuGIAEGLEDGNEDGEMYgwEYxwEYigXCAgoQLhiABBhDGIoFwgIOEAAYgAQYsQMYgwEYigXCAhAQLhiABBixAxhDGIMBGIoFwgINEAAYgAQYsQMYQxiKBZgDAJIHAzEuM6AH-D2yBwMxLjO4B6sDwgcFMC4yLjLIBw8&sclient=gws-wiz&zx=1758932855632&no_sw_cr=1#mpd=~17215919823931273635/customers/reviews&lrd=0xaa6e3ca2367183d9:0x60401a162d9db535,1,,,," target="_blank">
+      <h1
+        class="header-title tracking-wider text-blue-950 py-8 pb-12 flex flex-row items-center text-[32px] md:text-4xl"
+      >
+        <span class="mb-2 straight_underline z-10">5.0 on</span>
+        <span>
+          <Image
+            src={GoogleLogo}
+            alt="google-logo"
+            class="w-[175px] sm:w-[200px] h-[44px] sm:h-[52px] px-4"
+          />
+        </span>
+        <span class="mb-2 straight_underline z-10">Reviews!</span>
+      </h1>
+    </a>
   </div>
-  <div class="flex flex-row gap-x-4 justify-between overflow-hidden">
-    {
-      testamonials.map((testamonial, i) => (
+  <div class="relative w-full">
+    <div class="testimonials-track flex gap-x-4">
+      {
+        testamonials.map((testamonial, i) => (
+          <Testamonial
+            userName={testamonial.frontmatter.userName}
+            numReviews={testamonial.frontmatter.numReviews}
+            sincePost={testamonial.frontmatter.sincePost}
+            link={testamonial.frontmatter.link}
+            client:load
+          >
+            <testamonial.Content />
+          </Testamonial>
+        ))
+      }
+
+       <!-- duplicate testimonials for seamless loop -->
+      {testamonials.map((testamonial, i) => (
         <Testamonial
           userName={testamonial.frontmatter.userName}
           numReviews={testamonial.frontmatter.numReviews}
           sincePost={testamonial.frontmatter.sincePost}
-          indx={i}
+          link={testamonial.frontmatter.link}
+          client:load
         >
           <testamonial.Content />
         </Testamonial>
-      ))
-    }
+      ))}
+    </div>
   </div>
 </div>
+
+<style>
+  .testimonials-track {
+    display: flex;
+    width: max-content;
+    animation: scrollRight 120s linear infinite;
+  }
+
+  .testimonials-track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes scrollRight {
+    0% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+</style>
