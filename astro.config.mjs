@@ -7,7 +7,7 @@ import partytown from '@astrojs/partytown'
 
 export default defineConfig({
   site: 'https://www.tinytidestherapy.com/',
-  output: 'static',
+  output: 'server',
   adapter: vercel(),
   integrations: [
     tailwind(),

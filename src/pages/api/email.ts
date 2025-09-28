@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro'
-import { validEmail } from '../src/utils/validInputs'
-import { sendEmail } from '../src/utils/sendEmail'
+import { validEmail } from '../../utils/validInputs'
+import { sendEmail } from '../../utils/sendEmail'
 
 const hearAboutUsMap = (hearAboutUs: string) => {
   switch (hearAboutUs) {
