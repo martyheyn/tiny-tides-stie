@@ -34,7 +34,7 @@ const testamonials: MarkdownInstance<any>[] = Object.values(markdownFiles);
   <div class="relative w-full">
     <div class="testimonials-track flex gap-x-4">
       {
-        testamonials.map((testamonial, i) => (
+        testamonials.map((testamonial) => (
           <Testamonial
             userName={testamonial.frontmatter.userName}
             numReviews={testamonial.frontmatter.numReviews}
@@ -48,7 +48,7 @@ const testamonials: MarkdownInstance<any>[] = Object.values(markdownFiles);
       }
 
        <!-- duplicate testimonials for seamless loop -->
-      {testamonials.map((testamonial, i) => (
+      {testamonials.map((testamonial) => (
         <Testamonial
           userName={testamonial.frontmatter.userName}
           numReviews={testamonial.frontmatter.numReviews}
