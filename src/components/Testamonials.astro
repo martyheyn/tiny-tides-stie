@@ -1,12 +1,16 @@
 ---
 import { Image } from 'astro:assets'
+import type { MarkdownInstance } from 'astro';
 
 import GoogleLogo from '../../public/assets/images/google_logo.png'
 import Testamonial from './Testamonial.svelte'
 
-const markdownFiles = await Astro.glob('../pages/testamonials/*md')
+const markdownFiles = import.meta.glob<MarkdownInstance<any>>(
+  '../pages/testamonials/*.md',
+  { eager: true }
+);
 
-const testamonials = Object.values(markdownFiles)
+const testamonials: MarkdownInstance<any>[] = Object.values(markdownFiles);
 ---
 
 <div class="py-8">

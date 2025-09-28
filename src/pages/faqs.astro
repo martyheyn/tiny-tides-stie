@@ -4,20 +4,23 @@ description: 'Frequently asked questions about Tiny Tides Therapy, Baltimore Ped
 
 import BaseLayout from '../layouts/BaseLayout.astro'
 import Faq from '../components/Faq.svelte'
+import type { MarkdownInstance } from 'astro';
 
 const pageTitle = 'FAQs'
 
-const markdownFiles = await Astro.glob('./faqs/*md')
+const markdownFiles = import.meta.glob<MarkdownInstance<any>>('./faqs/*.md', { eager: true });
 
-const faqs = markdownFiles.map((file) => ({
-  slug: file.url, // Auto-generated slug for the file
-  content: file.compiledContent(), // Markdown HTML content
-  frontmatter: file.frontmatter, // Frontmatter data
-}))
+const faqs = await Promise.all(
+  Object.values(markdownFiles).map(async (file) => ({
+    slug: file.url,
+    html: await file.compiledContent(), // 👈 await here
+    frontmatter: file.frontmatter,
+  }))
+);
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <div class="w-full bg-primary pt-14 md:pt-[76px] flex justify-center">
+  <div class="w-full bg-primary pt-14 md:pt-[76px] min-h-[88vh] flex justify-center">
     <div
       class="flex flex-col max-w-2xl items-center justify-center my-8 px-4 transition-all duration-300 ease-in-out"
     >

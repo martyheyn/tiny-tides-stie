@@ -4,9 +4,11 @@ description: 'Free Groups run by Tiny Tides Therapy Baltimore Pediatric Occupati
 
 import Service from '../components/Service.astro'
 import BaseLayout from '../layouts/BaseLayout.astro'
-const markdownFiles = await Astro.glob('./groups/*md')
+import type { MarkdownInstance } from 'astro';
 
-const groups = Object.values(markdownFiles)
+const markdownFiles = import.meta.glob<MarkdownInstance<any>>('./groups/*md', { eager: true })
+
+const groups: MarkdownInstance<any>[] = Object.values(markdownFiles)
 
 const pageTitle = 'Groups'
 ---

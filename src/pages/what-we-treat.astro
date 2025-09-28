@@ -2,14 +2,15 @@
 title: 'What We Treat, Baltimore Pediatric Occupational Therapy. Erin Helms OTR/L, CLC'
 description: 'Tiny Tides Therapy offers a variety of services to support your child’s development. From feeding therapy to sensory processing, we provide individualized care to help your child reach their full potential. Baltimore Pediatric Occupational Therapy'
 
-import BaseLayout from '../layouts/BaseLayout.astro'
-const markdownFiles = await Astro.glob('./what-we-treat/*md')
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Reasons from '../components/Reasons.astro';
+import type { MarkdownInstance } from 'astro';
 
-const treating = Object.values(markdownFiles)
+const markdownFiles = import.meta.glob<MarkdownInstance<any>>('./what-we-treat/*md', { eager: true })
+
+const treating: MarkdownInstance<any>[] = Object.values(markdownFiles)
 
 const pageTitle = 'What We Treat'
-
-import Reasons from '../components/Reasons.astro'
 
 const treatImgs = [
   'https://dkbi9cj3nodif.cloudfront.net/breast_feeding.jpg',
@@ -53,7 +54,7 @@ const reasons = {
     'Food refusal',
     'Overstuffing mouth',
     'Choking, gagging',
-  ],
+  ]
 }
 ---
 

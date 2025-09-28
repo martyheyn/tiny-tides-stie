@@ -4,9 +4,11 @@ description: 'Tiny Tides Therapy offers a variety of services to support your ch
 
 import Service from '../components/Service.astro'
 import BaseLayout from '../layouts/BaseLayout.astro'
-const markdownFiles = await Astro.glob('./services/*md')
+import type { MarkdownInstance } from 'astro';
 
-const services = Object.values(markdownFiles)
+const markdownFiles = import.meta.glob<MarkdownInstance<any>>('./services/*md', { eager: true })
+
+const services: MarkdownInstance<any>[] = Object.values(markdownFiles)
 
 const pageTitle = 'Services'
 ---
