@@ -1,8 +1,6 @@
 import type { APIRoute } from 'astro'
-import { validEmail } from '../../utils/validInputs'
-import { sendEmail } from '../../utils/sendEmail'
-
-export const prerender = false
+import { validEmail } from '../src/utils/validInputs'
+import { sendEmail } from '../src/utils/sendEmail'
 
 const hearAboutUsMap = (hearAboutUs: string) => {
   switch (hearAboutUs) {
@@ -78,16 +76,9 @@ export const POST: APIRoute = async ({ request }) => {
     )
   }
 
-  const oooMessage = `Thank you so much for reaching out! I will be out of the office until the Spetember 22nd and will reach back out to you then. Thank you for your patience! Have a great day :)
-  
-  I will get back to you as I return. Looking forward to connecting!`
-
   try {
     // Do something with the data, then return a success response
     await sendEmail(name as string, body, false, email)
-
-    // send back out of office message
-    await sendEmail(name as string, oooMessage, true, email)
 
     return new Response(
       JSON.stringify({
