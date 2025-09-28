@@ -2,9 +2,6 @@
 	"version": 3,
 	"routes": [
 		{
-			"handle": "filesystem"
-		},
-		{
 			"src": "^/_astro/(.*)$",
 			"headers": {
 				"cache-control": "public, max-age=31536000, immutable"
@@ -12,131 +9,130 @@
 			"continue": true
 		},
 		{
-			"src": "^/_server-islands/([^/]+?)/?$",
+			"handle": "filesystem"
+		},
+		{
+			"src": "^\\/_image$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/_image/?$",
+			"src": "^\\/about\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/about/?$",
+			"src": "^\\/api\\/email\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/api/email/?$",
+			"src": "^\\/contact\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/contact/?$",
+			"src": "^\\/faqs\\/ages\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/faqs/ages/?$",
+			"src": "^\\/faqs\\/evaluation\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/faqs/evaluation/?$",
+			"src": "^\\/faqs\\/first_visit\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/faqs/first_visit/?$",
+			"src": "^\\/faqs\\/insurance\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/faqs/insurance/?$",
+			"src": "^\\/faqs\\/virtual\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/faqs/virtual/?$",
+			"src": "^\\/faqs\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/faqs/?$",
+			"src": "^\\/groups\\/1_tummy_time\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/groups/1_tummy_time/?$",
+			"src": "^\\/groups\\/2_intro_solids\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/groups/2_intro_solids/?$",
+			"src": "^\\/groups\\/3_tiny_movers\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/groups/3_tiny_movers/?$",
+			"src": "^\\/groups\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/groups/?$",
+			"src": "^\\/services\\/1_discovery\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/services/1_discovery/?$",
+			"src": "^\\/services\\/2_evaluation\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/services/2_evaluation/?$",
+			"src": "^\\/services\\/3_follow_up\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/services/3_follow_up/?$",
+			"src": "^\\/services\\/4_baby_bootcamp\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/services/4_baby_bootcamp/?$",
+			"src": "^\\/services\\/5_virtual\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/services/5_virtual/?$",
+			"src": "^\\/services\\/6_virtual_milestone\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/services/6_virtual_milestone/?$",
+			"src": "^\\/services\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/services/?$",
+			"src": "^\\/testamonials\\/1_test\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/testamonials/1_test/?$",
+			"src": "^\\/testamonials\\/2_test\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/testamonials/2_test/?$",
+			"src": "^\\/testamonials\\/3_test\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/testamonials/3_test/?$",
+			"src": "^\\/testamonials\\/4_test\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/testamonials/4_test/?$",
+			"src": "^\\/testamonials\\/5_test\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/testamonials/5_test/?$",
+			"src": "^\\/what-we-treat\\/1_lactation_service\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/what-we-treat/1_lactation_service/?$",
+			"src": "^\\/what-we-treat\\/2_occupational_therapy\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/what-we-treat/2_occupational_therapy/?$",
+			"src": "^\\/what-we-treat\\/3_picky_eaters\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/what-we-treat/3_picky_eaters/?$",
+			"src": "^\\/what-we-treat\\/?$",
 			"dest": "_render"
 		},
 		{
-			"src": "^/what-we-treat/?$",
-			"dest": "_render"
-		},
-		{
-			"src": "^/$",
+			"src": "^\\/$",
 			"dest": "_render"
 		}
 	]

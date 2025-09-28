@@ -4,8 +4,6 @@ import Footer from '../components/Footer.astro'
 
 const { pageTitle, description } = Astro.props
 
-import { ClientRouter } from "astro:transitions";
-
 import '../styles/global.css'
 ---
 
@@ -95,7 +93,6 @@ import '../styles/global.css'
       gtag('config', 'AW-11534598862');
     </script>
   </head>
-  <ClientRouter />
 
   <body class="">
     <Navbar />

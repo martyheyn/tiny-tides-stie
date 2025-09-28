@@ -1,14 +1,14 @@
-// @ts-check
 import { defineConfig } from 'astro/config'
-import tailwind from '@astrojs/tailwind'
 import vercel from '@astrojs/vercel/serverless'
-import svelte from '@astrojs/svelte'
+import tailwind from '@astrojs/tailwind'
 import sitemap from '@astrojs/sitemap'
+import svelte from '@astrojs/svelte'
 import partytown from '@astrojs/partytown'
 
-// https://astro.build/config
 export default defineConfig({
   site: 'https://www.tinytidestherapy.com/',
+  output: 'server',
+  adapter: vercel({}),
   integrations: [
     tailwind(),
     svelte(),
@@ -19,6 +19,4 @@ export default defineConfig({
       },
     }),
   ],
-  output: 'server',
-  adapter: vercel({}),
 })
