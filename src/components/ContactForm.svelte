@@ -50,6 +50,9 @@
     }
 
     if(responseMessage.success) {
+      resetForm();
+      successMessage = 'Your message has been sent. We will get back to you soon.';
+
       // ✅ Fire conversion here
       gtag('event', 'conversion', {
         send_to: 'AW-11534598862/1CvkCLm96LkaEM6FkPwq',
@@ -57,11 +60,10 @@
         currency: 'USD'
       });
 
-      resetForm();
-      successMessage = 'Your message has been sent. We will get back to you soon.';
       setTimeout(() => {
         successMessage = '';
       }, 5000);
+
     }
   }
 

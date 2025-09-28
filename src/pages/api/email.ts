@@ -2,6 +2,8 @@ import type { APIRoute } from 'astro'
 import { validEmail } from '../../utils/validInputs'
 import { sendEmail } from '../../utils/sendEmail'
 
+export const prerender = false
+
 const hearAboutUsMap = (hearAboutUs: string) => {
   switch (hearAboutUs) {
     case 'google':
