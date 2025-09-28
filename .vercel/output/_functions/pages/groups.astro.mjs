@@ -5,7 +5,7 @@ import { _ as __vite_glob_0_2 } from '../chunks/3_tiny_movers_MW3bT6Uh.mjs';
 import { c as createComponent, b as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_BEGASLii.mjs';
 import 'kleur/colors';
 import { $ as $$Service } from '../chunks/Service_CrNIKvbG.mjs';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_DL9vzG4q.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_DJ0Ji_q3.mjs';
 export { r as renderers } from '../chunks/_@astro-renderers_BZ9dM9J6.mjs';
 
 const $$Groups = createComponent(($$result, $$props, $$slots) => {

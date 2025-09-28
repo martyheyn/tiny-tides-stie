@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config'
 import tailwind from '@astrojs/tailwind'
-import vercelServerless from '@astrojs/vercel/serverless'
+import vercel from '@astrojs/vercel/serverless'
 import svelte from '@astrojs/svelte'
 import sitemap from '@astrojs/sitemap'
 import partytown from '@astrojs/partytown'
@@ -19,5 +19,5 @@ export default defineConfig({
     }),
   ],
   output: 'server',
-  adapter: vercelServerless(),
+  adapter: vercel(),
 })

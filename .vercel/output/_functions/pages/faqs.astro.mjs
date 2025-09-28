@@ -6,7 +6,7 @@ import { _ as __vite_glob_0_3 } from '../chunks/insurance_gRj4ngRK.mjs';
 import { _ as __vite_glob_0_4 } from '../chunks/virtual_Chh6yEQ6.mjs';
 import { c as createComponent, b as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_BEGASLii.mjs';
 import 'kleur/colors';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_DL9vzG4q.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_DJ0Ji_q3.mjs';
 import { e as ensure_array_like } from '../chunks/_@astro-renderers_BZ9dM9J6.mjs';
 export { r as renderers } from '../chunks/_@astro-renderers_BZ9dM9J6.mjs';
 import { e as escape_html } from '../chunks/escaping_CBnpiEl5.mjs';

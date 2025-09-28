@@ -8,7 +8,7 @@ import { _ as __vite_glob_0_5 } from '../chunks/6_virtual_milestone_C-782ltu.mjs
 import { c as createComponent, b as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_BEGASLii.mjs';
 import 'kleur/colors';
 import { $ as $$Service } from '../chunks/Service_CrNIKvbG.mjs';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_DL9vzG4q.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_DJ0Ji_q3.mjs';
 export { r as renderers } from '../chunks/_@astro-renderers_BZ9dM9J6.mjs';
 
 const $$Services = createComponent(($$result, $$props, $$slots) => {

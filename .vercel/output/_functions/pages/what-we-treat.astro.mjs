@@ -4,7 +4,7 @@ import { _ as __vite_glob_0_1 } from '../chunks/2_occupational_therapy_D3xqhrmU.
 import { _ as __vite_glob_0_2 } from '../chunks/3_picky_eaters_CS2I2oo6.mjs';
 import { c as createComponent, a as createAstro, m as maybeRenderHead, v as renderScript, d as addAttribute, r as renderTemplate, b as renderComponent, x as Fragment } from '../chunks/astro/server_BEGASLii.mjs';
 import 'kleur/colors';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_DL9vzG4q.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_DJ0Ji_q3.mjs';
 import 'clsx';
 /* empty css                                         */
 export { r as renderers } from '../chunks/_@astro-renderers_BZ9dM9J6.mjs';

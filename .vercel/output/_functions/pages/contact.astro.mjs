@@ -1,7 +1,7 @@
 /* empty css                                 */
 import { c as createComponent, b as renderComponent, r as renderTemplate, m as maybeRenderHead, d as addAttribute } from '../chunks/astro/server_BEGASLii.mjs';
 import 'kleur/colors';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_DL9vzG4q.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_DJ0Ji_q3.mjs';
 import { C as ContactForm } from '../chunks/ContactForm_G2z3VhJK.mjs';
 export { r as renderers } from '../chunks/_@astro-renderers_BZ9dM9J6.mjs';
 
