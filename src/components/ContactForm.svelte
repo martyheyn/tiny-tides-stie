@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { slide } from "svelte/transition"
+  import { slide } from "svelte/transition"
 
-    export let homepage: boolean = false;
+  export let homepage: boolean = false;
     
   let error: string;
   let successMessage: string;
@@ -50,6 +50,13 @@
     }
 
     if(responseMessage.success) {
+      // ✅ Fire conversion here
+      gtag('event', 'conversion', {
+        send_to: 'AW-11534598862/1CvkCLm96LkaEM6FkPwq',
+        value: 1.0,
+        currency: 'USD'
+      });
+
       resetForm();
       successMessage = 'Your message has been sent. We will get back to you soon.';
       setTimeout(() => {
