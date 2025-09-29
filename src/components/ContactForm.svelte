@@ -1,6 +1,5 @@
 <script lang="ts">
   import { slide } from "svelte/transition"
-  import { supabase } from '../lib/SupabasClient'
 
   export let homepage: boolean = false;
   
