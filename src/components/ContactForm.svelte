@@ -1,8 +1,9 @@
 <script lang="ts">
   import { slide } from "svelte/transition"
+  import { supabase } from '../lib/SupabasClient'
 
   export let homepage: boolean = false;
-    
+  
   let error: string;
   let successMessage: string;
   let responseMessage: { success: boolean; error?: string } = {
