@@ -3,9 +3,9 @@
 </script>
 
 <a href={link} target="_blank">
-  <div class="google-border cursor-pointer hover:scale-[1.015] hover:shadow-xl transition-transform duration-300 ease-in-out">
+  <div class="google-border cursor-pointer hover:shadow-xl transition-transform duration-300 ease-in-out">
     <div
-      class={`flex flex-row w-[400px] h-[365px] bg-primary rounded-lg gap-x-2 p-4 relative`}
+      class={`flex flex-row w-[390px] md:w-[400px] h-[365px] bg-primary rounded-lg gap-x-2 p-4 relative`}
     >
       <div class="mt-1.5">
         <div
@@ -47,7 +47,15 @@
 
   .google-border:hover {
     background-position: 100% 0; /* shift gradient */
-    transform: scale(1.02); /* optional scale-up */
+    transform: scale(1.01); /* optional scale-up */
     box-shadow: 0 4px 20px rgba(0,0,0,0.15); /* subtle hover shadow */
+  }
+
+  @media screen and (max-width: 768px) {
+    .google-border:hover {
+      background-position: 100% 0; /* shift gradient */
+      transform: scale(1.004); /* optional scale-up */
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15); /* subtle hover shadow */
+    }
   }
 </style>

@@ -17,7 +17,7 @@ const testamonials: MarkdownInstance<any>[] = Object.values(markdownFiles);
   <div class="w-full flex justify-center items-center">
     <a href="https://www.google.com/search?q=tiny+tides+therapy&sca_esv=6fbc5b85f7533cfa&authuser=2&sxsrf=AE3TifOxiD6J7c8zemvdRAi9NMgZqUJ4Cg%3A1758921846288&source=hp&ei=dgTXaKGbD8Tl5NoPzfumqQU&iflsig=AOw8s4IAAAAAaNcSht-bXFbXEF3v8dkVc05uNPZrEer-&oq=tiny&gs_lp=Egdnd3Mtd2l6IgR0aW55KgIIADIKECMYgAQYJxiKBTIEECMYJzIKECMYgAQYJxiKBTILEAAYgAQYkQIYigUyChAAGIAEGEMYigUyDhAuGIAEGMcBGI4FGK8BMgsQABiABBiRAhiKBTIKEAAYgAQYQxiKBTINEC4YgAQYsQMYQxiKBTITEC4YgAQYsQMY0QMYQxjHARiKBUi0EFAAWI4DcAB4AJABAJgBa6ABlgOqAQMxLjO4AQPIAQD4AQGYAgSgAqsDwgIQEAAYgAQYsQMYQxiDARiKBcICDhAuGIAEGLEDGIMBGIoFwgIOEC4YgAQYsQMY0QMYxwHCAhEQLhiABBixAxjRAxiDARjHAcICFhAuGIAEGLEDGNEDGEMYgwEYxwEYigXCAgoQLhiABBhDGIoFwgIOEAAYgAQYsQMYgwEYigXCAhAQLhiABBixAxhDGIMBGIoFwgINEAAYgAQYsQMYQxiKBZgDAJIHAzEuM6AH-D2yBwMxLjO4B6sDwgcFMC4yLjLIBw8&sclient=gws-wiz&zx=1758932855632&no_sw_cr=1#mpd=~17215919823931273635/customers/reviews&lrd=0xaa6e3ca2367183d9:0x60401a162d9db535,1,,,," target="_blank">
       <h1
-        class="header-title tracking-wider text-blue-950 py-8 pb-12 flex flex-row items-center text-[32px] md:text-4xl"
+        class="header-title tracking-wider text-blue-950 py-8 pb-12 flex flex-row items-center text-[28px] md:text-[34px] md:text-4xl"
       >
         <span class="mb-2 straight_underline z-10">5.0 on</span>
         <span>
@@ -31,7 +31,7 @@ const testamonials: MarkdownInstance<any>[] = Object.values(markdownFiles);
       </h1>
     </a>
   </div>
-  <div class="relative w-full">
+  <div class="relative w-full overflow-hidden md:overflow-visible hidden md:block">
     <div class="testimonials-track flex gap-x-4">
       {
         testamonials.map((testamonial) => (
@@ -61,6 +61,20 @@ const testamonials: MarkdownInstance<any>[] = Object.values(markdownFiles);
       ))}
     </div>
   </div>
+  <div class="overflow-x-auto snap-x snap-mandatory flex gap-x-4 no-scrollbar md:hidden">
+    {testamonials.map((t, i) => (
+      <Testamonial
+        userName={t.frontmatter.userName}
+        numReviews={t.frontmatter.numReviews}
+        sincePost={t.frontmatter.sincePost}
+        link={t.frontmatter.link}
+        client:load
+        class="snap-start shrink-0"
+      >
+        <t.Content />
+      </Testamonial>
+    ))}
+  </div>
 </div>
 
 <style>
@@ -74,12 +88,28 @@ const testamonials: MarkdownInstance<any>[] = Object.values(markdownFiles);
     animation-play-state: paused;
   }
 
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE/Edge */
+    scrollbar-width: none;     /* Firefox */
+  }
+
   @keyframes scrollRight {
     0% {
       transform: translateX(-50%);
     }
     100% {
       transform: translateX(0%);
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .testimonials-track {
+      display: flex;
+      width: max-content;
+      animation: scrollRight 40s linear infinite;
     }
   }
 </style>
