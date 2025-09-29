@@ -7,7 +7,7 @@
     <div
       class={`flex flex-row w-[390px] md:w-[400px] h-[365px] bg-primary rounded-lg gap-x-2 p-4 relative`}
     >
-      <div class="mt-1.5">
+      <div class="mt-1.5 hidden md:block transition-all duration-300 ease-in-out">
         <div
           class="w-10 h-10 bg-green-600 rounded-full flex justify-center items-center"
         >
