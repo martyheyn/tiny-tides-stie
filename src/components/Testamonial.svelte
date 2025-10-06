@@ -5,7 +5,7 @@
 <a href={link} target="_blank">
   <div class="google-border cursor-pointer hover:shadow-xl transition-transform duration-300 ease-in-out">
     <div
-      class={`flex flex-row w-[390px] md:w-[400px] h-[365px] bg-primary rounded-lg gap-x-2 p-4 relative`}
+      class={`flex flex-row w-[375px] md:w-[400px] h-[365px] bg-primary rounded-lg gap-x-2 p-4 relative`}
     >
       <div class="mt-1.5 hidden md:block transition-all duration-300 ease-in-out">
         <div

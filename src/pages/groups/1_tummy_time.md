@@ -17,7 +17,7 @@ to learn the basics of tummy time while connecting and socializing with other fa
 Its FREE!!
 
 <p class="font-semibold">
-    Every Monday 9:30 - 10:30am, alternating between: <br/>
+    Every Monday 10:00 - 10:45am, alternating between: <br/>
     Latrobe Park in Locust Point, 1627 E Fort Ave, Baltimore, MD 21230 <br/>
     Riverside Park in Fed Hill, 301 E Randall St, Baltimore, MD 21230
 </p>
