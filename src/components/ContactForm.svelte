@@ -1,6 +1,6 @@
 <script lang="ts">
   import { slide } from "svelte/transition"
-
+  
   export let homepage: boolean = false;
   
   let error: string;
@@ -44,26 +44,12 @@
     responseMessage = data;
 
     if(!responseMessage.success) {
-      if(responseMessage.error) {
-        error = responseMessage.error;
-      }
+      error = 'There was an error trying to submit. Please try again at a later time'
     }
 
     if(responseMessage.success) {
       resetForm();
-      successMessage = 'Your message has been sent. We will get back to you soon.';
-
-      // ✅ Fire conversion here
-      gtag('event', 'conversion', {
-        send_to: 'AW-11534598862/1CvkCLm96LkaEM6FkPwq',
-        value: 1.0,
-        currency: 'USD'
-      });
-
-      setTimeout(() => {
-        successMessage = '';
-      }, 5000);
-
+      window.location.href = "/thank-you";
     }
   }
 
@@ -81,11 +67,7 @@
       </div>
       
       {#if error}
-        <p transition:slide={{ duration: 200 }} class="text-xs text-red-400">Error: {error}. Please try again</p>
-      {/if}
-
-      {#if successMessage}
-        <p transition:slide={{ duration: 200 }} class="text-xs bg-green-300 py-2 px-4 rounded-md">{successMessage}</p>
+        <p transition:slide={{ duration: 200 }} class="text-xs text-red-400">{error}</p>
       {/if}
 
 
