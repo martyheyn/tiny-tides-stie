@@ -1,0 +1,25 @@
+---
+import Button from '../components/Button.astro'
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const pageTitle = 'Thanks'
+const description = 'Thanks for submitting a contact form. Tiny Tides Therapy, Baltimore Pediatric Occupational Therapy'
+---
+
+<BaseLayout pageTitle={pageTitle} description={description}>
+    <div class="w-full bg-primary pt-14 md:pt-[76px] min-h-screen flex flex-col gap-y-12 justify-center items-center pb-20">
+        <h1 class="header-title text-blue-950">
+            You have successfully submitted a form!
+        </h1>
+
+        <p class="text-2xl text-blue-950">Erin will reach back out to you via email</p>
+
+        <a href="/">
+            <Button
+                text="Go Back Home"
+                textColor="#173f69bf"
+                textSize="text-xl"
+            />
+        </a>
+    </div>
+</BaseLayout>

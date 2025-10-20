@@ -19,13 +19,13 @@ const { title, id, img } = Astro.props
     </a>
 
     <div
-      class="flex flex-col gap-y-4 h-full justify-center text-xl mt-2 md:mt-0"
+      class="flex flex-col gap-y-4 h-full justify-start text-xl mt-2 md:mt-0"
     >
       <slot />
     </div>
   </div>
 
   <div class="lg:w-1/2 flex justify-center">
-    {img && <img class="max-w-[425px] w-full" src={img} alt={`${title}-pic`} />}
+    {img && <img class="max-w-[425px] w-full" src={img} alt={`${title}, occupational therapy, lactation, infant feeding`} />}
   </div>
 </div>

@@ -1,6 +1,11 @@
 import nodemailer from 'nodemailer'
 
-export async function sendEmail(name: string, body: string) {
+export async function sendEmail(
+  name: string,
+  body: string,
+  ooo: boolean,
+  email: string,
+) {
   const SMTP_USER = import.meta.env.SMTP_USER
   const SMTP_PASS = import.meta.env.SMTP_PASS
 
@@ -23,9 +28,9 @@ export async function sendEmail(name: string, body: string) {
 
   // Email options
   const mailOptions = {
-    from: `Website Inquiry`,
-    to: SMTP_USER,
-    subject: `New Inquiry: ${name}`,
+    from: `Tiny Tides Therapy`,
+    to: `${!ooo ? SMTP_USER : email}`,
+    subject: `${!ooo ? `New Inquiry: ${name}` : 'Out of Office'}`,
     text: body,
   }
 

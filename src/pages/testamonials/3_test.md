@@ -1,8 +1,9 @@
 ---
 id: 'google-review-3'
-userName: 'Taylor Lascko'
+userName: 'Taylor'
 numReviews: 2
 sincePost: '1 week'
+link: 'https://maps.app.goo.gl/seSzpV1Ff7n543d86'
 ---
 
 <p class="text-base">

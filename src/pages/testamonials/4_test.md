@@ -1,8 +1,9 @@
 ---
 id: 'google-review-4'
-userName: 'Madeline Riley'
+userName: 'Madeline'
 numReviews: 3
 sincePost: '1 month'
+link: 'https://maps.app.goo.gl/1W5aBU1L8mHayn1cA'
 ---
 
 <p class="text-base">

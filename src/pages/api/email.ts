@@ -78,7 +78,8 @@ export const POST: APIRoute = async ({ request }) => {
 
   try {
     // Do something with the data, then return a success response
-    await sendEmail(name as string, body)
+    await sendEmail(name as string, body, false, email)
+
     return new Response(
       JSON.stringify({
         success: true,

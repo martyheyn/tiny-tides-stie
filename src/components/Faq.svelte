@@ -7,7 +7,7 @@
 </script>
 
 <div class="">
-{#each faqs as { frontmatter, content }, i}
+{#each faqs as { frontmatter, html }, i}
   <div class="w-full bg-secondary text-black my-2 px-4 rounded-md">
       <div class="flex gap-x-6 justify-between items-center py-2">
         <p class="text-lg md:text-xl font-semibold">
@@ -38,7 +38,7 @@
       {#if selectedFaq === i}
         <div transition:slide={{ duration: 250 }} class="py-2">
           <p class="">
-            {@html content}
+            {@html html}
           </p>
         </div>
       {/if}

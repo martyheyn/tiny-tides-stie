@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { slide } from "svelte/transition"
-
-    export let homepage: boolean = false;
-    
+  import { slide } from "svelte/transition"
+  
+  export let homepage: boolean = false;
+  
   let error: string;
   let successMessage: string;
   let responseMessage: { success: boolean; error?: string } = {
@@ -44,17 +44,12 @@
     responseMessage = data;
 
     if(!responseMessage.success) {
-      if(responseMessage.error) {
-        error = responseMessage.error;
-      }
+      error = 'There was an error trying to submit. Please try again at a later time'
     }
 
     if(responseMessage.success) {
       resetForm();
-      successMessage = 'Your message has been sent. We will get back to you soon.';
-      setTimeout(() => {
-        successMessage = '';
-      }, 5000);
+      window.location.href = "/thank-you";
     }
   }
 
@@ -72,11 +67,7 @@
       </div>
       
       {#if error}
-        <p transition:slide={{ duration: 200 }} class="text-xs text-red-400">Error: {error}. Please try again</p>
-      {/if}
-
-      {#if successMessage}
-        <p transition:slide={{ duration: 200 }} class="text-xs bg-green-300 py-2 px-4 rounded-md">{successMessage}</p>
+        <p transition:slide={{ duration: 200 }} class="text-xs text-red-400">{error}</p>
       {/if}
 
 
@@ -123,7 +114,7 @@
         </label>
 
         <label for="birthDate" class="block text-sm font-semibold text-gray-800 flex-1"
-          ><span class="pl-[2px]">Patient Brith Date</span>
+          ><span class="pl-[2px]">Patient Birth Date</span>
           <input
             required
             id="birthDate"

@@ -11,8 +11,8 @@ tags: ['astro', 'baby-bootcamp', 'services']
 Includes:
 
 <ul class="ml-2">
-    <li class="flex gap-x-2 items-center transition-all duration-200 ease-out"> 
-        <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full mt-1"></div>
+    <li class="flex gap-x-2 items-start transition-all duration-200 ease-out"> 
+        <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full mt-3"></div>
         <p>Erin will come to your house for up to 3 hours to provide support with feeding, diaper changes, sleep, wake windows</p>
     </li>
     <li class="flex gap-x-2 items-start transition-all duration-200 ease-out"> 
