@@ -3,7 +3,8 @@ title: 'Virtual Intro to Solids Class'
 id: 'intro-to-solids'
 img: 'https://dkbi9cj3nodif.cloudfront.net/intro-to-solids-class.png'
 duration: '1 hour'
-price: '$15$'
+price: '$20$'
+link: '/contact'
 pubDate: 2025-02-27
 author: 'Tiny Tides Brah'
 tags: ['astro', 'intro-to-solids', 'services']

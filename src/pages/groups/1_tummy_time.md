@@ -1,11 +1,12 @@
 ---
 title: 'Tummy Time Group'
 id: 'tummy-time'
-img: 'https://dkbi9cj3nodif.cloudfront.net/tummy-time_flyer_.png'
+img: 'https://dkbi9cj3nodif.cloudfront.net/tummy-time_flyer.png'
 duration: '1 hour'
 price: 'FREE'
 pubDate: 2024-10-05
 author: 'Tiny Tides Brah'
+link: 'https://tally.so/r/3j8M6a'
 tags: ['astro', 'tummy-time', 'services']
 ---
 
@@ -17,9 +18,8 @@ to learn the basics of tummy time while connecting and socializing with other fa
 Its FREE!!
 
 <p class="font-semibold">
-    Every Monday 10:00 - 10:45am, alternating between: <br/>
-    Latrobe Park in Locust Point, 1627 E Fort Ave, Baltimore, MD 21230 <br/>
-    Riverside Park in Fed Hill, 301 E Randall St, Baltimore, MD 21230
+    Every Monday 10:00 - 10:45am <br/>
+    Bodega and Vino in Locust Point, 1121 Hull St, Baltimore, MD 21230
 </p>
 
 <a href="https://tally.so/r/3j8M6a" target="_blank">
