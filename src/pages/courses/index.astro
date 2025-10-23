@@ -1,20 +1,28 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
+import type { MarkdownInstance } from 'astro';
 
 const pageTitle = 'Courses'
 
-const markdownFiles = await Astro.glob('../courses-md/*md')
+// const markdownFiles = await Astro.glob('../courses-md/*md')
+const markdownFiles =import.meta.glob<MarkdownInstance<any>>('../courses-md/*md', { eager: true });
 
-const courses = markdownFiles.map((file) => ({
-  content: file.compiledContent(), // Markdown HTML content
-  frontmatter: file.frontmatter, // Frontmatter data
-}))
+  const courses = await Promise.all(
+  Object.values(markdownFiles).map(async (file) => ({
+    content: file.compiledContent(),
+    frontmatter: file.frontmatter,
+  }))
+);
+// const courses = markdownFiles.map((file) => ({
+//   content: file.compiledContent(), // Markdown HTML content
+//   frontmatter: file.frontmatter, // Frontmatter data
+// }))
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <header class="text-center mb-8 mt-20">
-    <h1 class="text-5xl mb-2 font-semibold">Courses</h1>
-    <p class="text-[14px] my-0 text-gray-700">
+    <h1 class="text-4xl md:text-[58px] mb-2 font-semibold">Courses</h1>
+    <p class="text-[18px] my-0 text-gray-700">
       Interactive online resources to help you easily tackle development
       milestones with your kiddo
     </p>
