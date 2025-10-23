@@ -3,6 +3,7 @@ title: 'Tiny Movers Playgroup'
 id: 'tummy-time'
 duration: '1 hour'
 price: 'FREE'
+link: '/contact'
 pubDate: 2024-10-05
 author: 'Tiny Tides Brah'
 tags: ['astro', 'tummy-time', 'services']
