@@ -1,16 +1,19 @@
 ---
+import Button from '../../components/Button.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { courseChapters } from '../../utils/chapters'
+import type { MarkdownInstance } from 'astro';
 
 const { course } = Astro.params
-const markdownFiles = await Astro.glob(`../courses-md/*md`)
 
-const courseMd = markdownFiles
-  .filter((file) => file.frontmatter.slug === course)
-  .map((file) => ({
-    content: file.compiledContent(), // Markdown HTML content
-    frontmatter: file.frontmatter, // Frontmatter data
+const markdownFiles = import.meta.glob<MarkdownInstance<any>>('../courses-md/*md', { eager: true });
+
+const courseMd = await Promise.all(
+  Object.values(markdownFiles).map(async (file) => ({
+    content: file.compiledContent(),
+    frontmatter: file.frontmatter,
   }))
+);
 
 const courseData = courseMd.length > 0 ? courseMd[0] : null
 
@@ -44,12 +47,31 @@ const chapters = course && courseChapters[course as keyof typeof courseChapters]
               />
             </div>
 
+            <div class="w-full flex justify-center mt-20">
+              <Button
+                  text="Get the Course Now!"
+                  textColor="#173f69bf"
+                  textSize="text-xl"
+                  width="w-72"
+                />
+            </div>
+
             <div class="mx-auto w-24 h-1 my-24 bg-gradient-to-r from-slate-100 to-slate-300 rounded-full" />
 
             <article set:html={courseData.content} />
           </>
         ) : null
       }
+    </div>
+
+
+    <div class="w-full flex justify-center py-8 pb-28">
+      <Button
+          text="Enroll Today!"
+          textColor="#173f69bf"
+          textSize="text-xl"
+          width="w-72"
+        />
     </div>
 
     <div class="pb-24">
