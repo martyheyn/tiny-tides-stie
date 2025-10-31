@@ -1,0 +1,83 @@
+---
+const { id = "modal", title = "" } = Astro.props;
+---
+
+<dialog id={id} class="astro-dialog" aria-labelledby={`${id}-title`}>
+  <div class="px-12 pt-8 pb-4" role="document">
+    <div class="dialog-body">
+      <slot name="main" />
+    </div>
+
+    <div class="dialog-actions">
+      <slot name="actions">
+        <!-- <form method="dialog">
+          <button type="submit" class="btn-close">Close</button>
+        </form> -->
+      </slot>
+    </div>
+  </div>
+</dialog>
+
+<div id={`${id}-backdrop`} class="astro-dialog-backdrop" aria-hidden="true" hidden></div>
+
+<style>
+    .astro-dialog {
+        border: none;
+        padding: 0;
+        border-radius: 0.75rem;
+        max-width: 520px;
+        width: 90%;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+        background: white;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -45%);
+        z-index: 1000;
+        margin: 0;
+    }
+
+    /* Works in browsers that support the ::backdrop pseudo-element */
+    .astro-dialog::backdrop {
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    /* explicit fallback backdrop — covers whole viewport */
+    .astro-dialog-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+    }
+
+    /* hide the dialog by default in fallback mode (we'll toggle open attribute/class) */
+    .astro-dialog:not([open]) {
+        display: none;
+    }
+</style>
+
+<script type="module">
+    const id = "modal";
+    const dialog = document.getElementById(id);
+    const backdrop = document.getElementById(`${id}-backdrop`);
+
+    if (!dialog) {
+        // nothing to do (defensive)
+        console.warn('Modal: dialog element not found for id', id);
+    } else {
+        const isNativeDialog = typeof dialog.showModal === 'function';
+
+        // click on fallback backdrop closes the modal
+        if (backdrop) {
+            backdrop.addEventListener('click', () => {
+            if (isNativeDialog) {
+                dialog.close();
+            } else {
+                dialog.removeAttribute('open');
+                backdrop.hidden = true;
+            }
+            });
+        }
+
+    } 
+</script>

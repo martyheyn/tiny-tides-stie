@@ -4,6 +4,8 @@
   let { chapters } = $props()
 
   let sidebarOpen = $state(true)
+  // get user from svelte state and see if authenticated and if course purcashed
+  // if so then show em the goods, if not then peace out
 </script>
 
 <div class="flex flex-col md:flex-row gap-4 transition-all ease-in-out duration-300">

@@ -48,6 +48,9 @@ const chapters = course && courseChapters[course as keyof typeof courseChapters]
             </div>
 
             <div class="w-full flex justify-center mt-20">
+              {/* if logged in and purchased then go to course */}
+              {/* on click if logged in and not purchased then straight to stripe */}
+              {/* if not looged in then login modal */}
               <Button
                   text="Get the Course Now!"
                   textColor="#173f69bf"
