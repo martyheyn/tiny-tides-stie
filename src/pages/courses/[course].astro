@@ -2,9 +2,14 @@
 import Button from '../../components/Button.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { courseChapters } from '../../utils/chapters'
+import Modal from '../../components/Modal.astro'
+import Signin from '../../components/signin/Signin.svelte';
+
 import type { MarkdownInstance } from 'astro';
 
 const { course } = Astro.params
+const user = Astro.locals.user
+const url = Astro.url;
 
 const markdownFiles = import.meta.glob<MarkdownInstance<any>>('../courses-md/*md', { eager: true });
 
@@ -51,12 +56,11 @@ const chapters = course && courseChapters[course as keyof typeof courseChapters]
               {/* if logged in and purchased then go to course */}
               {/* on click if logged in and not purchased then straight to stripe */}
               {/* if not looged in then login modal */}
-              <Button
-                  text="Get the Course Now!"
-                  textColor="#173f69bf"
-                  textSize="text-xl"
-                  width="w-72"
-                />
+              <button
+                class={`get-course-btn w-72 font-semibold text-xl px-6 py-3 bg-[#9ddcdc] hover:bg-[#90e8e8] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl`}
+              >
+                Get the Course Now!
+              </button>
             </div>
 
             <div class="mx-auto w-24 h-1 my-24 bg-gradient-to-r from-slate-100 to-slate-300 rounded-full" />
@@ -69,12 +73,11 @@ const chapters = course && courseChapters[course as keyof typeof courseChapters]
 
 
     <div class="w-full flex justify-center py-8 pb-28">
-      <Button
-          text="Enroll Today!"
-          textColor="#173f69bf"
-          textSize="text-xl"
-          width="w-72"
-        />
+        <button
+          class={`get-course-btn" w-72 font-semibold text-xl px-6 py-3 bg-[#9ddcdc] hover:bg-[#90e8e8] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl`}
+        >
+          Start Today!
+        </button>
     </div>
 
     <div class="pb-24">
@@ -108,3 +111,36 @@ const chapters = course && courseChapters[course as keyof typeof courseChapters]
     </div>
   </div>
 </BaseLayout>
+
+<Modal id='signin-dialog' title="Signin Modal">
+  <main slot='main'>
+    <Signin url={url.pathname} client:load />
+  </main>
+  <button slot='close'>Close modal</button>
+</Modal>
+
+
+<script define:vars={{ user }}>
+  const modal = document.getElementById('signin-dialog');
+
+  const getCourseBtns = document.getElementsByClassName("get-course-btn")
+  console.log("getCourseBtns", getCourseBtns)
+
+  if(modal && getCourseBtns) {
+    getCourseBtns[0]?.addEventListener('click', (e) => {
+      if(!user) {
+        if(modal && getCourseBtns) {
+          e.stopPropagation();
+          if (!modal.open) modal.showModal();
+        }
+      }
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.close();
+      });
+
+      if(user) {
+        console.log("send em to stripe")
+      }
+    });
+  }
+</script>
