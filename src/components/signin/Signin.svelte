@@ -44,8 +44,8 @@
         } finally {
             loading = false;
             reset()
+        }
     }
-  }
 
     const signInWithGoogle = async () => {
         loading = true;

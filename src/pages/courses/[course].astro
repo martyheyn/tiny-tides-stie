@@ -1,5 +1,4 @@
 ---
-import Button from '../../components/Button.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { courseChapters } from '../../utils/chapters'
 import Modal from '../../components/Modal.astro'
@@ -10,6 +9,7 @@ import type { MarkdownInstance } from 'astro';
 const { course } = Astro.params
 const user = Astro.locals.user
 const url = Astro.url;
+const path = url.pathname
 
 const markdownFiles = import.meta.glob<MarkdownInstance<any>>('../courses-md/*md', { eager: true });
 
@@ -29,7 +29,7 @@ const chapters = course && courseChapters[course as keyof typeof courseChapters]
 
 <BaseLayout pageTitle={pageTitle}>
   <div
-    class="w-full h-full px-4 sm:px-8 flex flex-col justify-center items-center"
+    class="w-full h-full px-4 sm:px-8 flex flex-col justify-center items-center relative"
   >
     <div class="max-w-5xl pb-24">
       {
@@ -114,32 +114,72 @@ const chapters = course && courseChapters[course as keyof typeof courseChapters]
 
 <Modal id='signin-dialog' title="Signin Modal">
   <main slot='main'>
-    <Signin url={url.pathname} client:load />
+    <Signin url={path} client:load />
   </main>
   <button slot='close'>Close modal</button>
 </Modal>
 
 
-<script define:vars={{ user }}>
-  const modal = document.getElementById('signin-dialog');
+<script>
+  import { createBrowserClient } from '@supabase/ssr'
 
-  const getCourseBtns = document.getElementsByClassName("get-course-btn")
-  console.log("getCourseBtns", getCourseBtns)
+  // Create the Supabase client in the browser
+  const supabase = createBrowserClient(
+    import.meta.env.PUBLIC_SUPABASE_URL,
+    import.meta.env.PUBLIC_SUPABASE_KEY
+  )
 
-  if(modal && getCourseBtns) {
-    getCourseBtns[0]?.addEventListener('click', (e) => {
-      if(!user) {
-        if(modal && getCourseBtns) {
-          e.stopPropagation();
-          if (!modal.open) modal.showModal();
-        }
+  // Get slug from path
+  const modal = document.getElementById('signin-dialog') as HTMLDialogElement | null;;
+  const getCourseBtns = document.getElementsByClassName("get-course-btn") as HTMLCollectionOf<HTMLButtonElement>;;
+  const PRICE_ID = "price_1SPi5ILXlLc0hmbXY02Cyt8r";
+  const slug = window.location.pathname.split('/').pop();
+
+  for (const btn of getCourseBtns) {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+
+      // 1️⃣ Check current session dynamically
+      const { data: { session } } = await supabase.auth.getSession();
+      const user = session?.user;
+
+      if (!user && modal) {
+        // 2️⃣ Not signed in → show modal
+        if (modal && !modal.open) modal.showModal();
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) modal.close();
+        });
+        return;
       }
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.close();
-      });
 
-      if(user) {
-        console.log("send em to stripe")
+      // 3️⃣ Logged in → make the API request
+      try {
+        btn.disabled = true;
+        btn.textContent = "Redirecting...";
+
+        const response = await fetch("/api/create-checkout-session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            priceId: PRICE_ID,
+            returnUrl: window.location.href,
+            slug
+          }),
+        });
+
+        const stripeRes = await response.json();
+
+        if (stripeRes.url) {
+          window.location.href = stripeRes.url;
+        } else {
+          console.error("No Stripe URL returned", stripeRes);
+          btn.textContent = "Error, try again";
+          btn.disabled = false;
+        }
+      } catch (err) {
+        console.error(err);
+        btn.textContent = "Error, try again";
+        btn.disabled = false;
       }
     });
   }

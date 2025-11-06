@@ -110,7 +110,7 @@ const user = Astro.locals.user
             </div>
 
             <div
-              class="absolute bg-[#232020]/80 rounded-sm mx-4 w-40 z-20 -right-20 -bottom-[191px] transition-all duration-300 ease-in-out opacity-0 transform -translate-y-4 invisible flex flex-col"
+              class="absolute bg-[#232020]/80 rounded-sm mx-4 w-40 z-20 -right-20 -bottom-[187px] transition-all duration-300 ease-in-out opacity-0 transform -translate-y-4 invisible flex flex-col"
               id="user-dropdown"
             >
               <a
@@ -122,7 +122,7 @@ const user = Astro.locals.user
                 class="py-4 px-2 border-white border-b border-l border-r hover:bg-gray-700 w-full h-full"
                 >My Classes</a>
               <button
-                class="py-4 px-2 border-white border-b border-l border-r hover:bg-gray-700 w-full h-full cursor-pointer"
+                class="py-4 px-2 border-white border-b border-l border-r hover:bg-gray-700 w-full h-full cursor-pointer text-left"
                 id="signout-btn"
                 >Signout
               </button>
@@ -150,6 +150,14 @@ const user = Astro.locals.user
 
 
 <script>
+  import { createBrowserClient } from '@supabase/ssr'
+
+  // Create the Supabase client in the browser
+  const supabase = createBrowserClient(
+    import.meta.env.PUBLIC_SUPABASE_URL,
+    import.meta.env.PUBLIC_SUPABASE_KEY
+  )
+
   const handleToggleServices = () => {
     const serviceNavitem = document.getElementById('services-navitem')
 
@@ -202,7 +210,6 @@ const user = Astro.locals.user
 
   if(modal) {
     openBtn?.addEventListener('click', (e) => {
-      console.log("opening modal dawg")
       if(modal && openBtn) {
         e.stopPropagation();
         if (!modal.open) modal.showModal();
@@ -213,6 +220,33 @@ const user = Astro.locals.user
       if (event.target === modal) modal.close();
     });
   }
+
+  const signoutBtn = document.getElementById('signout-btn')
+  if (signoutBtn) {
+    signoutBtn.addEventListener('click', async () => {
+      const { error } = await supabase.auth.signOut()
+      if (error) {
+        console.error('Error signing out:', error.message)
+        return
+      }
+      window.location.href = '/'
+    })
+  }
+
+  let initialLoad = true
+
+  supabase.auth.onAuthStateChange((event) => {
+    // Skip the initial event fired on page load
+    if (initialLoad) {
+      initialLoad = false
+      return
+    }
+
+    // Only reload on actual login/logout transitions
+    if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
+      window.location.reload()
+    }
+  })
 </script>
 
 <style>
