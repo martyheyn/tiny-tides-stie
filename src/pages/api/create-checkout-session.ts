@@ -12,9 +12,8 @@ export const POST: APIRoute = async (context) => {
     cookies: context.cookies,
   })
   try {
-    const { priceId, returnUrl, slug } = await context.request.json()
+    const { returnUrl, slug } = await context.request.json()
     const { data: user } = await supabase.auth.getUser()
-    console.log('user', user)
 
     if (!user.user?.id) {
       return new Response('Unauthorized', { status: 401 })
@@ -22,20 +21,23 @@ export const POST: APIRoute = async (context) => {
 
     const { data: course, error } = await supabase
       .from('course')
-      .select('id')
-      .eq('slug', slug)
+      .select('id, price_id')
+      .eq('slug', slug.trim())
       .single()
 
     if (error) {
       return new Response('Error getting course', { status: 500 })
     }
-    console.log('course', course)
+
+    if (!course) {
+      return new Response('Error getting course', { status: 500 })
+    }
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: [
         {
-          price: priceId,
+          price: course.price_id,
           quantity: 1,
         },
       ],

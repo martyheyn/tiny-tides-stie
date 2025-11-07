@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro'
 import { createBEClient } from '../../lib/SupabaseServer'
+import { createClient } from '@supabase/supabase-js'
 import Stripe from 'stripe'
 
 const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY, {
@@ -12,10 +13,14 @@ export const POST: APIRoute = async (context) => {
   const body = await context.request.text()
   const sig = context.request.headers.get('stripe-signature')!
   let event: Stripe.Event
-  const supabase = createBEClient({
-    request: context.request,
-    cookies: context.cookies,
-  })
+  // const supabase = createBEClient({
+  //   request: context.request,
+  //   cookies: context.cookies,
+  // })
+  const supabase = createClient(
+    import.meta.env.PUBLIC_SUPABASE_URL,
+    import.meta.env.SUPABASE_SERVICE_ROLE_KEY,
+  )
 
   try {
     event = stripe.webhooks.constructEvent(body, sig, endpointSecret)
@@ -31,7 +36,6 @@ export const POST: APIRoute = async (context) => {
 
     const userId = metadata.user_id
     const courseId = metadata.course_id
-    const checkoutId = session.id
 
     if (!userId || !courseId) {
       console.warn('Missing metadata in session', session.id)
@@ -39,12 +43,17 @@ export const POST: APIRoute = async (context) => {
     }
 
     try {
-      console.log('would be testing inserting data into supabase db table')
-      //   await supabase.from('purchases').insert({
-      //     user_id: userId,
-      //     course_id: courseId,
-      //     created_at: new Date(),
-      //   })
+      const { data, error } = await supabase.from('purchases').insert({
+        user_id: userId,
+        course_id: courseId,
+        created_at: new Date(),
+      })
+
+      if (error) {
+        return new Response('DB insert failed', { status: 500 })
+      }
+
+      // set notification
     } catch (dbError) {
       console.error('DB insert failed', dbError)
       return new Response('DB insert failed', { status: 500 })

@@ -132,7 +132,6 @@ const chapters = course && courseChapters[course as keyof typeof courseChapters]
   // Get slug from path
   const modal = document.getElementById('signin-dialog') as HTMLDialogElement | null;;
   const getCourseBtns = document.getElementsByClassName("get-course-btn") as HTMLCollectionOf<HTMLButtonElement>;;
-  const PRICE_ID = "price_1SPi5ILXlLc0hmbXY02Cyt8r";
   const slug = window.location.pathname.split('/').pop();
 
   for (const btn of getCourseBtns) {
@@ -161,7 +160,6 @@ const chapters = course && courseChapters[course as keyof typeof courseChapters]
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            priceId: PRICE_ID,
             returnUrl: window.location.href,
             slug
           }),
