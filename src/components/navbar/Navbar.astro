@@ -4,7 +4,6 @@ import Hambuger from './Hambuger.astro'
 import Modal from '../Modal.astro';
 import Signin from '../signin/Signin.svelte';
 
-
 const url = Astro.url;
 const user = Astro.locals.user
 ---
@@ -86,22 +85,14 @@ const user = Astro.locals.user
           <a href="/faqs">FAQs</a>
         </div>
 
-
-        
-          <!-- <button id="open-modal-btn" class={`${url.pathname.includes("courses") && !user ? 'hidden md:flex' : 'hidden'} items-center justify-center transition-all duration-300 cursor-pointer`}>
-              <div class="flex items-center gap-x-2 px-4 py-1 rounded-xl hover:bg-slate-100 hover:ring-2 hover:ring-slate-300 bg-white text-black transition-all duration-300 ease-in-out">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" style="enable-background:new 0 0 32 32" xml:space="preserve"><path d="M16 31C7.729 31 1 24.271 1 16S7.729 1 16 1s15 6.729 15 15-6.729 15-15 15zm0-28C8.832 3 3 8.832 3 16s5.832 13 13 13 13-5.832 13-13S23.168 3 16 3z"/><circle cx="16" cy="15.133" r="4.267"/><path d="M16 30c2.401 0 4.66-.606 6.635-1.671-.425-3.229-3.18-5.82-6.635-5.82s-6.21 2.591-6.635 5.82A13.935 13.935 0 0 0 16 30z"/></svg>
-                Login
-              </div>
-          </button> -->
-          <div
-            class="hidden lg:flex items-center text-[18px] justify-center transition-all duration-300 cursor-pointer"
-          >
-            <a
-              href="/contact"
-              class="px-4 rounded-xl hover:bg-slate-100 hover:ring-2 hover:ring-slate-300 bg-white text-black"
-            >Contact Us</a>
-          </div>
+        <div
+          class="hidden lg:flex items-center text-[18px] justify-center transition-all duration-300 cursor-pointer"
+        >
+          <a
+            href="/contact"
+            class="px-4 rounded-xl hover:bg-slate-100 hover:ring-2 hover:ring-slate-300 bg-white text-black"
+          >Contact Us</a>
+        </div>
 
         {user && (
           <div class="sm:my-4 relative" id="user-navitem">
@@ -110,15 +101,15 @@ const user = Astro.locals.user
             </div>
 
             <div
-              class="absolute bg-[#232020]/80 rounded-sm mx-4 w-40 z-20 -right-20 -bottom-[187px] transition-all duration-300 ease-in-out opacity-0 transform -translate-y-4 invisible flex flex-col"
+              class="absolute bg-[#232020]/80 rounded-sm mx-4 w-40 z-20 -right-20 -bottom-[131px] transition-all duration-300 ease-in-out opacity-0 transform -translate-y-4 invisible flex flex-col"
               id="user-dropdown"
             >
-              <a
-                href="/what-we-treat"
+              {/* <a
+                href={`/profile/${user.id}`}
                 class="py-4 px-2 border-white border-b border-l border-r hover:bg-gray-700 w-full h-full"
-                >Profile</a>
+                >Profile</a> */}
               <a
-                href="/services"
+                href={`/profile/mycourses`}
                 class="py-4 px-2 border-white border-b border-l border-r hover:bg-gray-700 w-full h-full"
                 >My Classes</a>
               <button

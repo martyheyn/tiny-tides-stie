@@ -1,5 +1,6 @@
 ---
 title: 'Intro to Solids'
+id: '4f246168-7ca8-4544-a9f4-3d496f3aea00'
 pubDate: 2024-10-05
 author: 'Erin Helms'
 description: 'Help your little ones make the jump from boobie milk to them sweet sweet solid goodies'

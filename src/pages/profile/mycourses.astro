@@ -1,0 +1,81 @@
+---
+import type { MarkdownInstance } from "astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { createBEClient } from '../../lib/SupabaseServer';
+
+const pageTitle = 'My Courses'
+
+const user = Astro.locals.user
+if(!user) {
+    return Astro.redirect("/")
+}
+const supabase = createBEClient({ request: Astro.request, cookies: Astro.cookies })
+
+let purchasedIds: string[] = []
+
+const { data: purchased, error } = await supabase
+.from('purchases')
+.select('course_id')
+.eq('user_id', user.id)
+
+if (!error && purchased) {
+purchasedIds = purchased.map(p => p.course_id)
+}
+
+const markdownFiles = import.meta.glob<MarkdownInstance<any>>('../courses-md/*md', { eager: true });
+
+const allCourses = Object.values(markdownFiles).map((file) => ({
+  content: file.compiledContent(),
+  frontmatter: file.frontmatter,
+}));
+
+// ✅ Filter only purchased courses
+const courses = allCourses.filter(course =>
+  purchasedIds.includes(course.frontmatter.id)
+);
+---
+
+
+<BaseLayout pageTitle={pageTitle}>
+    <div
+        class="w-full h-full px-4 sm:px-8 flex flex-col justify-center items-center relative"
+    >
+        <div class="max-w-5xl py-8">
+            <div class="flex justify-center px-4 sm:px-8 pb-16">
+                <div class="max-w-7xl">
+                    <h1 class="max-w-full flex justify-center header-title pt-6 pb-12">
+                        Continue your Course
+                    </h1>
+
+                    <div
+                        class={`grid grid-cols-1 ${courses.length < 2 ? 'sm:grid-cols-1' : 'sm:grid-cols-2'} gap-4 sm:gap-12 md:gap-28 place-items-center transition-all ease-out duration-300`}
+                    >
+                        {courses.map((course) => (
+                            <article class="max-w-sm overflow-hidden shadow-xl bg-gray hover:scale-105 rounded-xl transition-transform ease-in-out duration-500 relative border border-black/30">
+                                <a
+                                    href={`${course.frontmatter.avaiable && `/courses/${course.frontmatter.slug}`}`}
+                                    class={`no-underline ${course.frontmatter.avaiable ? 'cursor-pointer' : 'grayscale blur-[1.5px] cursor-not-allowed'}`}
+                                >
+                                    <section class="p-3">
+                                        <h5 class="text-[20px] font-semibold">
+                                            {course.frontmatter.title}
+                                        </h5>
+
+                                        {/* progress */}
+                                    </section>
+
+                                    <img
+                                        src="https://dkbi9cj3nodif.cloudfront.net/tummy_time_in_park_riverside.jpg"
+                                        alt="intro to solids"
+                                        class="w-full m-0 rounded-b-xl"
+                                    />
+                                </a>
+                            </article>
+                            ))
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</BaseLayout>

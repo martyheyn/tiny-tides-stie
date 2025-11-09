@@ -1,9 +1,12 @@
 ---
-import Button from '../../components/Button.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro'
+import { createBEClient } from '../../lib/SupabaseServer';
 import type { MarkdownInstance } from 'astro';
 
 const pageTitle = 'Courses'
+
+const user = Astro.locals.user
+const supabase = createBEClient({ request: Astro.request, cookies: Astro.cookies })
 
 const markdownFiles = import.meta.glob<MarkdownInstance<any>>('../courses-md/*md', { eager: true });
 
@@ -14,7 +17,18 @@ const markdownFiles = import.meta.glob<MarkdownInstance<any>>('../courses-md/*md
   }))
 );
 
-const purchased = false
+let purchases: { id: any; course_id: any; }[] | null = []
+if (user) {
+  const { data: purchased } = await supabase
+    .from('purchases')
+    .select('id, course_id')
+    .eq('user_id', user.id)
+
+    // make more efficient with map or simple array
+  purchases = purchased
+}
+
+
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -48,8 +62,10 @@ const purchased = false
                 </div>
               )}
               <div class="absolute h-8 w-8 right-4 top-4 rounded-md z-20">
-                {purchased ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="2048" height="2048" style="shape-rendering:geometricPrecision;text-rendering:geometricPrecision;image-rendering:optimizeQuality;fill-rule:evenodd;clip-rule:evenodd"><defs><style>.fil2{fill:none}.fil3{fill:#ffa726;fill-rule:nonzero}</style></defs><g id="Layer_x0020_1"><path style="fill:#ffa726" d="m576 992.296-.253.15-319.75-.679v672.143h317.246l2.757.81z"/><path d="M1660.14 1090.52c62.633-49.328 127.478-206.229-64.389-251.522-137.925-32.246-230.429 65.938-296.125-78.51-60.112-132.34 125.352-372.486-76.6-485.876-22.084-12.392-43.633-18.76-62.823-18.606-45.465.361-77.745 37.332-72.728 117.64 13.51 228.88-124.785 261.609-227.581 475.67-97.775 57.037-184.833 84.213-282.847 142.363l-1.045.619v672.422l.09.026 98.553 28.715c155.353 81.453 347.124 98.545 480.532 98.545 80.3 0 242.296-7.59 295.058-49.819 59.896-47.909 77.203-124.63 82.427-156.9 104.225-41.74 132.09-129.028 93.932-223.417 45.052-24.802 73.046-57.986 83.244-98.545 20.86-82.667-34.156-145.877-49.698-172.805z" style="fill:#ffcc80"/><g id="_272039912"><path id="_276856272" class="fil2" d="M0 0h2048v2048H0z"/><path id="_276132880" class="fil2" d="M255.999 255.999h1536v1536h-1536z"/></g><path class="fil3" d="M1666.38 1100.52h-143.66v-15.7h143.66zM1631.4 1374.95H1504v-15.697h124.546c1.984 4.517 3.136 9.61 2.854 15.697zM1529.94 1600h-25.935v-15.697h31.075c-.48 5.234-1.976 10.466-5.14 15.697z"/></g></svg>
+                {purchases && purchases.find((p) => p.course_id === course.frontmatter.id) ? (
+                  <svg class="w-8 h-8 text-gray-800 dark:text-green-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232.286.153.532.374.717.645a2.109 2.109 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355-2.072 0-4.276-.677-6.157-1.256-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.485 25.485 0 0 0 4.238-5.514 1.8 1.8 0 0 1 .901-.83 1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757.225.36.32.788.269 1.211l-1.562 4.63ZM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z" clip-rule="evenodd"/>
+                  </svg>
                 ) : (
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" style="enable-background:new 0 0 128 128" xml:space="preserve"><path style="fill:#e9da10" d="M101.946 53.087h-75.88a3.903 3.903 0 0 0-3.891 3.891v64.207a3.903 3.903 0 0 0 3.891 3.891h75.881a3.903 3.903 0 0 0 3.891-3.891V56.978a3.904 3.904 0 0 0-3.892-3.891zM68.928 93.673v13.094h-7.374V93.673c-3.541-1.44-6.051-4.922-6.051-8.989 0-5.37 4.358-9.728 9.728-9.728s9.728 4.358 9.728 9.728a9.69 9.69 0 0 1-6.031 8.989z"/><path style="fill:#1d252c" d="M101.94 50.173h-7.25v-19.49C94.69 13.764 80.926 0 63.994 0 47.074 0 33.31 13.764 33.31 30.683v19.49h-7.25a6.818 6.818 0 0 0-6.81 6.81v64.207a6.818 6.818 0 0 0 6.81 6.81h75.881a6.818 6.818 0 0 0 6.81-6.81V56.983c-.001-3.754-3.056-6.81-6.811-6.81zm-62.793-19.49c0-13.7 11.146-24.846 24.858-24.846 13.701 0 24.847 11.146 24.847 24.846v19.49H39.147v-19.49zm63.766 90.507a.985.985 0 0 1-.973.973H26.06a.985.985 0 0 1-.973-.973V56.983c0-.527.445-.973.973-.973h75.881c.528 0 .973.446.973.973v64.207zM65.231 73.01c-6.437 0-11.674 5.237-11.674 11.674 0 4.309 2.335 8.189 6.052 10.217v11.868c0 1.075.87 1.946 1.946 1.946h7.374c1.075 0 1.946-.87 1.946-1.946V94.901c3.703-2.025 6.031-5.904 6.031-10.217-.001-6.437-5.237-11.674-11.675-11.674zm2.964 18.861a1.944 1.944 0 0 0-1.212 1.802v11.15H63.5v-11.15c0-.792-.479-1.504-1.212-1.802a7.73 7.73 0 0 1-4.839-7.187c0-4.291 3.49-7.783 7.783-7.783 4.292 0 7.783 3.491 7.783 7.783a7.722 7.722 0 0 1-4.82 7.187z"/></svg>
               )}
@@ -85,43 +101,5 @@ const purchased = false
         }
       </div>
     </div>
-  </div>
-
-  <!-- if no account -->
-
-  <!-- else -->
-  <!-- <div class="flex justify-center px-4 sm:px-8 pb-28">
-    <div class="max-w-7xl">
-      <p class="flex justify-center text-xl mt-6 text-gray-700 pt-6 pb-12">
-        Continue your Course
-      </p>
-
-      <div
-        class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-12 md:gap-28 place-items-center transition-all ease-out duration-300"
-      >
-        {
-          courses.map((course) => (
-            <article class="max-w-sm overflow-hidden shadow-xl bg-gray hover:scale-105 rounded-xl transition-transform ease-in-out duration-500 relative border border-black/30">
-              <a
-                href={`${course.frontmatter.avaiable && `courses/${course.frontmatter.slug}`}`}
-                class={`no-underline ${course.frontmatter.avaiable ? 'cursor-pointer' : 'grayscale blur-[1.5px] cursor-not-allowed'}`}
-              >
-                <section class="p-3">
-                  <h5 class="text-[20px] font-semibold">
-                    {course.frontmatter.title}
-                  </h5>
-                </section>
-
-                <img
-                  src="https://dkbi9cj3nodif.cloudfront.net/tummy_time_in_park_riverside.jpg"
-                  alt="intro to solids"
-                  class="w-full m-0 rounded-b-xl"
-                />
-              </a>
-            </article>
-          ))
-        }
-      </div>
-    </div> -->
   </div>
 </BaseLayout>

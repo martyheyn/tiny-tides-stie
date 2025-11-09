@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Profile from "../../components/Profile.svelte"
+
+const user = Astro.locals.user
+if(!user) {
+    return Astro.redirect("/")
+}
+---
+
+
+<BaseLayout>
+    <div
+        class="w-full h-full px-4 sm:px-8 flex flex-col justify-center items-center relative"
+    >
+        <div class="max-w-5xl pb-24">
+            <Profile user={user} client:load />
+        </div>
+    </div>
+</BaseLayout>
