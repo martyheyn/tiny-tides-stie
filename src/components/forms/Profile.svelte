@@ -25,8 +25,8 @@
           .eq('id', user.id)
           .single();
         
-          full_name = profile.full_name
-          avatar_url = profile.avatar_url
+          full_name = profile?.full_name || ''
+          avatar_url = profile?.avatar_url || ''
 
         if (profileError) {
           error = profileError.message;
@@ -74,15 +74,15 @@
 		if (!image) return;
 
 		const maxSize = parseInt(input.dataset.maxSize || '1048576', 10);
-		if (image.size > maxSize) {
-			alert.set({
-				text: 'File size is too large. Please upload a file less than 1MB',
-				alertType: 'error'
-			});
-			return;
-		}
+		// if (image.size > maxSize) {
+		// 	alert.set({
+		// 		text: 'File size is too large. Please upload a file less than 1MB',
+		// 		alertType: 'error'
+		// 	});
+		// 	return;
+		// }
 
-		avatar = image;
+		// avatar = image;
 	};
 </script>
 
