@@ -62,7 +62,7 @@ const testamonials: MarkdownInstance<any>[] = Object.values(markdownFiles);
     </div>
   </div>
   <div class="overflow-x-auto snap-x snap-mandatory flex gap-x-4 no-scrollbar md:hidden">
-    {testamonials.map((t, i) => (
+    {testamonials.map((t) => (
       <Testamonial
         userName={t.frontmatter.userName}
         numReviews={t.frontmatter.numReviews}

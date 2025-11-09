@@ -1,5 +1,4 @@
 import type { APIRoute } from 'astro'
-import { createBEClient } from '../../lib/SupabaseServer'
 import { createClient } from '@supabase/supabase-js'
 import Stripe from 'stripe'
 
@@ -43,7 +42,7 @@ export const POST: APIRoute = async (context) => {
     }
 
     try {
-      const { data, error } = await supabase.from('purchases').insert({
+      const { error } = await supabase.from('purchases').insert({
         user_id: userId,
         course_id: courseId,
         created_at: new Date(),
