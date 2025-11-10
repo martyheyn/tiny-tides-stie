@@ -4,6 +4,7 @@ import CourseLayout from '../../../layouts/CourseLayout.svelte'
 import Video from '../../../components/courses/Video.svelte'
 import { courseChapters } from '../../../utils/chapters'
 
+const url = Astro.url
 const { course, chapter } = Astro.params
 
 const pageTitle = `${course} - ${chapter}`
@@ -14,13 +15,13 @@ const chapIndx = chapters && chapters.findIndex((chap) => chap.slug === chapter)
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-    <CourseLayout client:load chapters={chapters}>
+    <CourseLayout client:load chapters={chapters} pathname={url.pathname}>
 
       <!-- Main Content -->
       <main class="flex-1 p-2 md:p-6">
         <!-- Title -->
         <h1 class="mb-4 text-gray-800 text-3xl font-bold">
-          ⚡ {chapterTitle && chapterTitle[0].title}
+          ⚡ {chapterTitle && chapterTitle?.length > 0 && chapterTitle[0].title}
         </h1>
 
         <!-- Video Area -->

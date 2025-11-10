@@ -71,7 +71,7 @@ if (user) {
               )}
               </div>
               <a
-                href={`${course.frontmatter.avaiable && `courses/${course.frontmatter.slug}`}`}
+                href={`${purchases && purchases.find((p) => p.course_id === course.frontmatter.id) ? `/courses/${course.frontmatter.slug}/eat-this` : course.frontmatter.avaiable && `/courses/${course.frontmatter.slug}`}`}
                 class={`no-underline ${course.frontmatter.avaiable ? 'cursor-pointer' : 'grayscale blur-[1.5px] cursor-not-allowed'}`}
               >
                 <img

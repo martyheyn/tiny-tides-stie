@@ -85,14 +85,25 @@ const user = Astro.locals.user
           <a href="/faqs">FAQs</a>
         </div>
 
-        <div
-          class="hidden lg:flex items-center text-[18px] justify-center transition-all duration-300 cursor-pointer"
-        >
-          <a
-            href="/contact"
-            class="px-4 rounded-xl hover:bg-slate-100 hover:ring-2 hover:ring-slate-300 bg-white text-black"
-          >Contact Us</a>
-        </div>
+        {!user && url.pathname.includes('courses') ? (
+          <div
+            class="flex items-center text-[18px] justify-center transition-all duration-300 cursor-pointer"
+          >
+            <button
+              id="open-modal-btn"
+              class="px-4 rounded-xl hover:bg-slate-100 hover:ring-2 hover:ring-slate-300 bg-white text-black"
+            >Signin</button>
+          </div>
+        ) : (
+          <div
+            class="hidden lg:flex items-center text-[18px] justify-center transition-all duration-300 cursor-pointer"
+          >
+            <a
+              href="/contact"
+              class="px-4 rounded-xl hover:bg-slate-100 hover:ring-2 hover:ring-slate-300 bg-white text-black"
+            >Contact Us</a>
+          </div>
+        )}
 
         {user && (
           <div class="sm:my-4 relative" id="user-navitem">

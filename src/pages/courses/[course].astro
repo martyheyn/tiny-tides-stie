@@ -1,14 +1,17 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import { courseChapters } from '../../utils/chapters'
 import Modal from '../../components/Modal.astro'
 import Signin from '../../components/signin/Signin.svelte';
+import { courseChapters } from '../../utils/chapters'
+import { createBEClient } from '../../lib/SupabaseServer';
 
 import type { MarkdownInstance } from 'astro';
 
 const { course } = Astro.params
 const url = Astro.url;
+const user = Astro.locals.user;
 const path = url.pathname
+const supabase = createBEClient({ request: Astro.request, cookies: Astro.cookies })
 
 const markdownFiles = import.meta.glob<MarkdownInstance<any>>('../courses-md/*md', { eager: true });
 
@@ -24,11 +27,24 @@ const courseData = courseMd.length > 0 ? courseMd[0] : null
 const pageTitle = `Course ${courseData && `- ${courseData.frontmatter.title}`}`
 
 const chapters = course && courseChapters[course as keyof typeof courseChapters]
+
+let alreadyPurchased: boolean = false
+if (user) {
+  const { data: purchased } = await supabase
+    .from('purchases')
+    .select('id')
+    .eq('user_id', user.id)
+    .eq('course_id', courseData?.frontmatter.id)
+    .single()
+
+    // make more efficient with map or simple array
+  alreadyPurchased = purchased?.id ? true : false
+}
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <div
-    class="w-full h-full px-4 sm:px-8 flex flex-col justify-center items-center relative"
+    class="w-full h-full px-4 sm:px-8 flex flex-col justify-center items-end relative"
   >
     <div class="max-w-5xl pb-24">
       {
@@ -53,13 +69,20 @@ const chapters = course && courseChapters[course as keyof typeof courseChapters]
 
             <div class="w-full flex justify-center mt-20">
               {/* if logged in and purchased then go to course */}
-              {/* on click if logged in and not purchased then straight to stripe */}
-              {/* if not looged in then login modal */}
-              <button
-                class={`get-course-btn w-72 font-semibold text-xl px-6 py-3 bg-[#9ddcdc] hover:bg-[#90e8e8] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl`}
-              >
-                Get the Course Now!
-              </button>
+              {alreadyPurchased ? (
+                <a
+                  href={chapters && `/courses/${courseData.frontmatter.slug}/${chapters[0].slug}`}
+                  class={`w-72 text-center font-semibold text-xl px-6 py-3 bg-[#9ddcdc] hover:bg-[#90e8e8] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl`}
+                >
+                  Go to the Course!
+                </a>
+              ) : (
+                <button
+                  class={`${!alreadyPurchased && 'get-course-btn'} w-72 text-center font-semibold text-xl px-6 py-3 bg-[#9ddcdc] hover:bg-[#90e8e8] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl`}
+                >
+                  Get the Course Now!
+                </button>
+              )}
             </div>
 
             <div class="mx-auto w-24 h-1 my-24 bg-gradient-to-r from-slate-100 to-slate-300 rounded-full" />
@@ -72,11 +95,20 @@ const chapters = course && courseChapters[course as keyof typeof courseChapters]
 
 
     <div class="w-full flex justify-center py-8 pb-28">
+      {alreadyPurchased ? (
+        <a
+          href={chapters && courseData && `/courses/${courseData.frontmatter.slug}/${chapters[0].slug}`}
+          class={`w-72 text-center font-semibold text-xl px-6 py-3 bg-[#9ddcdc] hover:bg-[#90e8e8] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl`}
+        >
+          Go to the Course!
+        </a>
+      ) : (
         <button
           class={`get-course-btn" w-72 font-semibold text-xl px-6 py-3 bg-[#9ddcdc] hover:bg-[#90e8e8] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl`}
         >
           Start Today!
         </button>
+      )}
     </div>
 
     <div class="pb-24">
@@ -91,8 +123,7 @@ const chapters = course && courseChapters[course as keyof typeof courseChapters]
           chapters &&
             chapters.map((chapter, i) => (
               <div class="max-w-sm overflow-hidden shadow-3xl bg-secondary/20 p-6 rounded-xl hover:scale-105 cursor-pointer transition-all duration-300 relative">
-                <div class="absolute" />
-                <a href={`${course}/${chapter.slug}`}>
+                <a href={`${chapter.slug}`}>
                   <h5 class="text-xl uppercase font-semibold flex justify-start items-center">
                     <span class="mr-1 bg-white px-2 py-1 rounded-md flex justify-center">
                       {i + 1}
@@ -108,6 +139,15 @@ const chapters = course && courseChapters[course as keyof typeof courseChapters]
         }
       </div>
     </div>
+
+    {!alreadyPurchased && (
+      <button class="get-course-btn sticky bottom-2 text-black opacity-40 hover:opacity-100 flex items-center gap-x-[6px] cursor-pointer hover:scale-[1.03] transition-all duration-300 ease-in-out">
+        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" style="enable-background:new 0 0 128 128" xml:space="preserve"><path style="fill:#e9da10" d="M101.946 53.087h-75.88a3.903 3.903 0 0 0-3.891 3.891v64.207a3.903 3.903 0 0 0 3.891 3.891h75.881a3.903 3.903 0 0 0 3.891-3.891V56.978a3.904 3.904 0 0 0-3.892-3.891zM68.928 93.673v13.094h-7.374V93.673c-3.541-1.44-6.051-4.922-6.051-8.989 0-5.37 4.358-9.728 9.728-9.728s9.728 4.358 9.728 9.728a9.69 9.69 0 0 1-6.031 8.989z"/><path style="fill:#1d252c" d="M101.94 50.173h-7.25v-19.49C94.69 13.764 80.926 0 63.994 0 47.074 0 33.31 13.764 33.31 30.683v19.49h-7.25a6.818 6.818 0 0 0-6.81 6.81v64.207a6.818 6.818 0 0 0 6.81 6.81h75.881a6.818 6.818 0 0 0 6.81-6.81V56.983c-.001-3.754-3.056-6.81-6.811-6.81zm-62.793-19.49c0-13.7 11.146-24.846 24.858-24.846 13.701 0 24.847 11.146 24.847 24.846v19.49H39.147v-19.49zm63.766 90.507a.985.985 0 0 1-.973.973H26.06a.985.985 0 0 1-.973-.973V56.983c0-.527.445-.973.973-.973h75.881c.528 0 .973.446.973.973v64.207zM65.231 73.01c-6.437 0-11.674 5.237-11.674 11.674 0 4.309 2.335 8.189 6.052 10.217v11.868c0 1.075.87 1.946 1.946 1.946h7.374c1.075 0 1.946-.87 1.946-1.946V94.901c3.703-2.025 6.031-5.904 6.031-10.217-.001-6.437-5.237-11.674-11.675-11.674zm2.964 18.861a1.944 1.944 0 0 0-1.212 1.802v11.15H63.5v-11.15c0-.792-.479-1.504-1.212-1.802a7.73 7.73 0 0 1-4.839-7.187c0-4.291 3.49-7.783 7.783-7.783 4.292 0 7.783 3.491 7.783 7.783a7.722 7.722 0 0 1-4.82 7.187z"/></svg>
+        <p class="text-[16px] mt-[4px]">
+          Must be signed in to get course
+        </p>
+      </button>
+    )}
   </div>
 </BaseLayout>
 
@@ -130,7 +170,7 @@ const chapters = course && courseChapters[course as keyof typeof courseChapters]
 
   // Get slug from path
   const modal = document.getElementById('signin-dialog') as HTMLDialogElement | null;;
-  const getCourseBtns = document.getElementsByClassName("get-course-btn") as HTMLCollectionOf<HTMLButtonElement>;;
+  const getCourseBtns = document.getElementsByClassName("get-course-btn") as HTMLCollectionOf<HTMLButtonElement>;
   const slug = window.location.pathname.split('/').pop();
 
   for (const btn of getCourseBtns) {
