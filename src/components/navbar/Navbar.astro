@@ -153,6 +153,7 @@ const user = Astro.locals.user
 
 <script>
   import { createBrowserClient } from '@supabase/ssr'
+  import type { User } from '@supabase/supabase-js'
 
   // Create the Supabase client in the browser
   const supabase = createBrowserClient(
@@ -226,29 +227,57 @@ const user = Astro.locals.user
   const signoutBtn = document.getElementById('signout-btn')
   if (signoutBtn) {
     signoutBtn.addEventListener('click', async () => {
-      const { error } = await supabase.auth.signOut()
-      if (error) {
-        console.error('Error signing out:', error.message)
-        return
+      try {
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+          console.error('Error signing out:', error.message);
+          return;
+        }
+
+        // 🧹 Clear your custom SSR cookie (if you set one)
+        document.cookie = 'sb:token=; Max-Age=0; path=/; secure; samesite=lax';
+        document.cookie = 'sb-refresh-token=; Max-Age=0; path=/; secure; samesite=lax';
+
+        // Reload
+        window.location.reload()
+      } catch (err) {
+        console.error('Unexpected sign-out error:', err);
       }
-      window.location.href = '/'
-    })
+    });
   }
 
+  let lastUser: User | null = null;
+  let lastEvent: string | null = null;
   let initialLoad = true
 
-  supabase.auth.onAuthStateChange((event) => {
-    // Skip the initial event fired on page load
-    if (initialLoad) {
-      initialLoad = false
-      return
-    }
+  // supabase.auth.onAuthStateChange((event, session) => {
+  //   const currentUser = session?.user ?? null;
+  //     console.log("currentUser", currentUser)
+  //   if (JSON.stringify(currentUser) !== JSON.stringify(lastUser)) {
+  //     lastUser = currentUser;
 
-    // Only reload on actual login/logout transitions
-    if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
-      window.location.reload()
-    }
-  })
+  //     console.log("initialLoad", initialLoad)
+  //     if (initialLoad) {
+  //       initialLoad = false
+  //       return
+  //     }
+
+
+  //     console.log("lastEvent", lastEvent)
+  //     console.log("event", event)
+
+  //     // Only reload on actual login/logout transitions
+  //     if (!lastEvent && event === 'SIGNED_IN') {
+  //       console.log("Reloadingggggg")
+  //       // I only want it to reload if I truly just signed in but it keeps telling me I signed in on every reload
+  //       lastEvent = event
+  //       console.log("lastEvent", lastEvent)
+
+  //       // reload so middleawre can update user based off browser cookies
+  //       // window.location.reload()
+  //     }
+  //   }
+  // })
 </script>
 
 <style>

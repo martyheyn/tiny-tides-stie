@@ -51,16 +51,14 @@
         loading = true;
 
         try {
-            const { error } = await supabase.auth.signInWithOAuth({
+            const { data, error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: `${window.location.origin}${url}`,
+                    redirectTo: `${window.location.origin}/auth/callback`,
                 }
             });
 
             if (error) throw error;
-            // Redirect handled automatically by Supabase
-            // could do popup but nah
         } catch (err: any) {
             console.log("error", err)
             errorMessage = err.message;
