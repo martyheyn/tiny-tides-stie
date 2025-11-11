@@ -87,7 +87,7 @@ const user = Astro.locals.user
 
         {!user && url.pathname.includes('courses') ? (
           <div
-            class="flex items-center text-[18px] justify-center transition-all duration-300 cursor-pointer"
+            class={`${!user && url.pathname.includes('courses') ? '' : 'hidden'} flex items-center text-[18px] justify-center transition-all duration-300 cursor-pointer`}
           >
             <button
               id="open-modal-btn"
@@ -103,7 +103,7 @@ const user = Astro.locals.user
               class="px-4 rounded-xl hover:bg-slate-100 hover:ring-2 hover:ring-slate-300 bg-white text-black"
             >Contact Us</a>
           </div>
-        )}
+        )} 
 
         {user && (
           <div class="sm:my-4 relative" id="user-navitem">
@@ -208,21 +208,27 @@ const user = Astro.locals.user
   document.addEventListener('astro:page-load', handleToggleServices) // Astro-specific event
   document.addEventListener('astro:page-load', handleToggleProfile) // Astro-specific event
 
-  const openBtn = document.getElementById('open-modal-btn');
-  const modal = (document.getElementById('signin-dialog')) as HTMLDialogElement | null;
+  const attachModalListeners = () => {
+    const modal = document.getElementById('signin-dialog') as HTMLDialogElement | null;
+    const openBtn = document.getElementById('open-modal-btn');
 
-  if(modal) {
-    openBtn?.addEventListener('click', (e) => {
-      if(modal && openBtn) {
-        e.stopPropagation();
-        if (!modal.open) modal.showModal();
-      }
+    if (!modal || !openBtn) return;
+
+    openBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!modal.open) modal.showModal();
     });
 
     modal.addEventListener('click', (event) => {
       if (event.target === modal) modal.close();
     });
-  }
+  };
+
+  // Attach once at page load
+  attachModalListeners();
+
+  // Reattach after Astro swaps new content in
+  document.addEventListener('astro:after-swap', attachModalListeners);
 
   const signoutBtn = document.getElementById('signout-btn')
   if (signoutBtn) {
