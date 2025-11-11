@@ -25,20 +25,19 @@
         loading = true;
 
         try {
-        const { error } = await supabase.auth.signInWithOtp({
-            email,
-            options: {
-                // stripe link
-                emailRedirectTo: `${window.location.origin}${url}`
+            const formData = new FormData();
+            formData.append("email", email);
+
+            const res = await fetch("/api/auth/magiclink", {
+                method: "POST",
+                body: formData,
+            });
+            if(!res.ok) {
+                errorMessage = 'Magic Link not sent. Please try again later';
+                return
             }
-        });
 
-        if (error) {
-            errorMessage = error.message;
-            throw error
-        };
-
-        infoMessage = 'Magic link sent! Check your email to log in.';
+            infoMessage = 'Magic link sent! Check your email to log in.';
         } catch (err: any) {
             errorMessage = err.message;
         } finally {
@@ -51,14 +50,15 @@
         loading = true;
 
         try {
-            const { data, error } = await supabase.auth.signInWithOAuth({
-                provider: 'google',
-                options: {
-                    redirectTo: `${window.location.origin}/auth/callback`,
-                }
-            });
+            // const { data, error } = await supabase.auth.signInWithOAuth({
+            //     provider: 'google',
+            //     options: {
+            //         redirectTo: `${window.location.origin}/auth/callback`,
+            //     }
+            // });
 
-            if (error) throw error;
+            // if (error) throw error;
+            window.location.href = "/api/auth/oauth?provider=google";
         } catch (err: any) {
             console.log("error", err)
             errorMessage = err.message;
