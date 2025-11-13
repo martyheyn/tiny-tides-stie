@@ -2,8 +2,7 @@ import type { APIRoute } from 'astro'
 import { createBEClient } from '../../../lib/SupabaseServer'
 
 export const POST: APIRoute = async ({ request, cookies }) => {
-  const formData = await request.formData()
-  const email = formData.get('email')?.toString()
+  const { email } = await request.json()
 
   const supabase = createBEClient({ request, cookies })
 

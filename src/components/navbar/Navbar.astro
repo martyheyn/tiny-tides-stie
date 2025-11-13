@@ -87,7 +87,7 @@ const user = Astro.locals.user
 
         {!user && url.pathname.includes('courses') ? (
           <div
-            class={`${!user && url.pathname.includes('courses') ? '' : 'hidden'} flex items-center text-[18px] justify-center transition-all duration-300 cursor-pointer`}
+            class={`flex items-center text-[18px] justify-center transition-all duration-300 cursor-pointer`}
           >
             <button
               id="open-modal-btn"
@@ -251,39 +251,6 @@ const user = Astro.locals.user
       }
     });
   }
-
-  let lastUser: User | null = null;
-  let lastEvent: string | null = null;
-  let initialLoad = true
-
-  // supabase.auth.onAuthStateChange((event, session) => {
-  //   const currentUser = session?.user ?? null;
-  //     console.log("currentUser", currentUser)
-  //   if (JSON.stringify(currentUser) !== JSON.stringify(lastUser)) {
-  //     lastUser = currentUser;
-
-  //     console.log("initialLoad", initialLoad)
-  //     if (initialLoad) {
-  //       initialLoad = false
-  //       return
-  //     }
-
-
-  //     console.log("lastEvent", lastEvent)
-  //     console.log("event", event)
-
-  //     // Only reload on actual login/logout transitions
-  //     if (!lastEvent && event === 'SIGNED_IN') {
-  //       console.log("Reloadingggggg")
-  //       // I only want it to reload if I truly just signed in but it keeps telling me I signed in on every reload
-  //       lastEvent = event
-  //       console.log("lastEvent", lastEvent)
-
-  //       // reload so middleawre can update user based off browser cookies
-  //       // window.location.reload()
-  //     }
-  //   }
-  // })
 </script>
 
 <style>

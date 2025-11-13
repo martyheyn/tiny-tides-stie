@@ -3,7 +3,6 @@ import { createBEClient } from '../../../lib/SupabaseServer'
 
 export const GET: APIRoute = async ({ request, cookies, redirect }) => {
   const url = new URL(request.url)
-
   const supabase = createBEClient({ request, cookies })
 
   let redirectTo = `${url.origin}/auth/callback`

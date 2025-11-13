@@ -25,12 +25,9 @@
         loading = true;
 
         try {
-            const formData = new FormData();
-            formData.append("email", email);
-
             const res = await fetch("/api/auth/magiclink", {
                 method: "POST",
-                body: formData,
+                body: JSON.stringify({ email }),
             });
             if(!res.ok) {
                 errorMessage = 'Magic Link not sent. Please try again later';
@@ -50,15 +47,7 @@
         loading = true;
 
         try {
-            // const { data, error } = await supabase.auth.signInWithOAuth({
-            //     provider: 'google',
-            //     options: {
-            //         redirectTo: `${window.location.origin}/auth/callback`,
-            //     }
-            // });
-
-            // if (error) throw error;
-            window.location.href = "/api/auth/oauth?provider=google";
+            window.location.href = `/api/auth/oauth?provider=google`
         } catch (err: any) {
             console.log("error", err)
             errorMessage = err.message;

@@ -12,10 +12,6 @@ export const POST: APIRoute = async (context) => {
   const body = await context.request.text()
   const sig = context.request.headers.get('stripe-signature')!
   let event: Stripe.Event
-  // const supabase = createBEClient({
-  //   request: context.request,
-  //   cookies: context.cookies,
-  // })
   const supabase = createClient(
     import.meta.env.PUBLIC_SUPABASE_URL,
     import.meta.env.SUPABASE_SERVICE_ROLE_KEY,
