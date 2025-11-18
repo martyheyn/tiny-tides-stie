@@ -1,15 +1,180 @@
 <script lang="ts">
-    let { chapters, chapIndx } = $props()
+    import { onMount, onDestroy } from 'svelte';
+    import { createBrowserClient } from '@supabase/ssr'
+    let { chapters, chapIndx, videoId, user, length, courseSlug } = $props()
+
+    const supabase = createBrowserClient(
+        import.meta.env.PUBLIC_SUPABASE_URL,
+        import.meta.env.PUBLIC_SUPABASE_KEY
+    )
 
     let autoplay = $state(false)
-    let incomplete = $state(true)
+    let completed = $state(false)
+    let videoUrl = $state('')
+    let videoProgressId = $state('')
+    let videoEl: HTMLVideoElement | null = null;
+
+    // --- Progress tracking state ---
+    let lastSavedProgress = $state(0); // seconds
+    let loadedInitialProgress = $state(false);
+
+    async function saveProgress(progress: number) {
+        if (!user || !videoId) return;
+
+        const delta = progress - lastSavedProgress;
+
+        // Only save if progress increased at least 10 seconds
+        if (delta > 10) {
+            lastSavedProgress = progress;
+
+            if(videoProgressId) {
+                if(progress / length > .90) {
+                    completed = true
+
+                    await supabase
+                    .from('video_progress')
+                    .upsert({
+                        id: videoProgressId,
+                        user_id: user.id,
+                        video_id: videoId,
+                        progress_seconds: Math.floor(progress),
+                        completed: true
+                    });
+                    return
+                } 
+
+                await supabase
+                    .from('video_progress')
+                    .upsert({
+                        id: videoProgressId,
+                        user_id: user.id,
+                        video_id: videoId,
+                        progress_seconds: Math.floor(progress)
+                    });
+
+                return
+            } 
+            
+            const { data: progressRow } = await supabase
+                .from('video_progress')
+                .upsert({
+                    user_id: user.id,
+                    video_id: videoId,
+                    progress_seconds: Math.floor(progress)
+                })
+                .select("id")
+                .single();
+
+            videoProgressId = progressRow?.id
+        }
+    }
+
+    function onTimeUpdate(e: Event) {
+        const currentTime = (e.target as HTMLVideoElement).currentTime;
+        saveProgress(currentTime);
+    }
+
+     async function onVideoEnded() {
+        if (!user || !videoId) return;
+
+        if(videoProgressId) {
+            await supabase
+                .from('video_progress')
+                .upsert({
+                    id: videoProgressId,
+                    user_id: user.id,
+                    video_id: videoId,
+                    progress_seconds: Math.floor(length),
+                    completed: true
+                });
+
+            completed = true;
+
+            // Auto-play next chapter
+            if (autoplay && chapters && chapIndx < chapters.length - 1) {
+                const next = chapters[chapIndx + 1];
+                // if last video then send them where
+                if(next) {
+                    window.location.href = `/courses/${courseSlug}/${next.slug}`;
+                }
+            }
+        }
+    }
+
+    // Save on tab close, page reload, or navigation
+    function saveBeforeUnload() {
+        if (videoEl) {
+            saveProgress(videoEl.currentTime);
+        }
+    }
+
+    let cleanup = () => {};
+
+    onMount(async () => {
+        if (!videoId || !user) return;
+
+        // Fetch secure CloudFront signed URL
+        const res = await fetch(`/api/video-url?videoId=${videoId}`, {
+            credentials: 'include'
+        });
+        const data = await res.json();
+        videoUrl = data.url;
+
+        // Fetch last progress to resume
+        const { data: progressRow } = await supabase
+            .from('video_progress')
+            .select('id, progress_seconds, completed')
+            .eq('video_id', videoId)
+            .eq('user_id', user.id)
+            .maybeSingle();
+
+        if (progressRow && videoEl) {
+            videoProgressId = progressRow.id
+            completed = progressRow.completed
+            // Set progress after video metadata loads
+            videoEl.onloadedmetadata = () => {
+                if (!loadedInitialProgress && videoEl) {
+                    videoEl.currentTime = progressRow.progress_seconds;
+                    loadedInitialProgress = true;
+                }
+            };
+        }
+
+        // Save progress when user leaves
+        if (typeof window !== 'undefined') {
+            window.addEventListener('beforeunload', saveBeforeUnload);
+
+            cleanup = () => {
+                saveBeforeUnload();
+                window.removeEventListener('beforeunload', saveBeforeUnload);
+            };
+        }
+    });
+
+    onDestroy(() => {
+        cleanup();
+    });
+    console.log("chapIndx", chapIndx)
 </script>
 
 <div>
-    <div class="bg-black rounded-sm overflow-hidden shadow-lg">
-        <video controls controlslist="nodownload" class="w-full h-[72vh] object-cover">
+    <div class="bg-black rounded-sm overflow-hidden shadow-lg relative">
+        <video 
+            bind:this={videoEl}
+            src={videoUrl || null}
+            controls controlslist="nodownload"
+            class="w-full h-[68vh] object-cover"
+            ontimeupdate={onTimeUpdate}
+            onended={onVideoEnded}
+        >
             <track kind="captions">
         </video>
+
+        {#if !user}
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <svg class="w-16 h-16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" style="enable-background:new 0 0 128 128" xml:space="preserve"><path style="fill:#e9da10" d="M101.946 53.087h-75.88a3.903 3.903 0 0 0-3.891 3.891v64.207a3.903 3.903 0 0 0 3.891 3.891h75.881a3.903 3.903 0 0 0 3.891-3.891V56.978a3.904 3.904 0 0 0-3.892-3.891zM68.928 93.673v13.094h-7.374V93.673c-3.541-1.44-6.051-4.922-6.051-8.989 0-5.37 4.358-9.728 9.728-9.728s9.728 4.358 9.728 9.728a9.69 9.69 0 0 1-6.031 8.989z"/><path style="fill:#1d252c" d="M101.94 50.173h-7.25v-19.49C94.69 13.764 80.926 0 63.994 0 47.074 0 33.31 13.764 33.31 30.683v19.49h-7.25a6.818 6.818 0 0 0-6.81 6.81v64.207a6.818 6.818 0 0 0 6.81 6.81h75.881a6.818 6.818 0 0 0 6.81-6.81V56.983c-.001-3.754-3.056-6.81-6.811-6.81zm-62.793-19.49c0-13.7 11.146-24.846 24.858-24.846 13.701 0 24.847 11.146 24.847 24.846v19.49H39.147v-19.49zm63.766 90.507a.985.985 0 0 1-.973.973H26.06a.985.985 0 0 1-.973-.973V56.983c0-.527.445-.973.973-.973h75.881c.528 0 .973.446.973.973v64.207zM65.231 73.01c-6.437 0-11.674 5.237-11.674 11.674 0 4.309 2.335 8.189 6.052 10.217v11.868c0 1.075.87 1.946 1.946 1.946h7.374c1.075 0 1.946-.87 1.946-1.946V94.901c3.703-2.025 6.031-5.904 6.031-10.217-.001-6.437-5.237-11.674-11.675-11.674zm2.964 18.861a1.944 1.944 0 0 0-1.212 1.802v11.15H63.5v-11.15c0-.792-.479-1.504-1.212-1.802a7.73 7.73 0 0 1-4.839-7.187c0-4.291 3.49-7.783 7.783-7.783 4.292 0 7.783 3.491 7.783 7.783a7.722 7.722 0 0 1-4.82 7.187z"/></svg>
+            </div>
+        {/if}
     </div>
 
     <!-- Controls -->
@@ -45,13 +210,13 @@
         </div>
 
         <div class="flex gap-x-8 h-full">
-             {#if chapIndx && chapIndx !== 0}
+             {#if chapIndx !== null && chapIndx !== 0}
                 <a href={chapters && chapters.length > 0 && chapters[chapIndx - 1] && `${chapters[chapIndx - 1].slug}`} aria-label="prev-chapter-btn">
                     <svg viewBox="0 0 24 24" width="24" height="24" class={`cursor-pointer rotate-180 stroke stroke-black hover:scale-[1.10] transition-all duration-300 ease-out`} xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"/></svg>
                 </a>
             {/if}
 
-             {#if chapIndx && chapIndx !== chapters.length - 1}
+             {#if chapIndx !== null && chapIndx !== chapters.length - 1}
                 <a href={`${chapters[chapIndx + 1].slug}`} aria-label="next-chapter-btn">
                     <svg viewBox="0 0 24 24" width="24" height="24" class={`cursor-pointer stroke stroke-black hover:scale-[1.10] transition-all duration-300 ease-out`} xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"/></svg>
                 </a>
@@ -59,23 +224,33 @@
         </div>
 
         <div class="w-16 flex flex-col items-center">
-            <button onclick={() => incomplete = !incomplete} class="w-full cursor-pointer flex justify-center" aria-label="incomplete-btn">
+            <button onclick={() => completed = !completed} class="w-full cursor-pointer flex justify-center" aria-label="completed-btn">
                 <svg
                     width="30"
                     height="30"
                     viewBox="0 0 60 60"
-                    class=""
+                    class="transition-all duration-500 ease-out"
                     xmlns="http://www.w3.org/2000/svg"
                 >
                     <circle
-                    cx="30"
-                    cy="30"
-                    r="25"
-                    class={`stroke-[4px] ${incomplete ? 'fill-transparent stroke-slate-300' : 'fill-green-300/40 stroke-green-300'} hover:stroke-[5px] transition-all duration-300 ease-out`}
+                        cx="30"
+                        cy="30"
+                        r="25"
+                        class="
+                            transition-all duration-500 ease-out
+                            origin-center
+                            ${completed
+                                ? 'stroke-green-400 fill-green-300/40 scale-[1.12]'
+                                : 'stroke-slate-300 fill-transparent scale-100'}
+                        "
+                        style="
+                            stroke-width: 4;
+                            transform-origin: center;
+                        "
                     />
                 </svg>
             </button>
-            <p class="text-xs transition-all ease-in-out duration-300">{incomplete ? 'incomplete' : 'complete'}</p>
+            <p class="text-xs transition-all ease-in-out duration-300">{!completed ? 'incomplete' : 'complete'}</p>
         </div>
     </div>
 </div>

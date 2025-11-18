@@ -2,30 +2,106 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 import CourseLayout from '../../../layouts/CourseLayout.svelte'
 import Video from '../../../components/courses/Video.svelte'
-import { courseChapters } from '../../../utils/chapters'
+import { createBEClient } from '../../../lib/SupabaseServer';
 
-const url = Astro.url
+const pathname = Astro.url.pathname
 const { course, chapter } = Astro.params
+const user = Astro.locals.user
+const pathSplit = pathname.split('/')
+const courseIndx = pathSplit.findIndex(element => element === "courses")
+const slug = pathSplit[courseIndx + 1]
+
+const supabase = createBEClient({ request: Astro.request, cookies: Astro.cookies })
+
+let chapters: { slug: string; label: string, description: string, section_order: number }[] = []
+let currChapter: { id: string; label: string } | null = null
+let video: { id: string, length: number } | null = null
+let alreadyPurchased = false
+
+
+// Get course by slug
+const { data: courseData } = await supabase
+  .from('course')
+  .select('id')
+  .eq('slug', slug)
+  .single()
+
+
+if (courseData) {
+  const { data: chaptersRes } = await supabase
+    .from("section")
+    .select("slug, label, description, section_order")
+    .eq("course_id", courseData.id)
+    .order('section_order', { ascending: true })
+
+  const { data: currChapterRes } = await supabase
+    .from("section")
+    .select("id, label")
+    .eq("course_id", courseData.id)
+    .eq("slug", chapter)
+    .single()
+
+  currChapter = currChapterRes
+
+  // get video by index, all being 1 to start
+  if(chaptersRes && currChapterRes) {
+    const { data: videoRes } = await supabase
+      .from("video")
+      .select("id, length")
+      .eq("course_id", courseData.id)
+      .eq("section_id", currChapterRes.id)
+      .single()
+
+    video = videoRes
+  }
+  
+  if(user) {
+    const { data: purchaseRes } = await supabase
+      .from("purchases")
+      .select("id")
+      .eq("user_id", user.id)
+      .eq("course_id", courseData.id)
+      .maybeSingle()
+
+    alreadyPurchased = !!purchaseRes
+  }
+
+  // Chapters array
+  chapters = chaptersRes ?? []
+}
+
+console.log("alreadyPurchased", alreadyPurchased)
+
+const chapIndx = chapters && chapters.length > 0 && chapters.findIndex((chap) => chap.slug === chapter)
 
 const pageTitle = `${course} - ${chapter}`
-
-const chapters = course && courseChapters[course as keyof typeof courseChapters]
-const chapterTitle = chapters && chapters.filter((chap) => chap.slug === chapter)
-const chapIndx = chapters && chapters.findIndex((chap) => chap.slug === chapter)
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-    <CourseLayout client:load chapters={chapters} pathname={url.pathname}>
+    <CourseLayout client:load chapters={chapters} pathname={pathname}>
 
       <!-- Main Content -->
       <main class="flex-1 p-2 md:p-6">
         <!-- Title -->
-        <h1 class="mb-4 text-gray-800 text-3xl font-bold">
-          ⚡ {chapterTitle && chapterTitle?.length > 0 && chapterTitle[0].title}
+        <h1 class="mb-4 text-gray-800 text-3xl font-bold flex gap-x-2 items-center">
+          {user ? (
+            <span>⚡</span>
+          ): (
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" style="enable-background:new 0 0 128 128" xml:space="preserve"><path style="fill:#e9da10" d="M101.946 53.087h-75.88a3.903 3.903 0 0 0-3.891 3.891v64.207a3.903 3.903 0 0 0 3.891 3.891h75.881a3.903 3.903 0 0 0 3.891-3.891V56.978a3.904 3.904 0 0 0-3.892-3.891zM68.928 93.673v13.094h-7.374V93.673c-3.541-1.44-6.051-4.922-6.051-8.989 0-5.37 4.358-9.728 9.728-9.728s9.728 4.358 9.728 9.728a9.69 9.69 0 0 1-6.031 8.989z"/><path style="fill:#1d252c" d="M101.94 50.173h-7.25v-19.49C94.69 13.764 80.926 0 63.994 0 47.074 0 33.31 13.764 33.31 30.683v19.49h-7.25a6.818 6.818 0 0 0-6.81 6.81v64.207a6.818 6.818 0 0 0 6.81 6.81h75.881a6.818 6.818 0 0 0 6.81-6.81V56.983c-.001-3.754-3.056-6.81-6.811-6.81zm-62.793-19.49c0-13.7 11.146-24.846 24.858-24.846 13.701 0 24.847 11.146 24.847 24.846v19.49H39.147v-19.49zm63.766 90.507a.985.985 0 0 1-.973.973H26.06a.985.985 0 0 1-.973-.973V56.983c0-.527.445-.973.973-.973h75.881c.528 0 .973.446.973.973v64.207zM65.231 73.01c-6.437 0-11.674 5.237-11.674 11.674 0 4.309 2.335 8.189 6.052 10.217v11.868c0 1.075.87 1.946 1.946 1.946h7.374c1.075 0 1.946-.87 1.946-1.946V94.901c3.703-2.025 6.031-5.904 6.031-10.217-.001-6.437-5.237-11.674-11.675-11.674zm2.964 18.861a1.944 1.944 0 0 0-1.212 1.802v11.15H63.5v-11.15c0-.792-.479-1.504-1.212-1.802a7.73 7.73 0 0 1-4.839-7.187c0-4.291 3.49-7.783 7.783-7.783 4.292 0 7.783 3.491 7.783 7.783a7.722 7.722 0 0 1-4.82 7.187z"/></svg>
+          )}
+          {currChapter && currChapter.label}
         </h1>
 
         <!-- Video Area -->
-        <Video client:load chapters={chapters} chapIndx={chapIndx} />
+        <Video 
+          client:load
+          chapters={chapters}
+          chapIndx={chapIndx}
+          videoId={video?.id}
+          user={user}
+          length={video?.length}
+          courseSlug={slug}
+        />
       </main>
     </div>
     </CourseLayout>

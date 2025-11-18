@@ -2,7 +2,6 @@
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import Modal from '../../components/Modal.astro'
 import Signin from '../../components/signin/Signin.svelte';
-import { courseChapters } from '../../utils/chapters'
 import { createBEClient } from '../../lib/SupabaseServer';
 
 import type { MarkdownInstance } from 'astro';
@@ -22,23 +21,34 @@ const courseMd = await Promise.all(
   }))
 );
 
-const courseData = courseMd.length > 0 ? courseMd[0] : null
+const courseData = courseMd[0] || null
+const pageTitle = courseData ? `Course - ${courseData.frontmatter.title}` : "Course"
 
-const pageTitle = `Course ${courseData && `- ${courseData.frontmatter.title}`}`
+let chapters: { slug: string; label: string, description: string }[] = []
+let alreadyPurchased = false
 
-const chapters = course && courseChapters[course as keyof typeof courseChapters]
+if (courseData) {
+  // Get purchase + chapters in parallel
+  const { data: chaptersRes } = await supabase
+    .from("section")
+    .select("slug, label, description")
+    .eq("course_id", courseData.frontmatter.id)
+    .order('section_order', { ascending: true })
 
-let alreadyPurchased: boolean = false
-if (user) {
-  const { data: purchased } = await supabase
-    .from('purchases')
-    .select('id')
-    .eq('user_id', user.id)
-    .eq('course_id', courseData?.frontmatter.id)
-    .single()
+  // Chapters array
+  chapters = chaptersRes ?? []
+}
 
-    // make more efficient with map or simple array
-  alreadyPurchased = purchased?.id ? true : false
+if(user) {
+  const { data: purchaseRes } = await supabase
+    .from("purchases")
+    .select("id")
+    .eq("user_id", user.id)
+    .eq("course_id", courseData.frontmatter.id)
+    .maybeSingle()
+
+  // Purchase boolean
+  alreadyPurchased = !!purchaseRes
 }
 ---
 
@@ -123,12 +133,12 @@ if (user) {
           chapters &&
             chapters.map((chapter, i) => (
               <div class="max-w-sm overflow-hidden shadow-3xl bg-secondary/20 p-6 rounded-xl hover:scale-105 cursor-pointer transition-all duration-300 relative">
-                <a href={`${chapter.slug}`}>
+                <a href={`${course}/${chapter.slug}`}>
                   <h5 class="text-xl uppercase font-semibold flex justify-start items-center">
                     <span class="mr-1 bg-white px-2 py-1 rounded-md flex justify-center">
                       {i + 1}
                     </span>
-                    {chapter.title}
+                    {chapter.label}
                   </h5>
                   <p class="my-5 text-base text-gray-700 ml-2">
                     {chapter.description}

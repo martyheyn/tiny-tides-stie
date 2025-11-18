@@ -1,12 +1,5 @@
 <script lang="ts">
-    import { createBrowserClient } from '@supabase/ssr'
     import { slide } from "svelte/transition"
-
-    const supabase = createBrowserClient(
-        import.meta.env.PUBLIC_SUPABASE_URL,
-        import.meta.env.PUBLIC_SUPABASE_KEY
-    )
-
 
     let { url } = $props();
 
