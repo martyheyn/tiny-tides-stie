@@ -154,7 +154,6 @@
     onDestroy(() => {
         cleanup();
     });
-    console.log("chapIndx", chapIndx)
 </script>
 
 <div>
@@ -240,7 +239,7 @@
                             transition-all duration-500 ease-out
                             origin-center
                             ${completed
-                                ? 'stroke-green-400 fill-green-300/40 scale-[1.12]'
+                                ? 'stroke-green-400 fill-green-300 scale-[1.12]'
                                 : 'stroke-slate-300 fill-transparent scale-100'}
                         "
                         style="

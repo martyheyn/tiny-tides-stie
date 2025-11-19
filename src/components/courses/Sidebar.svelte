@@ -3,15 +3,17 @@
       label: string
       slug: string
       description: string
-      // length: string
-    }
+      section_order: number,
+      total_videos: number,
+      completed_videos: number
+  }
 
-
-  let { value = $bindable(), chapters, pathname }: { value: boolean, chapters: Chapter[], pathname: string } = $props();
-  const course = pathname.split('/')[pathname.split('/').length - 2]
+  let { value = $bindable(), chapters, pathname, course }: 
+    { value: boolean, chapters: Chapter[], pathname: string, course: { id: string; name: string; slug: string; } | null } = $props();
+  const currChapter = pathname.split('/')[pathname.split('/').length - 1]  
 </script>
 
-<div class={`${value ? 'w-full md:w-64' : 'w-full md:w-24'} px-6 py-4 flex flex-col gap-y-4 transition-all ease-in-out duration-300`}>
+<div class={`${value ? 'w-full lg:w-64' : 'w-full md:w-24'} px-6 py-4 flex flex-col gap-y-4 transition-all ease-in-out duration-300`}>
   <div class={`hidden w-full py-2 md:flex md:justify-end`}>
     <button 
       class="px-4 py-1 border border-black hover:bg-primary/50 rounded-md transition-all ease-out duration-300 hover:scale-[1.02]"
@@ -23,15 +25,22 @@
   </div>
 
  <aside class={`${value ? 'opacity-100' : 'opacity-0'} transition-all ease-in-out duration-150 `}>
-    <h2 class="text-gray-800 font-bold text-xl mb-1 uppercase pb-4 border-b border-black/20">
-      ⚡ Intro to Solids
+    <h2 class="text-gray-800 font-bold text-xl uppercase pb-4 border-b border-black/20">
+      ⚡ {course && course.name}
     </h2>
 
     <nav class="flex-1">
-      {#each chapters as chapter, index}
-      <a class="course-nav-item" href={chapter.slug}>
+      {#each chapters as chapter}
+      <a
+        class={`course-nav-item ${chapter.slug === currChapter ? 
+          'text-black font-semibold scale-[1.03] bg-blue-100/60 rounded-md' : ''}`}
+        href={chapter.slug}
+      >
         <span>{chapter.label}</span>
-        <!-- <span class="text-sm">{chapter.length}</span> -->
+
+        <span class="ml-auto text-xs text-gray-600">
+          {chapter.completed_videos}/{chapter.total_videos}
+        </span>
       </a>
       {/each}
      
@@ -39,7 +48,7 @@
   </aside>
 
     <a
-      href={`/courses/${course}`}
+      href={course && `/courses/${course.slug}`}
       class="flex items-center gap-x-4 px-4 py-1 border border-black hover:bg-primary/50 rounded-md transition-all ease-out duration-300 hover:scale-[1.02]"
     >
     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 50 50">
