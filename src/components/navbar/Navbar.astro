@@ -234,18 +234,11 @@ const user = Astro.locals.user
   if (signoutBtn) {
     signoutBtn.addEventListener('click', async () => {
       try {
-        const { error } = await supabase.auth.signOut();
-        if (error) {
-          console.error('Error signing out:', error.message);
-          return;
-        }
+        await fetch(`/api/auth/signout`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        });
 
-        // 🧹 Clear your custom SSR cookie (if you set one)
-        document.cookie = 'sb:token=; Max-Age=0; path=/; secure; samesite=lax';
-        document.cookie = 'sb-refresh-token=; Max-Age=0; path=/; secure; samesite=lax';
-
-        console.log("here signing out")
-        // Reload
         window.location.reload()
       } catch (err) {
         console.error('Unexpected sign-out error:', err);

@@ -8,33 +8,71 @@ ages: '6-12 months'
 length: '1.5 hours'
 avaiable: true
 slug: 'intro-to-solids'
+first_chapter: 'eat-this'
 tags: ['astro', 'course', 'intro-to-solids']
 ---
 
-Next.js - The Full Course provides a in-depth look into the Next.js App Router, including its ability to support multiple rendering modes and data-fetching strategies. It puts React Server Components into practice by building a full-stack application from scratch with PostgreSQL and Prisma.
+<p class="text-lg leading-relaxed text-gray-700">
+  Next.js - <span class="font-semibold text-blue-800">The Full Course</span> provides an
+  in-depth look into the <span class="font-semibold text-blue-800">Next.js App Router</span>,
+  including its ability to support multiple rendering modes and advanced
+  data-fetching strategies. It puts React Server Components
+  into practice by building a full-stack application from scratch with
+  <span class="font-semibold text-blue-800">PostgreSQL</span> and Prisma.
+</p>
 
-<h2 class="text-3xl font-semibold mt-16 mb-8">What will I learn?</h2>
+<h2 class="text-3xl font-semibold mt-16 mb-6 tracking-tight">
+  What will I learn?
+</h2>
 
-<ul class="list-disc list-inside ml-2 indent-[2px]">
-    <li class="my-2">👨‍🎤 Everything you need to be productive with modern Next.js</li>
-    <li class="my-2">⚡ Complex topics explained in 100 seconds</li>
-    <li class="my-2">📚 Design patterns with React Server Components (RSC)</li>
-    <li class="my-2">💎 How to choose optimal rendering strategies</li>
-    <li class="my-2">🚅 Dynamic routing and project organization</li>
-    <li class="my-2">🔥 Advanced data fetching and caching</li>
-    <li class="my-2">👲 User authentication with Auth.js</li>
-    <li class="my-2">📅 Data modeling with Postgres and Prisma</li>
-    <li class="my-2">🤔 How to migrate from previous versions of Next.js</li>
+<ul class="space-y-3 pl-4 sm:pl-6 text-gray-700">
+  <li class="flex items-start gap-2">
+    <span>👨‍🎤</span> <span>Everything you need to be productive with modern Next.js</span>
+  </li>
+  <li class="flex items-start gap-2">
+    <span>⚡</span> <span>Complex topics explained in <span class="font-semibold text-blue-600">100 seconds</span></span>
+  </li>
+  <li class="flex items-start gap-2">
+    <span>📚</span> <span>Design patterns with React Server Components (RSC)</span>
+  </li>
+  <li class="flex items-start gap-2">
+    <span>💎</span> <span>How to choose optimal rendering strategies</span>
+  </li>
+  <li class="flex items-start gap-2">
+    <span>🚅</span> <span>Dynamic routing and project organization</span>
+  </li>
+  <li class="flex items-start gap-2">
+    <span>🔥</span> <span>Advanced data fetching and caching</span>
+  </li>
+  <li class="flex items-start gap-2">
+    <span>👲</span> <span>User authentication with Auth.js</span>
+  </li>
+  <li class="flex items-start gap-2">
+    <span>📅</span> <span>Data modeling with Postgres and Prisma</span>
+  </li>
+  <li class="flex items-start gap-2">
+    <span>🤔</span> <span>How to migrate from previous versions of Next.js</span>
+  </li>
 </ul>
 
-<h2 class="text-3xl font-semibold mt-16 mb-8">🤔 Is this Course Right for Me?</h2>
-<div class="bg-secondary/20 relative">
-    <div class="before:w-2 before:h-full before:absolute before:bg-blue-300">
-        <p class="px-4 sm:px-8 py-6">
-            This course is intermediate level 🟦 and expects some familiarity with React.js, JavaScript, and web development. The content is fast-paced and similar to my style on YouTube, but far more in-depth and should be followed in a linear format.
-        </p>
-    </div>
+<h2 class="text-3xl font-semibold mt-16 mb-6 tracking-tight">
+  🤔 Is this Course Right for Me?
+</h2>
+
+<div class="relative bg-secondary/20 border-l-4 border-blue-400 rounded-md shadow-sm">
+  <p class="px-4 sm:px-8 py-6 text-gray-700 leading-relaxed">
+    This course is <span class="font-semibold text-blue-800/80">intermediate level</span> 🟦 and expects some
+    familiarity with <span class="font-semibold text-green-700">React.js</span>, JavaScript, and general web
+    development. The content is fast-paced and similar to my style on YouTube,
+    but far more <span class="font-semibold text-blue-800/80">in-depth</span> and should be followed in a
+    linear format.
+  </p>
 </div>
 
-<h2 class="text-3xl font-semibold mt-16 mb-8">When was the course last updated?</h2>
-<span class="px-4 py-2 bg-green-300/70 rounded-lg shadow-md font-semibold text-gray-800">Updated: 08-2025</span>
+<h2 class="text-3xl font-semibold mt-16 mb-6 tracking-tight">
+  When was the course last updated?
+</h2>
+
+<span class="px-4 py-2 bg-green-300/70 rounded-lg shadow-md font-semibold text-gray-800 inline-block hover:scale-[1.02] transition-transform">
+  Updated: 08-2025
+</span>

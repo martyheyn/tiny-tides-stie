@@ -71,8 +71,8 @@ if (user) {
               )}
               </div>
               <a
-                href={`${purchasedIds.has(course.frontmatter.id) ? `/courses/${course.frontmatter.slug}/eat-this` : course.frontmatter.avaiable && `/courses/${course.frontmatter.slug}`}`}
-                class={`no-underline ${course.frontmatter.avaiable ? 'cursor-pointer' : 'grayscale blur-[1.5px] cursor-not-allowed'}`}
+                href={`${purchasedIds.has(course.frontmatter.id) ? `/courses/${course.frontmatter.slug}/${course.frontmatter.first_chapter}` : course.frontmatter.avaiable && `/courses/${course.frontmatter.slug}`}`}
+                class={`no-underline ${course.frontmatter.avaiable ? 'cursor-pointer' : 'grayscale blur-[1.5px] cursor-not-allowed pointer-events-none'}`}
               >
                 <img
                   src="https://dkbi9cj3nodif.cloudfront.net/tummy_time_in_park_riverside.jpg"
