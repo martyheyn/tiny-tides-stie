@@ -244,6 +244,7 @@ const user = Astro.locals.user
         document.cookie = 'sb:token=; Max-Age=0; path=/; secure; samesite=lax';
         document.cookie = 'sb-refresh-token=; Max-Age=0; path=/; secure; samesite=lax';
 
+        console.log("here signing out")
         // Reload
         window.location.reload()
       } catch (err) {

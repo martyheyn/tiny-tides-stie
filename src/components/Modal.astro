@@ -7,14 +7,6 @@ const { id = "modal" } = Astro.props;
     <div class="dialog-body">
       <slot name="main" />
     </div>
-
-    <div class="dialog-actions">
-      <slot name="actions">
-        <!-- <form method="dialog">
-          <button type="submit" class="btn-close">Close</button>
-        </form> -->
-      </slot>
-    </div>
   </div>
 </dialog>
 

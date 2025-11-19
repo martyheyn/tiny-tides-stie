@@ -1,13 +1,16 @@
 <script lang="ts">
-    import { slide } from "svelte/transition"
-
-    let { url } = $props();
+    import Notification from "../Notification.svelte";
 
     let email = $state('');
 
     let loading = $state(false);
-    let errorMessage = $state('');
-    let infoMessage = $state('');
+    let notification: {
+        message: string;
+        type: 'error' | 'success' | 'warning' | '';
+    } = $state({
+        message: '',
+        type: ''
+    });
 
     const reset = () => {
         email = '';
@@ -23,13 +26,16 @@
                 body: JSON.stringify({ email }),
             });
             if(!res.ok) {
-                errorMessage = 'Magic Link not sent. Please try again later';
+                notification.message = 'Magic Link not sent. Please try again later';
+                notification.type = 'error'
                 return
             }
 
-            infoMessage = 'Magic link sent! Check your email to log in.';
+            notification.message = 'Magic link sent! Check your email to log in.';
+            notification.type = 'success'
         } catch (err: any) {
-            errorMessage = err.message;
+            notification.message = err.message;
+            notification.type = 'error'
         } finally {
             loading = false;
             reset()
@@ -43,7 +49,8 @@
             window.location.href = `/api/auth/oauth?provider=google`
         } catch (err: any) {
             console.log("error", err)
-            errorMessage = err.message;
+            notification.message = err.message;
+            notification.type = 'error'
             loading = false;
         }
     }
@@ -96,12 +103,8 @@
             </button>
         </div>
 
-        {#if errorMessage}
-            <p transition:slide={{ duration: 200 }} class="px-4 py-3 text-base bg-red-600/80 text-white rounded-md">{errorMessage}</p>
-        {/if}
-
-        {#if infoMessage}
-            <p transition:slide={{ duration: 200 }} class="px-4 py-3 text-base bg-green-600/80 text-white rounded-md">{infoMessage}</p>
+        {#if notification.message}
+            <Notification message={notification.message} type={notification.type} />
         {/if}
 
 
