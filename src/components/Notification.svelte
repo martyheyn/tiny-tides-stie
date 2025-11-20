@@ -7,7 +7,7 @@
 <div>
     <p 
         transition:slide={{ duration: 200 }} 
-        class={`px-4 py-3 text-base text-white rounded-md ${type === 'error' ? 'bg-red-600/60' : 'bg-green-600/60'} hover:scale-[1.005]`}
+        class={`px-4 py-3 text-base text-white rounded-md ${type === 'error' ? 'bg-red-600/80' : 'bg-green-600/80'} hover:scale-[1.005]`}
     >
         {message}
     </p>

@@ -5,6 +5,7 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   console.log('in signout')
   const supabase = createBEClient({ request, cookies })
   await supabase.auth.signOut()
+  console.log('here clearing stuff signing out')
 
   // Clear locally (belt & suspenders)
   cookies.delete('sb-access-token', { path: '/' })

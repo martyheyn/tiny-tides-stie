@@ -9,6 +9,7 @@ length: '1.5 hours'
 avaiable: true
 slug: 'intro-to-solids'
 first_chapter: 'eat-this'
+preview_vid: 'intro-to-solids-preview-mh.mp4'
 tags: ['astro', 'course', 'intro-to-solids']
 ---
 

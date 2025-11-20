@@ -12,7 +12,7 @@ export const POST: APIRoute = async (context) => {
     cookies: context.cookies,
   })
   try {
-    const { returnUrl, slug } = await context.request.json()
+    const { baseUrl, slug } = await context.request.json()
     const { data: user } = await supabase.auth.getUser()
 
     if (!user.user?.id) {
@@ -33,6 +33,17 @@ export const POST: APIRoute = async (context) => {
       return new Response('Error getting course', { status: 500 })
     }
 
+    const { data: chapter, error: chapterErr } = await supabase
+      .from('section')
+      .select('id, slug')
+      .eq('course_id', course.id)
+      .eq('section_order', 1)
+      .single()
+
+    if (chapterErr) {
+      return new Response('Error getting course', { status: 500 })
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: [
@@ -45,8 +56,8 @@ export const POST: APIRoute = async (context) => {
         user_id: user.user?.id,
         course_id: course?.id,
       },
-      success_url: returnUrl,
-      cancel_url: returnUrl,
+      success_url: `http://${baseUrl}/courses/${slug}/${chapter.slug}`,
+      cancel_url: `http://${baseUrl}/courses/${slug}`,
       allow_promotion_codes: true,
     })
 

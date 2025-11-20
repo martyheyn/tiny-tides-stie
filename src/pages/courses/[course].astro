@@ -9,7 +9,7 @@ import type { MarkdownInstance } from 'astro';
 const { course } = Astro.params
 const url = Astro.url;
 const user = Astro.locals.user;
-const path = url.pathname
+const pathname = url.pathname
 const supabase = createBEClient({ request: Astro.request, cookies: Astro.cookies })
 
 const markdownFiles = import.meta.glob<MarkdownInstance<any>>('../courses-md/*md', { eager: true });
@@ -72,7 +72,8 @@ if(user) {
 
             <div class="w-full flex justify-center">
               <video
-                src=""
+                controls controlslist="nodownload"
+                src={`https://dkbi9cj3nodif.cloudfront.net/${courseData.frontmatter.preview_vid}` || ''}
                 class="w-full md:w-[75%] min-h-[315px] md:min-h-[400px] bg-blue-300/30"
               />
             </div>
@@ -167,7 +168,7 @@ if(user) {
 
 <Modal id='signin-dialog' title="Signin Modal">
   <main slot='main'>
-    <Signin url={path} client:load />
+    <Signin url={pathname} client:load />
   </main>
   <button slot='close'>Close modal</button>
 </Modal>
@@ -213,7 +214,7 @@ if(user) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            returnUrl: window.location.href,
+            baseUrl: window.location.host.split('.')[0],
             slug
           }),
         });
