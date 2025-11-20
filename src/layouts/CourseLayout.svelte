@@ -1,7 +1,7 @@
 <script lang="ts">
   import Sidebar from '../components/courses/Sidebar.svelte'
 
-  let { chapters, pathname, course } = $props()
+  let { chapters, pathname, course, children } = $props()
 
   let sidebarOpen = $state(true)
 </script>
@@ -12,7 +12,7 @@
   </div>
 
   <div class={`transition-all ease-in-out duration-300 flex-1`}>
-     <slot sidebarOpen={sidebarOpen}/>
+     {@render children()}
   </div>
 
   <div class="block lg:hidden">
