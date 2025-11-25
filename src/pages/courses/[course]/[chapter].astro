@@ -42,7 +42,7 @@ course = courseData
 if (courseData) {
   const { data: chaptersRes } = await supabase
     .from("section_with_progress")
-    .select("slug, label, description, section_order, total_videos, completed_videos")
+    .select("*")
     .eq("course_id", courseData.id)
     .order("section_order", { ascending: true });
 
@@ -88,7 +88,7 @@ const pageTitle = `${course?.name} - ${currChapter?.label}`
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-    <CourseLayout client:load chapters={chapters} pathname={pathname} course={course}>
+    <CourseLayout client:load chapters={chapters} pathname={pathname} course={course} video{video}>
 
       <!-- Main Content -->
       <main class="flex-1 p-2 md:p-6">

@@ -1,16 +1,51 @@
 <script lang="ts">
+    import { slide } from "svelte/transition"
+
+  type Video = {
+    id: string
+    name: string
+    host_url: string
+    length: number
+    completed: boolean
+    video_order: number
+  };
+
   type Chapter = {
+      section_id: string
       label: string
       slug: string
       description: string
-      section_order: number,
-      total_videos: number,
+      section_order: number
+      total_videos: number
       completed_videos: number
+      videos: Video[]
   }
 
-  let { value = $bindable(), chapters, pathname, course }: 
-    { value: boolean, chapters: Chapter[], pathname: string, course: { id: string; name: string; slug: string; } | null } = $props();
-  const currChapter = pathname.split('/')[pathname.split('/').length - 1]  
+  let openedChapters = $state(new Map())
+
+  let { value = $bindable(), chapters, pathname, video, course }: 
+    { value: boolean, chapters: Chapter[], pathname: string, course: { id: string; name: string; slug: string; } | null, video: any | null } = $props();
+  const currChapter = pathname.split('/').pop()
+
+  if (currChapter) {
+    const newMap = new Map();
+    newMap.set(currChapter, !newMap.get(currChapter));
+    openedChapters = newMap;
+  }
+
+  const toggleChapterOpen = (chapterSlug: string) => {
+    const newMap = new Map(openedChapters);
+    newMap.set(chapterSlug, !newMap.get(chapterSlug));
+    openedChapters = newMap;
+  };
+
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60)
+      .toString()
+      .padStart(2, "0");
+    return `${m}:${s}`;
+  };
 </script>
 
 <div class={`${value ? 'w-full lg:w-64' : 'w-full md:w-24'} px-6 py-4 flex flex-col gap-y-4 transition-all ease-in-out duration-300`}>
@@ -31,17 +66,84 @@
 
     <nav class="flex-1">
       {#each chapters as chapter}
-      <a
-        class={`course-nav-item ${chapter.slug === currChapter ? 
-          'text-black font-semibold scale-[1.03] bg-blue-100/60 rounded-md' : ''}`}
-        href={chapter.slug}
-      >
-        <span>{chapter.label}</span>
+        <button
+          onclick={() => toggleChapterOpen(chapter.slug)}
+          class={`w-full course-nav-item text-left ${chapter.slug === currChapter ? 'text-black font-semibold scale-[1.03] bg-blue-100/80 rounded-md' : 'hover:bg-blue-100/30'}`}
+        >
+          <span>{chapter.label}</span>
 
-        <span class="ml-auto text-xs text-gray-600">
-          {chapter.completed_videos}/{chapter.total_videos}
-        </span>
-      </a>
+          {#key chapter.section_id}
+            <svg
+              class="w-5 h-5 transform transition-all duration-300 ease-out"
+              viewBox="0 0 36 36"
+            >
+              <!-- Background ring -->
+              <path
+                d="M18 2
+                  a 16 16 0 0 1 0 32
+                  a 16 16 0 0 1 0 -32"
+                fill="none"
+                stroke="#d1d5db" 
+                stroke-width="4"
+                class="opacity-50"
+              />
+
+              <!-- Progress ring -->
+              <path
+                d="M18 2
+                  a 16 16 0 0 1 0 32
+                  a 16 16 0 0 1 0 -32"
+                fill="none"
+                stroke="#4ade80"
+                stroke-width="4"
+                stroke-linecap="round"
+                stroke-dasharray="100"
+                stroke-dashoffset="{100 - (chapter.completed_videos / chapter.total_videos) * 100}"
+                class="transition-all duration-500 ease-out"
+              />
+            </svg>
+          {/key}
+        </button>
+        
+        {#if openedChapters.get(chapter.slug)}
+          <div transition:slide class="w-full">
+            <ul>
+              {#each chapter.videos as v}
+                <a class="w-full" href={`${video?.id !== v.id && `${chapter.slug}`}`}>
+                  <li class={`w-full py-2 px-2 flex justify-between items-center text-left cursor-pointer rounded-md ${video?.id === v.id ? 'bg-blue-100/40' : 'hover:bg-blue-200/20'}`}>
+                    <p class="text-[13px] max-w-[105px]">{v.name}</p>
+                    <div class="flex items-center gap-x-2">
+                      <p class="text-[13px]">{formatTime(v.length)}</p>
+                      {#if v.completed}
+                        <svg
+                          class="w-4 h-4 text-green-300 transform transition-all duration-200 ease-out scale-0 opacity-0 animate-[popIn_.2s_forwards]"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M16.707 5.293a1 1 0 00-1.414-1.414L8 11.172 4.707 7.879A1 1 0 003.293 9.293l4 4a1 1 0 001.414 0l8-8z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      {:else}
+                        <svg
+                          class="w-4 h-4 text-gray-400 transform transition-all duration-200 ease-out scale-90 opacity-70"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <circle cx="12" cy="12" r="10" />
+                        </svg>
+                      {/if}
+                    </div>
+                  </li>
+                </a>
+              {/each}
+            </ul>
+          </div>
+        {/if}
       {/each}
      
     </nav>
@@ -61,3 +163,21 @@
     {/if}
   </a>
 </div>
+
+
+<style>
+  @keyframes popIn {
+    0% {
+      transform: scale(0.5);
+      opacity: 0;
+    }
+    70% {
+      transform: scale(1.15);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+</style>
