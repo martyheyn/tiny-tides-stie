@@ -1,7 +1,6 @@
 ---
-import type { MarkdownInstance } from "astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { createBEClient } from '../../lib/SupabaseServer';
+import { loadCourses } from "../../lib/loadCourses";
 
 const pageTitle = 'My Courses'
 
@@ -9,29 +8,16 @@ const user = Astro.locals.user
 if(!user) {
     return Astro.redirect("/")
 }
-const supabase = createBEClient({ request: Astro.request, cookies: Astro.cookies })
 
-let purchasedIds: string[] = []
+const { courses, purchasedIds } = await loadCourses({
+  request: Astro.request,
+  cookies: Astro.cookies,
+  user
+});
 
-const { data: purchased, error } = await supabase
-.from('purchases')
-.select('course_id')
-.eq('user_id', user.id)
 
-if (!error && purchased) {
-purchasedIds = purchased.map(p => p.course_id)
-}
-
-const markdownFiles = import.meta.glob<MarkdownInstance<any>>('../courses-md/*md', { eager: true });
-
-const allCourses = Object.values(markdownFiles).map((file) => ({
-  content: file.compiledContent(),
-  frontmatter: file.frontmatter,
-}));
-
-// ✅ Filter only purchased courses
-const courses = allCourses.filter(course =>
-  purchasedIds.includes(course.frontmatter.id)
+const myCourses = courses.filter(course =>
+  purchasedIds.has(course.frontmatter.id)
 );
 ---
 
@@ -50,7 +36,7 @@ const courses = allCourses.filter(course =>
                     <div
                         class={`grid grid-cols-1 ${courses.length < 2 ? 'sm:grid-cols-1' : 'sm:grid-cols-2'} gap-4 sm:gap-12 md:gap-28 place-items-center transition-all ease-out duration-300`}
                     >
-                        {courses.map((course) => (
+                        {myCourses.map((course) => (
                             <article class="p-4 max-w-[520px] border border-black/20 overflow-hidden shadow-xl bg-gray hover:scale-105 rounded-xl transition-transform ease-in-out duration-500 relative">
                                 <a
                                     href={`${course.frontmatter.avaiable && `/courses/${course.frontmatter.slug}`}`}

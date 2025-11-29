@@ -1,34 +1,16 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import { createBEClient } from '../../lib/SupabaseServer';
-import type { MarkdownInstance } from 'astro';
+import { loadCourses } from '../../lib/loadCourses';
 
 const pageTitle = 'Courses'
 
 const user = Astro.locals.user
-const supabase = createBEClient({ request: Astro.request, cookies: Astro.cookies })
 
-const markdownFiles = import.meta.glob<MarkdownInstance<any>>('../courses-md/*md', { eager: true });
-
-const courses = await Promise.all(
-  Object.values(markdownFiles).map(async (file) => ({
-    content: file.compiledContent(),
-    frontmatter: file.frontmatter,
-  }))
-);
-
-let purchasedIds = new Set()
-if (user) {
-  const { data: purchased } = await supabase
-    .from('purchases')
-    .select('id, course_id')
-    .eq('user_id', user.id)
-
-  if (purchased) {
-    purchased.forEach(p => purchasedIds.add(String(p.course_id)))
-  }
-}
-
+const { courses, purchasedIds } = await loadCourses({
+  request: Astro.request,
+  cookies: Astro.cookies,
+  user
+});
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -71,7 +53,11 @@ if (user) {
               )}
               </div>
               <a
-                href={`${purchasedIds.has(course.frontmatter.id) ? `/courses/${course.frontmatter.slug}/${course.frontmatter.first_chapter}` : course.frontmatter.avaiable && `/courses/${course.frontmatter.slug}`}`}
+                href={
+                  course.purchased
+                    ? `/courses/${course.courseSlug}/${course.chapterSlug}/${course.videoSlug}`
+                    : `/courses/${course.courseSlug}`
+                }
                 class={`no-underline ${course.frontmatter.avaiable ? 'cursor-pointer' : 'grayscale blur-[1.5px] cursor-not-allowed pointer-events-none'}`}
               >
                 <img

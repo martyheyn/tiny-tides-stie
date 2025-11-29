@@ -44,6 +44,17 @@ export const POST: APIRoute = async (context) => {
       return new Response('Error getting course', { status: 500 })
     }
 
+    const { data: video, error: videoErr } = await supabase
+      .from('video')
+      .select('id, slug')
+      .eq('section_id', chapter.id)
+      .eq('video_order', 1)
+      .single()
+
+    if (videoErr) {
+      return new Response('Error getting course', { status: 500 })
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: [
@@ -56,7 +67,7 @@ export const POST: APIRoute = async (context) => {
         user_id: user.user?.id,
         course_id: course?.id,
       },
-      success_url: `http://${baseUrl}/courses/${slug}/${chapter.slug}`,
+      success_url: `http://${baseUrl}/courses/${slug}/${chapter.slug}/${video.slug}`,
       cancel_url: `http://${baseUrl}/courses/${slug}`,
       allow_promotion_codes: true,
     })

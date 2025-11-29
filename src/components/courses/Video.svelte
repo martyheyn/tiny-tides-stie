@@ -77,28 +77,49 @@
      async function onVideoEnded() {
         if (!user || !videoId) return;
 
-        if(videoProgressId) {
-            await supabase
-                .from('video_progress')
-                .upsert({
-                    id: videoProgressId,
-                    user_id: user.id,
-                    video_id: videoId,
-                    progress_seconds: Math.floor(length),
-                    completed: true
-                });
+        if (videoProgressId) {
+        await supabase
+            .from('video_progress')
+            .upsert({
+                id: videoProgressId,
+                user_id: user.id,
+                video_id: videoId,
+                progress_seconds: Math.floor(length),
+                completed: true
+            });
 
             completed = true;
-
-            // Auto-play next chapter
-            if (autoplay && chapters && chapIndx < chapters.length - 1) {
-                const next = chapters[chapIndx + 1];
-                // if last video then send them where
-                if(next) {
-                    window.location.href = `/courses/${courseSlug}/${next.slug}`;
-                }
-            }
         }
+
+        // no autoplay? stop here
+        if (!autoplay || !chapters) return;
+
+        const chapter = chapters[chapIndx];
+        if (!chapter) return;
+
+        const videos = chapter.videos || [];
+        const vidIndex = videos.findIndex((v: any) => v.id === videoId);
+        console.log("videos", videos)
+        console.log("vidIndex", vidIndex)
+
+        // 🟦 CASE 1: go to next video in the same chapter
+        if (vidIndex !== -1 && vidIndex < videos.length - 1) {
+            const nextVideo = videos[vidIndex + 1];
+            window.location.href = `/courses/${courseSlug}/${chapter.slug}/${nextVideo.slug}`;
+            return;
+        }
+
+        // 🟧 CASE 2: go to first video of next chapter
+        const nextChapter = chapters[chapIndx + 1];
+        if (nextChapter && nextChapter.videos && nextChapter.videos.length > 0) {
+            const firstVid = nextChapter.videos[0];
+            window.location.href = `/courses/${courseSlug}/${nextChapter.slug}/${firstVid.slug}`;
+            return;
+        }
+
+        // 🟥 CASE 3: last video of last chapter
+        // (you choose what to do here)
+        console.log("Reached end of course!");
     }
 
     // Save on tab close, page reload, or navigation

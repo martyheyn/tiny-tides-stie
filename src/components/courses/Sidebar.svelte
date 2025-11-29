@@ -1,31 +1,12 @@
 <script lang="ts">
-    import { slide } from "svelte/transition"
-
-  type Video = {
-    id: string
-    name: string
-    host_url: string
-    length: number
-    completed: boolean
-    video_order: number
-  };
-
-  type Chapter = {
-      section_id: string
-      label: string
-      slug: string
-      description: string
-      section_order: number
-      total_videos: number
-      completed_videos: number
-      videos: Video[]
-  }
+  import { slide } from "svelte/transition"
+  import type { Chapter } from "../../utils/tpyes";
 
   let openedChapters = $state(new Map())
 
   let { value = $bindable(), chapters, pathname, video, course }: 
     { value: boolean, chapters: Chapter[], pathname: string, course: { id: string; name: string; slug: string; } | null, video: any | null } = $props();
-  const currChapter = pathname.split('/').pop()
+  const currChapter = pathname.split('/')[pathname.split('/').length - 2]
 
   if (currChapter) {
     const newMap = new Map();
@@ -109,7 +90,7 @@
           <div transition:slide class="w-full">
             <ul>
               {#each chapter.videos as v}
-                <a class="w-full" href={`${video?.id !== v.id && `${chapter.slug}`}`}>
+                <a class="w-full" href={`${video?.id !== v.id && course && `/courses/${course.slug}/${chapter.slug}/${v.slug}`}`}>
                   <li class={`w-full py-2 px-2 flex justify-between items-center text-left cursor-pointer rounded-md ${video?.id === v.id ? 'bg-blue-100/40' : 'hover:bg-blue-200/20'}`}>
                     <p class="text-[13px] max-w-[105px]">{v.name}</p>
                     <div class="flex items-center gap-x-2">

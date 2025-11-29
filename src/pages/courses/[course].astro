@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
 import Modal from '../../components/Modal.astro'
 import Signin from '../../components/signin/Signin.svelte';
 import { createBEClient } from '../../lib/SupabaseServer';
+import type { Video } from '../../utils/tpyes'
 
 import type { MarkdownInstance } from 'astro';
 
@@ -10,6 +11,7 @@ const { course } = Astro.params
 const url = Astro.url;
 const user = Astro.locals.user;
 const pathname = url.pathname
+
 const supabase = createBEClient({ request: Astro.request, cookies: Astro.cookies })
 
 const markdownFiles = import.meta.glob<MarkdownInstance<any>>('../courses-md/*md', { eager: true });
@@ -24,14 +26,14 @@ const courseMd = await Promise.all(
 const courseData = courseMd[0] || null
 const pageTitle = courseData ? `Course - ${courseData.frontmatter.title}` : "Course"
 
-let chapters: { slug: string; label: string, description: string }[] = []
+let chapters: { slug: string; label: string, description: string, videos: Video[] }[] = []
 let alreadyPurchased = false
 
 if (courseData) {
   // Get purchase + chapters in parallel
   const { data: chaptersRes } = await supabase
-    .from("section")
-    .select("slug, label, description")
+    .from("section_with_progress")
+    .select("slug, label, description, videos")
     .eq("course_id", courseData.frontmatter.id)
     .order('section_order', { ascending: true })
 
@@ -47,9 +49,9 @@ if(user) {
     .eq("course_id", courseData.frontmatter.id)
     .maybeSingle()
 
-  // Purchase boolean
   alreadyPurchased = !!purchaseRes
 }
+console.log("chapters", chapters)
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -82,7 +84,7 @@ if(user) {
               {/* if logged in and purchased then go to course */}
               {alreadyPurchased ? (
                 <a
-                  href={chapters && `/courses/${courseData.frontmatter.slug}/${chapters[0].slug}`}
+                  href={chapters && `/courses/${courseData.frontmatter.slug}/${chapters[0].slug}/${chapters[0].videos[0].slug}`}
                   class={`w-72 text-center font-semibold text-xl px-6 py-3 bg-[#9ddcdc] hover:bg-[#90e8e8] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl`}
                 >
                   Go to the Course!
@@ -108,7 +110,7 @@ if(user) {
     <div class="w-full flex justify-center py-8 pb-28">
       {alreadyPurchased ? (
         <a
-          href={chapters && courseData && `/courses/${courseData.frontmatter.slug}/${chapters[0].slug}`}
+          href={chapters && courseData && `/courses/${courseData.frontmatter.slug}/${chapters[0].slug}/${chapters[0].videos[0].slug}`}
           class={`w-72 text-center font-semibold text-xl px-6 py-3 bg-[#9ddcdc] hover:bg-[#90e8e8] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl`}
         >
           Go to the Course!
@@ -134,7 +136,7 @@ if(user) {
           chapters &&
             chapters.map((chapter, i) => (
               <div class="max-w-sm overflow-hidden shadow-3xl bg-secondary/20 p-6 rounded-xl hover:scale-105 cursor-pointer transition-all duration-300 relative">
-                <a href={`${course}/${chapter.slug}`}>
+                <a href={chapter.videos && chapter.videos[0] && `${course}/${chapter.slug}/${chapter.videos[0].slug}}`}>
                   <h5 class="text-xl uppercase font-semibold flex justify-start items-center">
                     <span class="mr-1 bg-white px-2 py-1 rounded-md flex justify-center">
                       {i + 1}

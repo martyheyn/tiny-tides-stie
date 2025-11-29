@@ -1,17 +1,12 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro'
-import CourseLayout from '../../../layouts/CourseLayout.svelte'
-import Video from '../../../components/courses/Video.svelte'
-import { createBEClient } from '../../../lib/SupabaseServer';
-import Modal from '../../../components/Modal.astro';
-import Signin from '../../signin.astro';
+import BaseLayout from '../../../../layouts/BaseLayout.astro'
+import CourseLayout from '../../../../layouts/CourseLayout.svelte'
+import Video from '../../../../components/courses/Video.svelte'
+import { createBEClient } from '../../../../lib/SupabaseServer';
 
 const pathname = Astro.url.pathname
-const { chapter } = Astro.params
+const { courseSlug, chapterSlug, videoSlug } = Astro.params
 const user = Astro.locals.user
-const pathSplit = pathname.split('/')
-const courseIndx = pathSplit.findIndex(element => element === "courses")
-const slug = pathSplit[courseIndx + 1]
 
 const supabase = createBEClient({ request: Astro.request, cookies: Astro.cookies })
 
@@ -28,12 +23,11 @@ let currChapter: { id: string; label: string } | null = null
 let video: { id: string, length: number } | null = null
 let alreadyPurchased = false
 
-
 // Get course by slug
 const { data: courseData } = await supabase
   .from('course')
   .select('id, name, slug')
-  .eq('slug', slug)
+  .eq('slug', courseSlug)
   .single()
 
 course = courseData
@@ -50,7 +44,7 @@ if (courseData) {
     .from("section")
     .select("id, label")
     .eq("course_id", courseData.id)
-    .eq("slug", chapter)
+    .eq("slug", chapterSlug)
     .single()
 
   currChapter = currChapterRes
@@ -59,7 +53,7 @@ if (courseData) {
   if(chaptersRes && currChapterRes) {
     const { data: videoRes } = await supabase
       .from("video")
-      .select("id, length")
+      .select("id, length, slug")
       .eq("course_id", courseData.id)
       .eq("section_id", currChapterRes.id)
       .single()
@@ -82,7 +76,7 @@ if (courseData) {
   chapters = chaptersRes ?? []
 }
 
-const chapIndx = chapters && chapters.length > 0 && chapters.findIndex((chap) => chap.slug === chapter)
+const chapIndx = chapters && chapters.length > 0 && chapters.findIndex((chap) => chap.slug === chapterSlug)
 
 const pageTitle = `${course?.name} - ${currChapter?.label}`
 ---
@@ -124,7 +118,7 @@ const pageTitle = `${course?.name} - ${currChapter?.label}`
           videoId={video?.id}
           user={user}
           length={video?.length}
-          courseSlug={slug}
+          courseSlug={courseSlug}
         />
       </main>
     </div>

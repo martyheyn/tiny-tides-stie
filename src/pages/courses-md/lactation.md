@@ -6,5 +6,9 @@ description: 'Post birth can be extremely stressful. On top of that 45% of mothe
 ages: '0-6 months'
 length: '1.5 hours'
 avaiable: false
+slug: 'lactation-help'
+first_chapter: 'lactation-1'
+first_video: 'lactation-class-vid-1'
+preview_vid: 'lactation-help-preview-mh.mp4'
 tags: ['astro', 'course', 'latcation']
 ---
