@@ -74,7 +74,7 @@
         saveProgress(currentTime);
     }
 
-     async function onVideoEnded() {
+    async function onVideoEnded() {
         if (!user || !videoId) return;
 
         if (videoProgressId) {
@@ -99,8 +99,6 @@
 
         const videos = chapter.videos || [];
         const vidIndex = videos.findIndex((v: any) => v.id === videoId);
-        console.log("videos", videos)
-        console.log("vidIndex", vidIndex)
 
         // 🟦 CASE 1: go to next video in the same chapter
         if (vidIndex !== -1 && vidIndex < videos.length - 1) {
@@ -132,6 +130,11 @@
     let cleanup = () => {};
 
     onMount(async () => {
+        const saved = localStorage.getItem("autoplay");
+        if (saved !== null) {
+            autoplay = saved === "true";
+        }
+        
         if (!videoId || !user) return;
 
         // Fetch secure CloudFront signed URL
@@ -139,6 +142,7 @@
             credentials: 'include'
         });
         const data = await res.json();
+        console.log("data", data)
         videoUrl = data.url;
 
         // Fetch last progress to resume
@@ -175,6 +179,11 @@
     onDestroy(() => {
         cleanup();
     });
+
+    // Watch + persist whenever autoplay changes
+    $effect(() => {
+        localStorage.setItem("autoplay", autoplay.toString());
+    })
 </script>
 
 <div>

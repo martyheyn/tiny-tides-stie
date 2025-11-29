@@ -97,7 +97,7 @@
                       <p class="text-[13px]">{formatTime(v.length)}</p>
                       {#if v.completed}
                         <svg
-                          class="w-4 h-4 text-green-300 transform transition-all duration-200 ease-out scale-0 opacity-0 animate-[popIn_.2s_forwards]"
+                          class="w-4 h-4 text-green-300 transform transition-all duration-200 ease-out animate-[popIn_.2s_forwards]"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                         >

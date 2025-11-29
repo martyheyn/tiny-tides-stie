@@ -49,13 +49,14 @@ if (courseData) {
 
   currChapter = currChapterRes
 
-  // get video by index, all being 1 to start
   if(chaptersRes && currChapterRes) {
     const { data: videoRes } = await supabase
       .from("video")
       .select("id, length, slug")
       .eq("course_id", courseData.id)
       .eq("section_id", currChapterRes.id)
+      .eq("slug", videoSlug)
+      .limit(1)
       .single()
 
     video = videoRes
