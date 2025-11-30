@@ -2,80 +2,21 @@
 import BaseLayout from '../../../../layouts/BaseLayout.astro'
 import CourseLayout from '../../../../layouts/CourseLayout.svelte'
 import Video from '../../../../components/courses/Video.svelte'
-import { createBEClient } from '../../../../lib/SupabaseServer';
+import { getCoursePageData } from '../../../../lib/queries/getCourseVideo';
 
 const pathname = Astro.url.pathname
 const { courseSlug, chapterSlug, videoSlug } = Astro.params
 const user = Astro.locals.user
 
-const supabase = createBEClient({ request: Astro.request, cookies: Astro.cookies })
-
-let chapters: { 
-  slug: string;
-  label: string,
-  description: string,
-  section_order: number,
-  total_videos: number,
-  completed_videos: number
-}[] = []
-let course: { id: string; name: string; slug: string } | null = null
-let currChapter: { id: string; label: string } | null = null
-let video: { id: string, length: number } | null = null
-let alreadyPurchased = false
-
-// Get course by slug
-const { data: courseData } = await supabase
-  .from('course')
-  .select('id, name, slug')
-  .eq('slug', courseSlug)
-  .single()
-
-course = courseData
-
-
-if (courseData) {
-  const { data: chaptersRes } = await supabase
-    .from("section_with_progress")
-    .select("*")
-    .eq("course_id", courseData.id)
-    .order("section_order", { ascending: true });
-
-  const { data: currChapterRes } = await supabase
-    .from("section")
-    .select("id, label")
-    .eq("course_id", courseData.id)
-    .eq("slug", chapterSlug)
-    .single()
-
-  currChapter = currChapterRes
-
-  if(chaptersRes && currChapterRes) {
-    const { data: videoRes } = await supabase
-      .from("video")
-      .select("id, length, slug")
-      .eq("course_id", courseData.id)
-      .eq("section_id", currChapterRes.id)
-      .eq("slug", videoSlug)
-      .limit(1)
-      .single()
-
-    video = videoRes
-  }
-  
-  if(user) {
-    const { data: purchaseRes } = await supabase
-      .from("purchases")
-      .select("id")
-      .eq("user_id", user.id)
-      .eq("course_id", courseData.id)
-      .maybeSingle()
-
-    alreadyPurchased = !!purchaseRes
-  }
-
-  // Chapters array
-  chapters = chaptersRes ?? []
-}
+const { course, chapters, currChapter, video, alreadyPurchased } =
+  await getCoursePageData(
+    Astro.request,
+    Astro.cookies,
+    courseSlug,
+    chapterSlug,
+    videoSlug,
+    user?.id
+  );
 
 const chapIndx = chapters && chapters.length > 0 && chapters.findIndex((chap) => chap.slug === chapterSlug)
 
@@ -90,11 +31,7 @@ const pageTitle = `${course?.name} - ${currChapter?.label}`
         <!-- Title -->
         <div class="w-full flex justify-between">
           <h1 class="mb-4 text-gray-800 text-3xl font-bold flex gap-x-2 items-center">
-            <!-- {user ? ( -->
-              <span>⚡</span>
-            <!-- ): (
-               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" style="enable-background:new 0 0 128 128" xml:space="preserve"><path style="fill:#e9da10" d="M101.946 53.087h-75.88a3.903 3.903 0 0 0-3.891 3.891v64.207a3.903 3.903 0 0 0 3.891 3.891h75.881a3.903 3.903 0 0 0 3.891-3.891V56.978a3.904 3.904 0 0 0-3.892-3.891zM68.928 93.673v13.094h-7.374V93.673c-3.541-1.44-6.051-4.922-6.051-8.989 0-5.37 4.358-9.728 9.728-9.728s9.728 4.358 9.728 9.728a9.69 9.69 0 0 1-6.031 8.989z"/><path style="fill:#1d252c" d="M101.94 50.173h-7.25v-19.49C94.69 13.764 80.926 0 63.994 0 47.074 0 33.31 13.764 33.31 30.683v19.49h-7.25a6.818 6.818 0 0 0-6.81 6.81v64.207a6.818 6.818 0 0 0 6.81 6.81h75.881a6.818 6.818 0 0 0 6.81-6.81V56.983c-.001-3.754-3.056-6.81-6.811-6.81zm-62.793-19.49c0-13.7 11.146-24.846 24.858-24.846 13.701 0 24.847 11.146 24.847 24.846v19.49H39.147v-19.49zm63.766 90.507a.985.985 0 0 1-.973.973H26.06a.985.985 0 0 1-.973-.973V56.983c0-.527.445-.973.973-.973h75.881c.528 0 .973.446.973.973v64.207zM65.231 73.01c-6.437 0-11.674 5.237-11.674 11.674 0 4.309 2.335 8.189 6.052 10.217v11.868c0 1.075.87 1.946 1.946 1.946h7.374c1.075 0 1.946-.87 1.946-1.946V94.901c3.703-2.025 6.031-5.904 6.031-10.217-.001-6.437-5.237-11.674-11.675-11.674zm2.964 18.861a1.944 1.944 0 0 0-1.212 1.802v11.15H63.5v-11.15c0-.792-.479-1.504-1.212-1.802a7.73 7.73 0 0 1-4.839-7.187c0-4.291 3.49-7.783 7.783-7.783 4.292 0 7.783 3.491 7.783 7.783a7.722 7.722 0 0 1-4.82 7.187z"/></svg>
-             )} -->
+            <span>⚡</span>
             {currChapter && currChapter.label}
           </h1>
 
@@ -125,70 +62,3 @@ const pageTitle = `${course?.name} - ${currChapter?.label}`
     </div>
     </CourseLayout>
 </BaseLayout>
-
-<script>
-  import { createBrowserClient } from '@supabase/ssr'
-
-  // Create the Supabase client in the browser
-  const supabase = createBrowserClient(
-    import.meta.env.PUBLIC_SUPABASE_URL,
-    import.meta.env.PUBLIC_SUPABASE_KEY
-  )
-
-  // Get slug from path
-  const modal = document.getElementById('signin-dialog') as HTMLDialogElement | null;;
-  const getCourseBtns = document.getElementsByClassName("get-course-btn") as HTMLCollectionOf<HTMLButtonElement>;
-  const pathSplit = window.location.pathname.split('/')
-  const courseIndx = pathSplit.findIndex(element => element === "courses")
-  const slug = pathSplit[courseIndx + 1]
-
-  for (const btn of getCourseBtns) {
-    btn.addEventListener('click', async (e) => {
-      e.stopPropagation();
-
-      // 1️⃣ Check current session dynamically
-      const { data: { session } } = await supabase.auth.getSession();
-      const user = session?.user;
-
-      if (!user && modal) {
-        // 2️⃣ Not signed in → show modal
-        if (modal && !modal.open) modal.showModal();
-        modal.addEventListener('click', (e) => {
-          if (e.target === modal) modal.close();
-        });
-        return;
-      }
-
-      if(user) {
-        // 3️⃣ Logged in → make the API request
-        try {
-            btn.disabled = true;
-            btn.textContent = "Redirecting...";
-
-            const response = await fetch("/api/create-checkout-session", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                baseUrl: window.location.host.split('.')[0],
-                slug
-              }),
-            });
-
-            const stripeRes = await response.json();
-
-            if (stripeRes.url) {
-              window.location.href = stripeRes.url;
-            } else {
-              console.error("No Stripe URL returned", stripeRes);
-              btn.textContent = "Error, try again";
-              btn.disabled = false;
-            }
-          } catch (err) {
-            console.error(err);
-            btn.textContent = "Error, try again";
-            btn.disabled = false;
-          }
-        };
-      })
-  }
-</script>
