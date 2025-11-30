@@ -1,56 +1,62 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import Modal from '../../components/Modal.astro'
-import Signin from '../../components/signin/Signin.svelte';
-import { createBEClient } from '../../lib/SupabaseServer';
-import type { Video } from '../../utils/tpyes'
+import Signin from '../../components/signin/Signin.svelte'
+import PurchaseButton from '../../components/PurchaseButton.svelte'
+import { createBEClient } from '../../lib/SupabaseServer'
+import type { MarkdownInstance } from 'astro'
 
-import type { MarkdownInstance } from 'astro';
-
-const { course } = Astro.params
-const url = Astro.url;
-const user = Astro.locals.user;
-const pathname = url.pathname
-
+const { course: courseSlug } = Astro.params
+const user = Astro.locals.user
+const url = Astro.url
 const supabase = createBEClient({ request: Astro.request, cookies: Astro.cookies })
 
-const markdownFiles = import.meta.glob<MarkdownInstance<any>>('../courses-md/*md', { eager: true });
+// Load all markdown
+const markdownFiles = import.meta.glob<MarkdownInstance<any>>('../courses-md/*md', { eager: true })
+const allCourses = Object.values(markdownFiles).map((file) => ({
+  content: file.compiledContent(),
+  frontmatter: file.frontmatter,
+}))
 
-const courseMd = await Promise.all(
-  Object.values(markdownFiles).map(async (file) => ({
-    content: file.compiledContent(),
-    frontmatter: file.frontmatter,
-  }))
-);
+// Find this course
+const courseData =
+  allCourses.find((c) => c.frontmatter.slug === courseSlug) ?? null
 
-const courseData = courseMd[0] || null
-const pageTitle = courseData ? `Course - ${courseData.frontmatter.title}` : "Course"
+if (!courseData) {
+  return Astro.redirect("/404")
+}
 
-let chapters: { slug: string; label: string, description: string, videos: Video[] }[] = []
-let alreadyPurchased = false
-
-if (courseData) {
-  // Get purchase + chapters in parallel
-  const { data: chaptersRes } = await supabase
+// Run these in parallel
+const [chaptersRes, purchaseRes] = await Promise.all([
+  supabase
     .from("section_with_progress")
-    .select("slug, label, description, videos")
+    .select("*")
     .eq("course_id", courseData.frontmatter.id)
-    .order('section_order', { ascending: true })
+    .order("section_order"),
+  user
+    ? supabase
+        .from("purchases")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("course_id", courseData.frontmatter.id)
+        .maybeSingle()
+    : Promise.resolve({ data: null })
+])
 
-  // Chapters array
-  chapters = chaptersRes ?? []
+const chapters = chaptersRes.data ?? []
+const alreadyPurchased = !!purchaseRes.data
+
+// Clean helper for constructing the start URL
+function startCourseUrl(slug: string, chapters: any) {
+  if (!chapters.length || !chapters[0].videos.length) return "#"
+  const c = chapters[0]
+  const v = c.videos[0]
+  return `/courses/${slug}/${c.slug}/${v.slug}`
 }
 
-if(user) {
-  const { data: purchaseRes } = await supabase
-    .from("purchases")
-    .select("id")
-    .eq("user_id", user.id)
-    .eq("course_id", courseData.frontmatter.id)
-    .maybeSingle()
-
-  alreadyPurchased = !!purchaseRes
-}
+const startUrl = startCourseUrl(courseData.frontmatter.slug, chapters)
+console.log("startUrl", startUrl)
+const pageTitle = courseData ? `Course - ${courseData.frontmatter.title}` : "Course"
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -83,17 +89,16 @@ if(user) {
               {/* if logged in and purchased then go to course */}
               {alreadyPurchased ? (
                 <a
-                  href={chapters && `/courses/${courseData.frontmatter.slug}/${chapters[0].slug}/${chapters[0].videos[0].slug}`}
+                  href={startUrl}
                   class={`w-72 text-center font-semibold text-xl px-6 py-3 bg-[#9ddcdc] hover:bg-[#90e8e8] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl`}
                 >
                   Go to the Course!
                 </a>
               ) : (
-                <button
-                  class={`${!alreadyPurchased && 'get-course-btn'} w-72 text-center font-semibold text-xl px-6 py-3 bg-[#9ddcdc] hover:bg-[#90e8e8] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl`}
-                >
-                  Get the Course Now!
-                </button>
+                <PurchaseButton 
+                  slug={courseSlug}
+                  client:load
+                />
               )}
             </div>
 
@@ -109,17 +114,16 @@ if(user) {
     <div class="w-full flex justify-center py-8 pb-28">
       {alreadyPurchased ? (
         <a
-          href={chapters && courseData && `/courses/${courseData.frontmatter.slug}/${chapters[0].slug}/${chapters[0].videos[0].slug}`}
+          href={startUrl}
           class={`w-72 text-center font-semibold text-xl px-6 py-3 bg-[#9ddcdc] hover:bg-[#90e8e8] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl`}
         >
           Go to the Course!
         </a>
       ) : (
-        <button
-          class={`get-course-btn" w-72 font-semibold text-xl px-6 py-3 bg-[#9ddcdc] hover:bg-[#90e8e8] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl`}
-        >
-          Start Today!
-        </button>
+        <PurchaseButton 
+          slug={courseSlug}
+          client:load
+        />
       )}
     </div>
 
@@ -135,7 +139,7 @@ if(user) {
           chapters &&
             chapters.map((chapter, i) => (
               <div class="max-w-sm overflow-hidden shadow-3xl bg-secondary/20 p-6 rounded-xl hover:scale-105 cursor-pointer transition-all duration-300 relative">
-                <a href={chapter.videos && chapter.videos[0] && `${course}/${chapter.slug}/${chapter.videos[0].slug}}`}>
+                <a href={chapter.videos && chapter.videos[0] && `${courseSlug}/${chapter.slug}/${chapter.videos[0].slug}`}>
                   <h5 class="text-xl uppercase font-semibold flex justify-start items-center">
                     <span class="mr-1 bg-white px-2 py-1 rounded-md flex justify-center">
                       {i + 1}
@@ -169,71 +173,7 @@ if(user) {
 
 <Modal id='signin-dialog' title="Signin Modal">
   <main slot='main'>
-    <Signin url={pathname} client:load />
+    <Signin url={url.pathname} client:load />
   </main>
   <button slot='close'>Close modal</button>
 </Modal>
-
-
-<script>
-  import { createBrowserClient } from '@supabase/ssr'
-
-  // Create the Supabase client in the browser
-  const supabase = createBrowserClient(
-    import.meta.env.PUBLIC_SUPABASE_URL,
-    import.meta.env.PUBLIC_SUPABASE_KEY
-  )
-
-  // Get slug from path
-  const modal = document.getElementById('signin-dialog') as HTMLDialogElement | null;;
-  const getCourseBtns = document.getElementsByClassName("get-course-btn") as HTMLCollectionOf<HTMLButtonElement>;
-  const slug = window.location.pathname.split('/').pop();
-
-  for (const btn of getCourseBtns) {
-    btn.addEventListener('click', async (e) => {
-      e.stopPropagation();
-
-      // 1️⃣ Check current session dynamically
-      const { data: { session } } = await supabase.auth.getSession();
-      const user = session?.user;
-
-      if (!user && modal) {
-        // 2️⃣ Not signed in → show modal
-        if (modal && !modal.open) modal.showModal();
-        modal.addEventListener('click', (e) => {
-          if (e.target === modal) modal.close();
-        });
-        return;
-      }
-
-      // 3️⃣ Logged in → make the API request
-      try {
-        btn.disabled = true;
-        btn.textContent = "Redirecting...";
-
-        const response = await fetch("/api/create-checkout-session", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            baseUrl: window.location.host.split('.')[0],
-            slug
-          }),
-        });
-
-        const stripeRes = await response.json();
-
-        if (stripeRes.url) {
-          window.location.href = stripeRes.url;
-        } else {
-          console.error("No Stripe URL returned", stripeRes);
-          btn.textContent = "Error, try again";
-          btn.disabled = false;
-        }
-      } catch (err) {
-        console.error(err);
-        btn.textContent = "Error, try again";
-        btn.disabled = false;
-      }
-    });
-  }
-</script>
