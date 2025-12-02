@@ -32,6 +32,7 @@ export const POST: APIRoute = async ({ request }) => {
   const location = data.get('location')
   const locationOther = data.get('locationOther')
   const referral = data.get('referral')
+  const medicaid = data.get('medicaid')
   const message = data.get('message')
 
   if (typeof email !== 'string' || !validEmail(email)) {
@@ -61,6 +62,7 @@ export const POST: APIRoute = async ({ request }) => {
       Email: ${email}
       Patient Age: ${babyAge}
       Location: ${locationOther ? locationOther : location}
+      Medicaid: ${medicaid}
       How did you hear about us: ${hearAboutUsOther ? hearAboutUsOther : hearAboutUsMap(hearAboutUs as string)}
       ${referral ? `Referral: ${referral}` : ''}
       Mesage: ${message}

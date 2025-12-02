@@ -1,24 +1,25 @@
 <script lang="ts">
   import { slide } from "svelte/transition"
   
-  export let homepage: boolean = false;
+  let { homepage } : { homepage: boolean } = $state(false);
   
-  let error: string;
+  let error: string = $state();
   let successMessage: string;
   let responseMessage: { success: boolean; error?: string } = {
     success: false,
   };
 
-  let name = "";
-  let phone = "";
-  let email = "";
-  let birthDate = "";
-  let hearAboutUs = "";
-  let hearAboutUsOther = "";
-  let location = "";
-  let locationOther = "";
-  let referral = "";
-  let message = "";
+  let name = $state("");
+  let phone = $state("");
+  let email = $state("");
+  let birthDate = $state("");
+  let hearAboutUs = $state("");
+  let hearAboutUsOther = $state("");
+  let location = $state("");
+  let locationOther = $state("");
+  let referral = $state("");
+  let medicaid = $state("");
+  let message = $state("");
 
   const resetForm = () => {
     name = "";
@@ -30,6 +31,7 @@
     location = "";
     locationOther = "";
     referral = "";
+    medicaid = ""
     message = "";
   };
 
@@ -61,7 +63,7 @@
   class={`w-full flex flex-col items-center justify-center h-full gap-y-4 px-4 md:px-8 py-6 rounded-lg ${homepage ? '' : 'border border-black/20'}`}
 >
   <div class="w-full md:max-w-md">
-    <form on:submit={submit} class="flex flex-col gap-3">
+    <form onsubmit={submit} class="flex flex-col gap-3">
       <div class="flex justify-end items-center">
         <span class="text-black text-xs italic -mb-2">* All fields required</span>
       </div>
@@ -129,6 +131,23 @@
         </label>
 
       </div>
+
+      <div>
+        <label for="medicaid" class="block text-sm font-semibold text-gray-800"
+          ><span class="pl-[2px]">Do you have Medicaid?</span>
+          <select
+            required
+            id="medicaid"
+            name="medicaid"
+            bind:value={medicaid}
+            class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+          >
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </label>
+      </div>
+
 
 
       <div>
