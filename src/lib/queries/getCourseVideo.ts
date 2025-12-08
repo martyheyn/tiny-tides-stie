@@ -25,7 +25,7 @@ export async function getCoursePageData(
     .select('*')
     .eq('course_id', course.id)
     .order('section_order')
-    .returns<Chapter[]>()
+    .overrideTypes<Chapter[]>()
 
   if (chaptersErr) throw chaptersErr
 
