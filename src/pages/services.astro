@@ -2,6 +2,7 @@
 import Service from '../components/Service.astro'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import type { MarkdownInstance } from 'astro';
+import { Image } from 'astro:assets';
 
 const markdownFiles = import.meta.glob<MarkdownInstance<any>>('./services/*md', { eager: true })
 
@@ -14,10 +15,11 @@ const description = 'Tiny Tides Therapy offers a variety of services to support 
 <BaseLayout pageTitle={pageTitle} description={description}>
   <div class="w-full h-full bg-primary transition-all duration-300 ease-in-out">
     <div class="relative w-full h-[85vh] pt-14 md:pt-[76px]">
-      <img
+      <Image
         src="https://dkbi9cj3nodif.cloudfront.net/bmore_inner_harbor.jpg"
         alt="Toddlers playing"
         class="w-full h-full object-cover object-center contrast-125"
+        inferSize
       />
       <h1
         class="header-title text-4xl sm:text-5xl text-white absolute w-3/5 sm:w-auto top-1/2 left-1/2 -translate-x-[50%] sm:-translate-x-[60%] bg-black/50 sm:px-4 py-2 rounded-md"

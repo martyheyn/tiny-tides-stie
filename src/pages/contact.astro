@@ -5,14 +5,16 @@ const pageTitle = 'Contact Us - Baltimore'
 const description = 'Contact Tiny Tides Therapy for a free consultation, Baltimore Pediatric Occupational Therapy'
 
 import ContactForm from '../components/ContactForm.svelte'
+import { Image } from 'astro:assets'
 ---
 
 <BaseLayout pageTitle={pageTitle} description={description}>
   <div class="relative w-full h-[85vh] pt-14 sm:pt-[76px]">
-    <img
+    <Image
       src="https://dkbi9cj3nodif.cloudfront.net/bmore_inner_harbor.jpg"
       alt="Toddlers playing"
       class="w-full h-full object-cover object-center contrast-125"
+      inferSize
     />
     <h1
       class="header-title text-4xl sm:text-5xl text-white absolute w-3/5 sm:w-auto top-1/2 left-1/2 -translate-x-[50%] sm:-translate-x-[60%] bg-black/50 sm:px-4 py-2 rounded-md"

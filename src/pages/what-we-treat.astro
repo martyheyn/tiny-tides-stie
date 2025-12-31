@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Reasons from '../components/Reasons.astro';
 import type { MarkdownInstance } from 'astro';
+import { Image } from 'astro:assets';
 
 const markdownFiles = import.meta.glob<MarkdownInstance<any>>('./what-we-treat/*md', { eager: true })
 
@@ -69,10 +70,11 @@ const reasons = {
                   id={treat.frontmatter.id}
                 >
                   <div class="w-full h-full flex justify-center items-center">
-                    <img
+                    <Image
                       src={treatImgs[i]}
                       alt="occupational therapy, lactation, infant feeding"
                       class="w-full max-w-md rounded-md object-cover object-center shadow-lg max-h-[500px] lg:min-w-[500px] lg:h-[450px]"
+                      inferSize
                     />
                   </div>
                   <div class="flex flex-col gap-y-4 w-full h-full justify-center md:px-8">
@@ -118,10 +120,11 @@ const reasons = {
                     </div>
                   </div>
                   <div class="w-full h-full flex justify-center items-center">
-                    <img
+                    <Image
                       src={treatImgs[i]}
                       alt="occupational therapy, lactation, infant feeding"
                       class="w-full max-w-md rounded-md object-cover object-center shadow-lg max-h-[500px] lg:min-w-[500px] lg:h-[450px]"
+                      inferSize
                     />
                   </div>
                 </div>

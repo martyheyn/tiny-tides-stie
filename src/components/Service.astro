@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets"
+
 const { title, id, img, link } = Astro.props
 ---
 
@@ -26,6 +28,6 @@ const { title, id, img, link } = Astro.props
   </div>
 
   <div class="lg:w-1/2 flex justify-center">
-    {img && <img class="max-w-[425px] w-full" src={img} alt={`${title}, occupational therapy, lactation, infant feeding`} />}
+    {img && <Image class="max-w-[425px] w-full" inferSize src={img} alt={`${title}, occupational therapy, lactation, infant feeding`} />}
   </div>
 </div>

@@ -16,6 +16,8 @@ import BabyCrawlingImg from '../../public/assets/images/infant_crawling_icon.png
 import Logo from '../components/Logo.astro'
 import Testamonials from '../components/Testamonials.astro'
 
+import { Image } from 'astro:assets'
+
 const services = [
   {
     img: BabyCrawlingImg,
@@ -170,10 +172,11 @@ const services = [
             </div>
 
             <div class="w-full md:w-1/2 flex justify-center">
-              <img
-                class="max-h-[600px] max-w-[500px] w-full rounded-md"
+              <Image
                 src="https://dkbi9cj3nodif.cloudfront.net/monthly_calendar.png"
+                class="max-h-[600px] max-w-[500px] w-full rounded-md"
                 alt="free group occupational therapy, lactation, infant feeding calendar"
+                inferSize
               />
             </div>
           </div>
@@ -254,10 +257,11 @@ const services = [
         class="w-full mt-8 md:mt-12 grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-y-0 md:gap-x-8 border border-black rounded-md transition-all duration-300 ease-in-out"
       >
         <div class="w-full md:h-screen flex justify-center items-center">
-          <img
+          <Image
             src="https://dkbi9cj3nodif.cloudfront.net/erin_baby_bounce.jpeg"
             alt="occupational therapy, lactation, infant feeding Toddlers playing"
             class="w-full h-full rounded-md object-cover"
+            inferSize
           />
         </div>
 
