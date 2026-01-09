@@ -1,0 +1,15 @@
+---
+interface Props {
+  containerId: string;
+}
+const { containerId } = Astro.props;
+---
+<script type="text/partytown" src={`https://www.googletagmanager.com/gtag/js?id=${containerId}`} />
+<script type="text/partytown" define:vars={{ containerId }}>
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function gtag() {
+    dataLayer.push(arguments);
+  };
+  gtag('js', new Date());
+  gtag('config', containerId);
+</script>   

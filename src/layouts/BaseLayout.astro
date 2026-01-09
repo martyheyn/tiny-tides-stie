@@ -1,6 +1,8 @@
 ---
 import Navbar from '../components/navbar/Navbar.astro'
 import Footer from '../components/Footer.astro'
+import GoogleTagManager from '../components/GoogleTagManager.astro';
+
 
 const { pageTitle, description } = Astro.props
 
@@ -93,6 +95,7 @@ import '../styles/global.css'
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','GTM-TTKN5F33');
     </script> -->
+    <GoogleTagManager containerId="GTM-TTKN5F33" />
     <!-- End Google Tag Manager -->
     </script>
   </head>
