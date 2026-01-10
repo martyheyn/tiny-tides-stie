@@ -19,7 +19,7 @@ Its FREE!!
 
 <p class="font-semibold">
     Every Monday 10:00 - 10:45am <br/>
-    Bodega and Vino in Locust Point, 1121 Hull St, Baltimore, MD 21230
+    Church of the Redemption, 1401 Towson St, Baltimore, MD 21230
 </p>
 
 <a href="https://tally.so/r/3j8M6a" target="_blank">
