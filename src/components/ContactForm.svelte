@@ -1,10 +1,18 @@
 <script lang="ts">
   import { slide } from "svelte/transition"
+
+  type GoogleAutoompleteSuggestion = {
+    placePrediction: {
+      placeId: string,
+      text: {
+        text: string
+      }
+    }
+  }
+
+  let homepage: boolean = $state(false);
   
-  let { homepage } : { homepage: boolean } = $state(false);
-  
-  let error: string = $state();
-  let successMessage: string;
+  let error: string = $state('');
   let responseMessage: { success: boolean; error?: string } = {
     success: false,
   };
@@ -15,11 +23,14 @@
   let birthDate = $state("");
   let hearAboutUs = $state("");
   let hearAboutUsOther = $state("");
+  let locationQuery = $state("");
   let location = $state("");
-  let locationOther = $state("");
   let referral = $state("");
   let medicaid = $state("");
   let message = $state("");
+
+  let suggestions: GoogleAutoompleteSuggestion[] = $state([]);
+  let debounceTimeout: number;
 
   const resetForm = () => {
     name = "";
@@ -29,7 +40,6 @@
     hearAboutUs = "";
     hearAboutUsOther = "";
     location = "";
-    locationOther = "";
     referral = "";
     medicaid = ""
     message = "";
@@ -56,6 +66,34 @@
   }
 
   let monthAhead = new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split("T")[0]
+
+
+
+  // google autocomplete stuff
+  function handleInput() {
+    clearTimeout(debounceTimeout);
+
+    debounceTimeout = window.setTimeout(async () => {
+      if (locationQuery.length < 3) {
+        suggestions = [];
+        return;
+      }
+
+      const res = await fetch(
+        `/api/places-autocomplete?input=${encodeURIComponent(locationQuery)}`
+      );
+
+      const data = await res.json();
+      suggestions = data.suggestions ?? [];
+    }, 300);
+  }
+
+
+  function selectSuggestion(suggestion: GoogleAutoompleteSuggestion) {
+    location = suggestion.placePrediction.text.text
+    locationQuery = location;
+    suggestions = [];
+  }
 </script>
 
 
@@ -208,47 +246,33 @@
 
 
       <div>
-        <label for="location" class="block text-sm font-semibold text-gray-800"
-          ><span class="pl-[2px]">Where do you live?</span>
-          <select
-            required
-            id="location"
-            name="location"
-            bind:value={location}
+        <label class="block text-sm font-semibold text-gray-800">
+          <span class="pl-[2px]">Where do you live?</span>
+
+          <input
+            type="text"
+            placeholder="City or address"
+            bind:value={locationQuery}
+            oninput={handleInput}
             class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
-          >
-          <option value="Fed Hill">Fed Hill</option>
-          <option value="Locust Point">Locust Point</option>
-          <option value="Canton">Canton</option>
-          <option value="Fells Point">Fells Point</option>
-          <option value="Roland Park">Roland Park</option>
-          <option value="Hampden">Hampden</option>
-          <option value="Columbia">Columbia</option>
-          <option value="Towson">Towson</option>
-          <option value="Annapolis">Annapolis</option>
-          <option value="other">Other</option>
-        </select>
+          />
+
+          <input type="hidden" name="location" value={location} />
+
+          {#if suggestions.length}
+            <ul class="mt-1 border rounded-md bg-white shadow-lg max-h-60 overflow-auto">
+              {#each suggestions as suggestion}
+                <button onclick={() => selectSuggestion(suggestion)}>
+                  <li class="px-3 py-2 hover:bg-blue-50 cursor-pointer text-sm text-left">
+                    {suggestion.placePrediction.text.text}
+                  </li>
+                </button>
+              {/each}
+            </ul>
+          {/if}
         </label>
+
       </div>
-
-      {#if location === 'other'}
-        <div transition:slide={{ duration: 200 }}>
-          <label for="locationOther" class="block text-sm font-semibold text-gray-800"
-            ><span class="pl-[2px]">Location</span>
-            <input
-              required={location === 'other'}
-              id="locationOther"
-              name="locationOther"
-              type="text"
-              placeholder="Where do you live?"
-              bind:value={locationOther}
-              class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
-            />
-          </label>
-        </div>
-      {/if}
-
-
 
       <div>
         <label for="message" class="block text-sm font-semibold text-gray-800"
