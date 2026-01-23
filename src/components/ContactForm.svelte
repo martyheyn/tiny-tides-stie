@@ -262,7 +262,7 @@
           {#if suggestions.length}
             <ul class="mt-1 border rounded-md bg-white shadow-lg max-h-60 overflow-auto">
               {#each suggestions as suggestion}
-                <button onclick={() => selectSuggestion(suggestion)}>
+                <button class="w-full" onclick={() => selectSuggestion(suggestion)}>
                   <li class="px-3 py-2 hover:bg-blue-50 cursor-pointer text-sm text-left">
                     {suggestion.placePrediction.text.text}
                   </li>
