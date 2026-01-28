@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets'
 import Bullet from '../components/Bullet.astro'
 import BaseLayout from '../layouts/BaseLayout.astro'
 
@@ -19,7 +20,7 @@ const certifications = [
       'Making Sense of Meltdowns',
       'Sensory Integration and Processing 101',
       'Pediatric NDT Intensive Handling Intervention',
-      'ntroduction to Torticollis and Plagiocephaly',
+      'Introduction to Torticollis and Plagiocephaly',
       'Whole Body Treatment and Considerations for the Precrawling Infant',
       'Early Co-Regulation In The Infant And Parent Dyad',
     ],
@@ -39,7 +40,7 @@ const certifications = [
       'Mouth Moves',
       'Common Infant Digestive Health Concerns and Useful Support Strategies',
       'A Mindful Approach to Infant Tongue-Tie Care',
-      'Gastroesophageal Reflux - When to orry and what to do',
+      'Gastroesophageal Reflux - When to worry and what to do',
       'The ABCs of Ankyloglossia and Perinatal Mental Health',
       'From Feeding Tube to Fully Breastfeeding: A Case Study of Delayed Frenotomy',
       'Identifying and Addressing Compensations and Inefficient Movement Patterns in the Tongue-Tied Baby',
@@ -61,10 +62,13 @@ const certifications = [
           class="max-w-6xl grid grid-cols-1 md:grid-cols-8 gap-y-12 md:gap-y-0 md:gap-x-4 lg:gap-x-12 transition-all duration-300 ease-in-out"
         >
           <div class="w-full flex justify-center items-start md:col-span-3">
-            <img
+            <Image
               src="https://dkbi9cj3nodif.cloudfront.net/erin_smile_baby.jpeg"
               alt="Toddlers playing"
               class="w-full max-w-md rounded-md object-cover object-center shadow-lg md:min-h-[675px]"
+              inferSize
+              loading="lazy"
+              format="webp"
             />
             <!-- max-h-[500px] lg:min-w-[500px] lg:h-[450px] -->
           </div>
@@ -141,20 +145,23 @@ const certifications = [
         <div
           class="grid grid-cols-1 sm:grid-cols-3 content-center px-4 gap-y-24 sm:gap-x-12 md:gap-x-16 lg:gap-x-24 transition-all duration-300 ease-in-out"
         >
-          <img
+          <Image
             src="https://dkbi9cj3nodif.cloudfront.net/certified-lactation-con.avif"
             alt="certified lactation pic"
             class="w-full place-self-center max-h-[300px] md:max-h-[250px]"
+            inferSize
           />
-          <img
+          <Image
             src="https://dkbi9cj3nodif.cloudfront.net/timmy-time-method.png"
             alt="tummy time method pic"
             class="w-full place-self-center max-h-[300px] md:max-h-[250px]"
+            inferSize
           />
-          <img
+          <Image
             src="https://dkbi9cj3nodif.cloudfront.net/feed-the-peds.png"
             alt="feed the peds pics"
             class="w-full place-self-center max-h-[300px] md:max-h-[250px]"
+            inferSize
           />
         </div>
       </div>

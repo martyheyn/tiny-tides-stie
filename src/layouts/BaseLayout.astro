@@ -1,10 +1,11 @@
 ---
 import Navbar from '../components/navbar/Navbar.astro'
 import Footer from '../components/Footer.astro'
+import GoogleTagManager from '../components/GoogleTagManager.astro'
 
 const { pageTitle, description } = Astro.props
 
-import { ClientRouter } from "astro:transitions";
+import { ClientRouter } from 'astro:transitions'
 
 import '../styles/global.css'
 ---
@@ -14,20 +15,9 @@ import '../styles/global.css'
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/wave.svg?" />
 
-    <link
-      rel="icon"
-      href="https://dkbi9cj3nodif.cloudfront.net/logo.svg"
-      sizes="32x32"
-    />
-    <link
-      rel="icon"
-      href="https://dkbi9cj3nodif.cloudfront.net/logo.svg"
-      type="image/svg+xml"
-    />
-    <link
-      rel="apple-touch-icon"
-      href="https://dkbi9cj3nodif.cloudfront.net/logo.svg"
-    />
+    <link rel="icon" href="/logo-wave.png" sizes="32x32" />
+    <link rel="icon" href="/logo-wave.png" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/logo-wave.png" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle} | Tiny Tides Therapy</title>
@@ -41,10 +31,7 @@ import '../styles/global.css'
       as="font"
       crossorigin="anonymous"
     /> -->
-    <meta
-      property="og:image"
-      content="https://dkbi9cj3nodif.cloudfront.net/logo.svg"
-    />
+    <meta property="og:image" content="/logo-wave.png" />
     <link
       href="https://fonts.googleapis.com/css2?family=Lora&display=swap"
       rel="stylesheet"
@@ -60,10 +47,7 @@ import '../styles/global.css'
       property="og:description"
       content="Get expert lactation and infant feeding guidance from a certified occupational therapist."
     />
-    <meta
-      property="og:image"
-      content="https://dkbi9cj3nodif.cloudfront.net/logo.svg"
-    />
+    <meta property="og:image" content="/logo-wave.png" />
     <meta property="og:url" content="https://tinytidestherapy.com" />
 
     <meta name="twitter:card" content="summary_large_image" />
@@ -75,16 +59,16 @@ import '../styles/global.css'
       name="twitter:description"
       content="Expert lactation and infant feeding guidance from a certified occupational therapist."
     />
-    <meta
-      name="twitter:image"
-      content="https://dkbi9cj3nodif.cloudfront.net/logo.svg"
-    />
+    <meta name="twitter:image" content="/logo-wave.png" />
 
     <meta name="description" content={description} />
 
     <link rel="manifest" href="/manifest.webmanifest" />
 
     <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Google Stuff -->
+    <!-- <GoogleTagManager /> -->
   </head>
   <ClientRouter />
 
@@ -100,6 +84,15 @@ import '../styles/global.css'
     </div>
 
     <Footer />
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-TTKN5F33"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"></iframe></noscript
+    >
+    <!-- End Google Tag Manager (noscript) -->
   </body>
 
   <script is:inline type="application/ld+json">
@@ -109,7 +102,7 @@ import '../styles/global.css'
       "name": "Tiny Tides Therapy",
       "description": "Specialized lactation support and infant occupational therapy.",
       "url": "https://tinytidestherapy.com",
-      "logo": "https://dkbi9cj3nodif.cloudfront.net/logo.svg",
+      "logo": "/logo-wave.png",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "1348 Andre St",
@@ -125,4 +118,6 @@ import '../styles/global.css'
       }
     }
   </script>
+
+
 </html>
