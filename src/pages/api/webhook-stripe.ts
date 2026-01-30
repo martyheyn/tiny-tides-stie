@@ -43,7 +43,6 @@ export const POST: APIRoute = async (context) => {
         course_id: courseId,
         created_at: new Date(),
       })
-      console.log('purchases data', data)
 
       if (error) {
         return new Response('DB insert failed', { status: 500 })

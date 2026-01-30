@@ -18,7 +18,7 @@
     "@astrojs/vercel": "^9.0.0",
     "@aws-sdk/cloudfront-signer": "^3.930.0",
     "@supabase/ssr": "^0.7.0",
-    "@supabase/supabase-js": "^2.77.0",
+    "@supabase/supabase-js": "^2.93.2",
     "astro": "^5.15.8",
     "esm-env": "^1.2.1",
     "nodemailer": "^6.9.16",
@@ -31,10 +31,10 @@
     "typescript": "^5.7.2"
   },
   "devDependencies": {
-    "@types/nodemailer": "^6.4.17",
-    "prettier-plugin-svelte": "^3.4.0",
-    "supabase": "^2.65.6",
     "@types/google.maps": "^3.58.1",
-    "baseline-browser-mapping": "^2.9.11"
+    "@types/nodemailer": "^6.4.17",
+    "baseline-browser-mapping": "^2.9.11",
+    "prettier-plugin-svelte": "^3.4.0",
+    "supabase": "^2.65.6"
   }
 }

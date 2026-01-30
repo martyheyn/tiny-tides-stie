@@ -9,10 +9,16 @@ import type { MarkdownInstance } from 'astro'
 const { course: courseSlug } = Astro.params
 const user = Astro.locals.user
 const url = Astro.url
-const supabase = createBEClient({ request: Astro.request, cookies: Astro.cookies })
+const supabase = createBEClient({
+  request: Astro.request,
+  cookies: Astro.cookies,
+})
 
 // Load all markdown
-const markdownFiles = import.meta.glob<MarkdownInstance<any>>('../courses-md/*md', { eager: true })
+const markdownFiles = import.meta.glob<MarkdownInstance<any>>(
+  '../courses-md/*md',
+  { eager: true },
+)
 const allCourses = Object.values(markdownFiles).map((file) => ({
   content: file.compiledContent(),
   frontmatter: file.frontmatter,
@@ -23,24 +29,24 @@ const courseData =
   allCourses.find((c) => c.frontmatter.slug === courseSlug) ?? null
 
 if (!courseData) {
-  return Astro.redirect("/404")
+  return Astro.redirect('/404')
 }
 
 // Run these in parallel
 const [chaptersRes, purchaseRes] = await Promise.all([
   supabase
-    .from("section_with_progress")
-    .select("*")
-    .eq("course_id", courseData.frontmatter.id)
-    .order("section_order"),
+    .from('section_with_progress')
+    .select('*')
+    .eq('course_id', courseData.frontmatter.id)
+    .order('section_order'),
   user
     ? supabase
-        .from("purchases")
-        .select("id")
-        .eq("user_id", user.id)
-        .eq("course_id", courseData.frontmatter.id)
+        .from('purchases')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('course_id', courseData.frontmatter.id)
         .maybeSingle()
-    : Promise.resolve({ data: null })
+    : Promise.resolve({ data: null }),
 ])
 
 const chapters = chaptersRes.data ?? []
@@ -48,14 +54,16 @@ const alreadyPurchased = !!purchaseRes.data
 
 // Clean helper for constructing the start URL
 function startCourseUrl(slug: string, chapters: any) {
-  if (!chapters.length || !chapters[0].videos.length) return "#"
+  if (!chapters.length || !chapters[0].videos.length) return '#'
   const c = chapters[0]
   const v = c.videos[0]
   return `/courses/${slug}/${c.slug}/${v.slug}`
 }
 
 const startUrl = startCourseUrl(courseData.frontmatter.slug, chapters)
-const pageTitle = courseData ? `Course - ${courseData.frontmatter.title}` : "Course"
+const pageTitle = courseData
+  ? `Course - ${courseData.frontmatter.title}`
+  : 'Course'
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -78,8 +86,12 @@ const pageTitle = courseData ? `Course - ${courseData.frontmatter.title}` : "Cou
 
             <div class="w-full flex justify-center">
               <video
-                controls controlslist="nodownload"
-                src={`https://dkbi9cj3nodif.cloudfront.net/${courseData.frontmatter.preview_vid}` || ''}
+                controls
+                controlslist="nodownload"
+                src={
+                  `https://dkbi9cj3nodif.cloudfront.net/${courseData.frontmatter.preview_vid}` ||
+                  ''
+                }
                 class="w-full md:w-[75%] min-h-[315px] md:min-h-[400px] bg-blue-300/30"
               />
             </div>
@@ -94,10 +106,7 @@ const pageTitle = courseData ? `Course - ${courseData.frontmatter.title}` : "Cou
                   Go to the Course!
                 </a>
               ) : (
-                <PurchaseButton 
-                  slug={courseSlug}
-                  client:load
-                />
+                <PurchaseButton slug={courseSlug} client:load />
               )}
             </div>
 
@@ -109,21 +118,19 @@ const pageTitle = courseData ? `Course - ${courseData.frontmatter.title}` : "Cou
       }
     </div>
 
-
     <div class="w-full flex justify-center py-8 pb-28">
-      {alreadyPurchased ? (
-        <a
-          href={startUrl}
-          class={`w-72 text-center font-semibold text-xl px-6 py-3 bg-[#9ddcdc] hover:bg-[#90e8e8] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl`}
-        >
-          Go to the Course!
-        </a>
-      ) : (
-        <PurchaseButton 
-          slug={courseSlug}
-          client:load
-        />
-      )}
+      {
+        alreadyPurchased ? (
+          <a
+            href={startUrl}
+            class={`w-72 text-center font-semibold text-xl px-6 py-3 bg-[#9ddcdc] hover:bg-[#90e8e8] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl`}
+          >
+            Go to the Course!
+          </a>
+        ) : (
+          <PurchaseButton slug={courseSlug} client:load />
+        )
+      }
     </div>
 
     <div class="pb-24">
@@ -138,7 +145,13 @@ const pageTitle = courseData ? `Course - ${courseData.frontmatter.title}` : "Cou
           chapters &&
             chapters.map((chapter, i) => (
               <div class="max-w-sm overflow-hidden shadow-3xl bg-secondary/20 p-6 rounded-xl hover:scale-105 cursor-pointer transition-all duration-300 relative">
-                <a href={chapter.videos && chapter.videos[0] && `${courseSlug}/${chapter.slug}/${chapter.videos[0].slug}`}>
+                <a
+                  href={
+                    chapter.videos &&
+                    chapter.videos[0] &&
+                    `/courses/${courseSlug}/${chapter.slug}/${chapter.videos[0].slug}`
+                  }
+                >
                   <h5 class="text-xl uppercase font-semibold flex justify-start items-center">
                     <span class="mr-1 bg-white px-2 py-1 rounded-md flex justify-center">
                       {i + 1}
@@ -155,23 +168,21 @@ const pageTitle = courseData ? `Course - ${courseData.frontmatter.title}` : "Cou
       </div>
     </div>
 
-    {!alreadyPurchased && (
-      <div class="w-full sticky bottom-1">
-        <div class="flex justify-end">
-          <PurchaseButton 
-            slug={courseSlug}
-            lockBtn={true}
-            client:load
-          />
+    {
+      !alreadyPurchased && (
+        <div class="w-full sticky bottom-1">
+          <div class="flex justify-end">
+            <PurchaseButton slug={courseSlug} lockBtn={true} client:load />
+          </div>
         </div>
-      </div>
-    )}
+      )
+    }
   </div>
 </BaseLayout>
 
-<Modal id='signin-dialog' title="Signin Modal">
-  <main slot='main'>
+<Modal id="signin-dialog" title="Signin Modal">
+  <main slot="main">
     <Signin url={url.pathname} client:load />
   </main>
-  <button slot='close'>Close modal</button>
+  <button slot="close">Close modal</button>
 </Modal>
