@@ -1,6 +1,7 @@
 <script lang="ts">
   import { slide } from "svelte/transition"
   import Notification from "../Notification.svelte"
+  let { homepage = false }: { homepage: boolean } = $props();
 
   type GoogleAutoompleteSuggestion = {
     placePrediction: {
@@ -11,7 +12,6 @@
     }
   }
 
-  let homepage: boolean = $state(false);
   
   let error: string = $state('');
   let successMessage: string;
