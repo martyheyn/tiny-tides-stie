@@ -252,6 +252,7 @@
           <span class="pl-[2px]">Where do you live?</span>
 
           <input
+            required
             type="text"
             placeholder="City or address"
             bind:value={locationQuery}
