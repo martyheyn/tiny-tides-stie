@@ -4,7 +4,7 @@ import { GOOGLE_MAPS_PLACES_API_KEY } from 'astro:env/server'
 export const GET: APIRoute = async ({ url }) => {
   const input = url.searchParams.get('input')
 
-  if (!input || input.length < 3) {
+  if (!input || input.length < 1) {
     return new Response(JSON.stringify({ suggestions: [] }), { status: 200 })
   }
 
