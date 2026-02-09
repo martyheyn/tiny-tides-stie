@@ -72,9 +72,10 @@
   // google autocomplete stuff
   function handleInput() {
     clearTimeout(debounceTimeout);
+    location = locationQuery
 
     debounceTimeout = window.setTimeout(async () => {
-      if (locationQuery.length < 3) {
+      if (locationQuery.length < 1) {
         suggestions = [];
         return;
       }
@@ -245,7 +246,7 @@
       {/if}
 
 
-      <div>
+      <div class="relative">
         <label class="block text-sm font-semibold text-gray-800">
           <span class="pl-[2px]">Where do you live?</span>
 
@@ -261,7 +262,7 @@
           <input type="hidden" name="location" value={location} />
 
           {#if suggestions.length}
-            <ul class="mt-1 border rounded-md bg-white shadow-lg max-h-60 overflow-auto">
+            <ul class="absolute top-14 mt-1 border rounded-md bg-white shadow-lg max-h-60 overflow-auto">
               {#each suggestions as suggestion}
                 <button class="w-full" onclick={() => selectSuggestion(suggestion)}>
                   <li class="px-3 py-2 hover:bg-blue-50 cursor-pointer text-sm text-left">
