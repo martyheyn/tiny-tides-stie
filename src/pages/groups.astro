@@ -1,15 +1,18 @@
 ---
-import { Image } from 'astro:assets';
+import { Image } from 'astro:assets'
 import Service from '../components/Service.astro'
 import BaseLayout from '../layouts/BaseLayout.astro'
-import type { MarkdownInstance } from 'astro';
+import type { MarkdownInstance } from 'astro'
 
-const markdownFiles = import.meta.glob<MarkdownInstance<any>>('./groups/*md', { eager: true })
+const markdownFiles = import.meta.glob<MarkdownInstance<any>>('./groups/*mdx', {
+  eager: true,
+})
 
 const groups: MarkdownInstance<any>[] = Object.values(markdownFiles)
 
 const pageTitle = 'Groups - OT, Lactation, Baltimore'
-const description = 'Free Groups run by Tiny Tides Therapy Baltimore Pediatric Occupational Therapy'
+const description =
+  'Free Groups run by Tiny Tides Therapy Baltimore Pediatric Occupational Therapy'
 ---
 
 <BaseLayout pageTitle={pageTitle} description={description}>

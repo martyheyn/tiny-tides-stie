@@ -4,6 +4,7 @@ import tailwind from '@astrojs/tailwind'
 import sitemap from '@astrojs/sitemap'
 import svelte from '@astrojs/svelte'
 import partytown from '@astrojs/partytown'
+import mdx from '@astrojs/mdx'
 
 export default defineConfig({
   site: 'https://www.tinytidestherapy.com/',
@@ -13,6 +14,7 @@ export default defineConfig({
     tailwind(),
     svelte(),
     sitemap(),
+    mdx(),
     partytown({
       config: {
         forward: ['dataLayer.push'],
