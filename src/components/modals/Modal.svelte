@@ -26,7 +26,7 @@
   bind:this={dialogEl}
   on:click={handleBackdropClick}
   on:close={closeModal}
-  class="backdrop:bg-black/50 backdrop:backdrop-blur-sm bg-white w-full max-w-xl max-h-[90vh] rounded-2xl shadow-2xl p-0 overflow-y-auto"
+  class="backdrop:bg-black/50 backdrop:backdrop-blur-sm bg-white w-[375px] sm:w-full max-w-2xl max-h-[80vh] md:max-h-[90vh] rounded-2xl shadow-2xl overflow-y-auto"
 >
   <div transition:fly={{ y: 24, duration: 300, easing: cubicOut }}>
     <!-- Header -->
