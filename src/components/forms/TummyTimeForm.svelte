@@ -1,5 +1,6 @@
 <script lang="ts">
   import { slide } from "svelte/transition"
+  let { onResult } = $props<{ onResult: (res: 'success' | 'error') => void }>();
 
   type GoogleAutoompleteSuggestion = {
     placePrediction: {
@@ -58,17 +59,17 @@
 
     if(!responseMessage.success) {
       error = 'There was an error trying to submit. Please try again at a later time'
+      onResult('error');
     }
 
     if(responseMessage.success) {
       resetForm();
       // notification that they submitted the form
+      onResult('success');
     }
   }
 
   let monthAhead = new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split("T")[0]
-
-
 
   // google autocomplete stuff
   function handleInput() {
