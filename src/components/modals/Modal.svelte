@@ -22,7 +22,6 @@
   }
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
 <dialog
   bind:this={dialogEl}
   on:click={handleBackdropClick}
