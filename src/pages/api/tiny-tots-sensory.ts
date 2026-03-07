@@ -24,95 +24,70 @@ const hearAboutUsMap = (hearAboutUs: string) => {
 }
 
 export const POST: APIRoute = async ({ request }) => {
-  const data = await request.formData()
-  const email = data.get('email') as string
-  const parentName = data.get('parentName')
-  const phone = data.get('phone')
-  const childName = data.get('childName')
-  const birthDate = data.get('birthDate')
-  const hearAboutUs = data.get('hearAboutUs')
-  const hearAboutUsOther = data.get('hearAboutUsOther')
-  const location = data.get('location')
-  const dateOfGroup = '03/23/2026'
-  const observations = data.getAll('observations') as string[]
-  const message = data.get('message')
-  const consentToPic = data.get('consentToPic') === 'on'
+  const data = await request.json()
 
-  if (!birthDate) {
-    console.error('Birth date is required.')
+  const email = data.email
+  const parentName = data.parentName
+  const phone = data.phone
+  const childName = data.childName
+  const birthDate = data.birthDate
+  const hearAboutUs = data.hearAboutUs
+  const hearAboutUsOther = data.hearAboutUsOther
+  const location = data.location
+  const observations = Array.isArray(data.observations)
+    ? data.observations
+    : data.observations
+      ? [data.observations]
+      : []
+  const message = data.message
+  const allergies = data.allergies
+  const consentToPic = data.consentToPic === 'yes'
+  const consentToCaregiver =
+    data.consentToCaregiver === 'on' || data.consentToCaregiver === true
+
+  if (!birthDate || !parentName) {
     return new Response(
-      JSON.stringify({
-        message: 'Missing required fields',
-      }),
+      JSON.stringify({ message: 'Missing required fields' }),
       { status: 400 },
     )
   }
-
-  // Validate the data - you'll probably want to do more than this
-  if (!parentName) {
-    return new Response(
-      JSON.stringify({
-        message: 'Missing required fields',
-      }),
-      { status: 400 },
-    )
-  }
-
-  console.log('email', email)
 
   try {
-    // send to airtable
-    const searchRes = await fetch(
-      `https://api.airtable.com/v0/${baseId}/${tableId}?filterByFormula=${encodeURIComponent(`{Email Address}="${email}"`)}`,
-      {
-        headers: {
-          Authorization: `Bearer ${airtableApiKey}`,
-        },
-      },
-    )
-    const searchData = await searchRes.json()
-    const existingRecord = searchData.records?.[0]
-    console.log('existingRecord', existingRecord)
-
-    if (!existingRecord) {
-      return new Response(
-        JSON.stringify({
-          success: false,
-          error: 'No matching payment record found',
-        }),
-        { status: 404 },
-      )
-    }
-
     const airtableRes = await fetch(
-      `https://api.airtable.com/v0/${baseId}/${tableId}/${existingRecord.id}`,
+      `https://api.airtable.com/v0/${baseId}/${tableId}`,
       {
-        method: 'PATCH',
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${airtableApiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          fields: {
-            'Parent Name': parentName,
-            'Child First Name': childName,
-            'Childs DOB': birthDate,
-            'Date of Group': dateOfGroup,
-            'Phone Number': phone,
-            Address: location,
-            'Areas of Concern': observations,
-            Message: message,
-            'How did you hear about Tummy Time':
-              hearAboutUsOther ?? hearAboutUsMap(hearAboutUs as string),
-            'Consent to Pics': consentToPic,
-          },
+          records: [
+            {
+              fields: {
+                'Email Address': email,
+                'Parent Name': parentName,
+                'Child First Name': childName,
+                'Childs DOB': birthDate,
+                'Date of Group': '03/14/2026',
+                'Phone Number': phone,
+                Address: location,
+                'Areas of Concern': observations,
+                Message: message,
+                'How did you hear about Tummy Time':
+                  hearAboutUsOther ?? hearAboutUsMap(hearAboutUs as string),
+                Allergies: allergies,
+                'Consent to Pics': consentToPic,
+                'Caregiver Consent': consentToCaregiver,
+              },
+            },
+          ],
         }),
       },
     )
 
     if (!airtableRes.ok) {
       const errorBody = await airtableRes.json()
-      console.log('Airtable error:', airtableRes.status, errorBody)
       console.error('Airtable error:', airtableRes.status, errorBody)
       return new Response(
         JSON.stringify({ success: false, error: errorBody }),
@@ -120,25 +95,11 @@ export const POST: APIRoute = async ({ request }) => {
       )
     }
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-      }),
-      { status: 200 },
-    )
+    return new Response(JSON.stringify({ success: true }), { status: 200 })
   } catch (error) {
-    console.log('error submitting to airtable', error)
+    console.error('Error submitting to airtable:', error)
     return new Response(JSON.stringify({ success: false, errors: error }), {
       status: 500,
     })
   }
 }
-
-// import type { APIRoute } from 'astro'
-
-// export const POST: APIRoute = async () => {
-//   return new Response(JSON.stringify({ success: true, test: true }), {
-//     status: 200,
-//     headers: { 'Content-Type': 'application/json' },
-//   })
-// }

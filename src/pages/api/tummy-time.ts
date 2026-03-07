@@ -59,7 +59,6 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 400 },
     )
   }
-  const babyAge = timeDifference(birthDate.toString())
 
   // Validate the data - you'll probably want to do more than this
   if (!parentName || !email) {

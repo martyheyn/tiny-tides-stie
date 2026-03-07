@@ -24,47 +24,10 @@ export const GET: APIRoute = async ({ url }) => {
     const session = await stripe.checkout.sessions.retrieve(sessionId)
 
     if (session.payment_status === 'paid') {
-      const email = session.customer_details?.email ?? ''
-
-      const airtableRes = await fetch(
-        `https://api.airtable.com/v0/${baseId}/${tableId}`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${airtableApiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            records: [
-              {
-                fields: {
-                  'Email Address': email,
-                },
-              },
-            ],
-          }),
-        },
-      )
-
-      if (!airtableRes.ok) {
-        console.log('Something went wrong')
-        const errorBody = await airtableRes.json()
-        console.log('Airtable error:', airtableRes.status, errorBody)
-        console.error('Airtable error:', airtableRes.status, errorBody)
-      } else {
-        console.log('Something went RIGHT!!!')
-      }
-
-      return new Response(
-        JSON.stringify({
-          paid: true,
-          email,
-        }),
-        {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' },
-        },
-      )
+      return new Response(JSON.stringify({ paid: true }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      })
     }
 
     return new Response(JSON.stringify({ paid: false }), {
