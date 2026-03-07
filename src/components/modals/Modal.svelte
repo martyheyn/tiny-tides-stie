@@ -31,10 +31,10 @@
   <div transition:fly={{ y: 24, duration: 300, easing: cubicOut }}>
     <!-- Header -->
     <div class="sticky top-0 z-10 flex items-center justify-between px-6 py-4 bg-primary border-b border-black/10 rounded-t-2xl">
-      <div>
+      <div class="flex flex-col gap-2">
         <h2 class="text-lg font-bold text-gray-900 leading-tight">{title}</h2>
         {#if subtitle}
-          <p class="text-sm text-gray-500">{subtitle}</p>
+          <p class="text-base text-gray-500">{subtitle}</p>
         {/if}
       </div>
       <button
