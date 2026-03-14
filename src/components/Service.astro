@@ -1,12 +1,12 @@
 ---
-import { Image } from "astro:assets"
+import { Image } from 'astro:assets'
 
 const { title, id, img, link } = Astro.props
 ---
 
 <div
   class="flex flex-col gap-y-6 lg:flex-row lg:gap-x-12 bg-[#ecf7f7] shadow-lg border border-black/50 rounded-md p-6
-     transition-all duration-300 ease-in-out hover:scale-[1.002]"
+     transition-all duration-300 ease-in-out hover:scale-[1.002] scroll-mt-20"
   id={id}
 >
   <div class="lg:w-1/2 flex flex-col gap-y-6">
@@ -28,6 +28,15 @@ const { title, id, img, link } = Astro.props
   </div>
 
   <div class="lg:w-1/2 flex justify-center">
-    {img && <Image class="max-w-[425px] w-full" inferSize src={img} alt={`${title}, occupational therapy, lactation, infant feeding`} />}
+    {
+      img && (
+        <Image
+          class="max-w-[425px] w-full"
+          inferSize
+          src={img}
+          alt={`${title}, occupational therapy, lactation, infant feeding`}
+        />
+      )
+    }
   </div>
 </div>

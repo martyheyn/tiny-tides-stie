@@ -1,10 +1,6 @@
 import type { APIRoute } from 'astro'
 import Stripe from 'stripe'
 
-const airtableApiKey = import.meta.env.AIRTABLE_API_KEY
-const baseId = import.meta.env.AIRTABLE_SENSORY_GROUP_APP_ID
-const tableId = import.meta.env.AIRTABLE_SENSORY_GROUP_TABLE_ID
-
 const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY)
 
 export const GET: APIRoute = async ({ url }) => {

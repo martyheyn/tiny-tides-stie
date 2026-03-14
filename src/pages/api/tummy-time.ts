@@ -125,38 +125,3 @@ export const POST: APIRoute = async ({ request }) => {
     })
   }
 }
-
-function timeDifference(dateString: string) {
-  const givenDate = new Date(dateString)
-  const currentDate = new Date()
-
-  let years = currentDate.getFullYear() - givenDate.getFullYear()
-  let months = currentDate.getMonth() - givenDate.getMonth()
-  let days = currentDate.getDate() - givenDate.getDate()
-
-  if (days < 0) {
-    months -= 1
-    const lastMonth = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      0,
-    )
-    days += lastMonth.getDate()
-  }
-  if (months < 0) {
-    years -= 1
-    months += 12
-  }
-
-  const parts = []
-  if (years)
-    parts.push(`${Math.abs(years)} ${Math.abs(years) > 1 ? 'years' : 'year'}`)
-  if (months)
-    parts.push(
-      `${Math.abs(months)} ${Math.abs(months) > 1 ? 'months' : 'month'}`,
-    )
-  if (days)
-    parts.push(`${Math.abs(days)} ${Math.abs(days) > 1 ? 'days' : 'day'}`)
-
-  return parts.join(', ')
-}
