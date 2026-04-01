@@ -111,10 +111,6 @@
     locationQuery = location;
     suggestions = [];
   }
-
-  const availableDates = [
-    { label: 'March 23, 2026 (Monday) ', value: '03/23/2026' },
-  ]
 </script>
 
 

@@ -69,7 +69,7 @@ export const POST: APIRoute = async ({ request }) => {
                 'Parent Name': parentName,
                 'Child First Name': childName,
                 'Childs DOB': birthDate,
-                'Date of Group': '03/14/2026',
+                'Date of Group': '04/26/2026',
                 'Phone Number': phone,
                 Address: location,
                 'Areas of Concern': observations,
