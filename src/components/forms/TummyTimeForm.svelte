@@ -99,7 +99,7 @@
   }
 
   const availableDates = [
-    { label: 'March 23, 2026 (Monday) ', value: '03/23/2026' },
+    { label: 'April 13, 2026 (Monday) ', value: '04/13/2026' },
   ]
 
   function toggleDate(date: { label: string, value: string }) {
