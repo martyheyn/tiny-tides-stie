@@ -82,6 +82,7 @@ export const POST: APIRoute = async ({ request }) => {
               },
             },
           ],
+          typecast: true,
         }),
       },
     )

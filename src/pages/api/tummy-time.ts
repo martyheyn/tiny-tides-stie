@@ -69,6 +69,7 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 400 },
     )
   }
+  console.log('datesAttending', datesAttending)
 
   try {
     // send to airtable
@@ -98,6 +99,7 @@ export const POST: APIRoute = async ({ request }) => {
               },
             },
           ],
+          typecast: true,
         }),
       },
     )
