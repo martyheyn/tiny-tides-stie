@@ -87,10 +87,10 @@
       );
 
       const data = await res.json();
+
       suggestions = data.suggestions ?? [];
     }, 300);
   }
-
 
   function selectSuggestion(suggestion: GoogleAutoompleteSuggestion) {
     location = suggestion.placePrediction.text.text
@@ -99,7 +99,8 @@
   }
 
   const availableDates = [
-    { label: 'April 13, 2026 (Monday) ', value: '04/13/2026' },
+    { label: 'May 04, 2026 (Monday) ', value: '05/04/2026' },
+    { label: 'May 18, 2026 (Monday) ', value: '05/18/2026' },
   ]
 
   function toggleDate(date: { label: string, value: string }) {

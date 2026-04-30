@@ -36,7 +36,7 @@ export const POST: APIRoute = async ({ request }) => {
   const location = data.get('location')
   const datesAttendingRaw = data.get('datesAttending')
   const datesAttending = datesAttendingRaw
-    ? datesAttendingRaw.toString().split('(').filter(Boolean)
+    ? datesAttendingRaw.toString().split(',').filter(Boolean)
     : []
   const aoc = data.get('areaOfConcern')
   const consentToPic = data.get('consentToPic') === 'on'
