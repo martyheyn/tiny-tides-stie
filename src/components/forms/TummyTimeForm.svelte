@@ -99,8 +99,10 @@
   }
 
   const availableDates = [
-    { label: 'June 08, 2026 (Monday) ', value: '06/08/2026' },
-    { label: 'June 29, 2026 (Monday) ', value: '06/29/2026' },
+    { label: 'July 06, 2026 (Monday) ', value: '07/06/2026' },
+    { label: 'July 13, 2026 (Monday) ', value: '07/13/2026' },
+    { label: 'July 20, 2026 (Monday) ', value: '07/20/2026' },
+    { label: 'July 27, 2026 (Monday) ', value: '07/27/2026' },
   ]
 
   function toggleDate(date: { label: string, value: string }) {
