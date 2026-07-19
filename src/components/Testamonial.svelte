@@ -1,5 +1,16 @@
 <script lang="ts">
-  let { userName, link, children } = $props();
+  import type { Snippet } from 'svelte'
+
+  interface Props {
+    userName: string
+    numReviews?: unknown
+    sincePost?: unknown
+    link: string
+    class?: string
+    children: Snippet
+  }
+
+  let { userName, link, children }: Props = $props();
 </script>
 
 <a href={link} target="_blank">

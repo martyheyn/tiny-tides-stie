@@ -10,28 +10,31 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/mdx": "^4.3.13",
-    "@astrojs/partytown": "^2.1.4",
-    "@astrojs/sitemap": "^3.6.0",
-    "@astrojs/svelte": "^7.2.0",
-    "@astrojs/tailwind": "^6.0.2",
-    "@astrojs/vercel": "^8.2.8",
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/mdx": "^7.0.3",
+    "@astrojs/partytown": "^2.1.7",
+    "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/svelte": "^9.0.1",
+    "@astrojs/vercel": "^11.0.3",
     "@supabase/supabase-js": "^2.58.0",
+    "@tailwindcss/vite": "^4.3.3",
     "airtable": "^0.12.2",
-    "astro": "^5.14.1",
+    "astro": "^7.1.1",
     "esm-env": "^1.2.1",
-    "nodemailer": "^6.9.16",
+    "nodemailer": "^9.0.3",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1",
-    "prettier-plugin-tailwindcss": "^0.6.8",
+    "prettier-plugin-tailwindcss": "^0.8.1",
     "stripe": "^20.4.0",
-    "svelte": "^5.2.8",
-    "tailwindcss": "^3.4.14",
+    "svelte": "^5.56.6",
+    "tailwindcss": "^4.3.3",
     "typescript": "^5.7.2"
   },
   "devDependencies": {
     "@types/google.maps": "^3.58.1",
-    "@types/nodemailer": "^6.4.17"
+    "@types/nodemailer": "^8.0.1"
+  },
+  "overrides": {
+    "path-to-regexp": "^6.3.0"
   }
 }

@@ -1,17 +1,16 @@
 import { defineConfig, envField } from 'astro/config'
 import vercel from '@astrojs/vercel'
-import tailwind from '@astrojs/tailwind'
 import sitemap from '@astrojs/sitemap'
 import svelte from '@astrojs/svelte'
 import partytown from '@astrojs/partytown'
 import mdx from '@astrojs/mdx'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   site: 'https://www.tinytidestherapy.com/',
   output: 'server',
   adapter: vercel(),
   integrations: [
-    tailwind(),
     svelte(),
     sitemap(),
     mdx(),
@@ -21,6 +20,17 @@ export default defineConfig({
       },
     }),
   ],
+  vite: {
+    plugins: [tailwindcss()],
+    // Astro's dev-server dependency scan crawls every .svelte/.astro file under
+    // src/, including src/layouts/CourseLayout.svelte, which is WIP for an
+    // unmerged branch and imports a component that doesn't exist yet on main.
+    // Disabling discovery avoids crashing the scan; deps are optimized on
+    // demand instead.
+    optimizeDeps: {
+      noDiscovery: true,
+    },
+  },
   build: {
     inlineStylesheets: 'auto',
   },
