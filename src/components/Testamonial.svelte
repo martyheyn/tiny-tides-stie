@@ -1,8 +1,8 @@
 <script lang="ts">
-  let { userName, link, children } = $props();
+  let { userName, link, children, class: className = '' } = $props();
 </script>
 
-<a href={link} target="_blank">
+<a href={link} target="_blank" class={className}>
   <div class="google-border cursor-pointer hover:shadow-xl transition-transform duration-300 ease-in-out">
     <div
       class={`flex flex-row w-[375px] md:w-[400px] h-[365px] bg-primary rounded-lg gap-x-2 p-4 relative`}

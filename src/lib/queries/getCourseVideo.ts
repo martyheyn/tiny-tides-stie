@@ -1,4 +1,5 @@
-import { createBEClient } from '../SupabaseServer'
+import { createBEClient, createServiceRoleClient } from '../SupabaseServer'
+import { stripe } from '../Stripe'
 import type { Chapter } from '../../utils/tpyes'
 
 export async function getCoursePageData(
@@ -8,6 +9,7 @@ export async function getCoursePageData(
   chapterSlug: string | undefined,
   videoSlug: string | undefined,
   userId: string | undefined,
+  checkoutSessionId?: string | null,
 ) {
   const supabase = createBEClient({ request, cookies })
 
@@ -42,7 +44,53 @@ export async function getCoursePageData(
     .eq('course_id', course.id)
     .maybeSingle()
 
-  const alreadyPurchased = !!purchaseRes
+  let alreadyPurchased = !!purchaseRes
+
+  // 4. Fallback for webhook delivery lag (or a webhook that never reaches this
+  // environment, e.g. local dev without `stripe listen` running): verify the
+  // Checkout Session directly and record the purchase ourselves.
+  if (!alreadyPurchased && checkoutSessionId && userId) {
+    alreadyPurchased = await recordPurchaseFromSession(
+      checkoutSessionId,
+      userId,
+      course.id,
+    )
+  }
 
   return { course, chapters, currChapter, video, alreadyPurchased }
+}
+
+async function recordPurchaseFromSession(
+  checkoutSessionId: string,
+  userId: string,
+  courseId: string,
+): Promise<boolean> {
+  try {
+    const session = await stripe.checkout.sessions.retrieve(checkoutSessionId)
+
+    if (
+      session.payment_status !== 'paid' ||
+      session.metadata?.user_id !== userId ||
+      session.metadata?.course_id !== courseId
+    ) {
+      return false
+    }
+
+    const serviceRoleClient = createServiceRoleClient()
+    const { error } = await serviceRoleClient.from('purchases').insert({
+      user_id: userId,
+      course_id: courseId,
+    })
+
+    // A unique-violation just means the webhook beat us to it -- still purchased.
+    if (error && error.code !== '23505') {
+      console.error('Failed to record purchase from checkout session', error)
+      return false
+    }
+
+    return true
+  } catch (err) {
+    console.error('Failed to verify checkout session', err)
+    return false
+  }
 }

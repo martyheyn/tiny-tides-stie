@@ -1,11 +1,6 @@
 import nodemailer from 'nodemailer'
 
-export async function sendEmail(
-  name: string,
-  body: string,
-  ooo: boolean,
-  email: string,
-) {
+function createTransporter() {
   const SMTP_USER = import.meta.env.SMTP_USER
   const SMTP_PASS = import.meta.env.SMTP_PASS
 
@@ -15,8 +10,7 @@ export async function sendEmail(
     )
   }
 
-  // Create a transporter object with secure settings
-  const transporter = nodemailer.createTransport({
+  return nodemailer.createTransport({
     service: 'gmail',
     port: 465,
     secure: true,
@@ -25,6 +19,16 @@ export async function sendEmail(
       pass: SMTP_PASS,
     },
   })
+}
+
+export async function sendEmail(
+  name: string,
+  body: string,
+  ooo: boolean,
+  email: string,
+) {
+  const transporter = createTransporter()
+  const SMTP_USER = import.meta.env.SMTP_USER
 
   // Email options
   const mailOptions = {
@@ -40,6 +44,29 @@ export async function sendEmail(
     return info
   } catch (error) {
     console.error('Error sending email:', error)
+    throw error
+  }
+}
+
+export async function sendPurchaseConfirmationEmail(
+  email: string,
+  courseTitle: string,
+  startUrl: string,
+) {
+  const transporter = createTransporter()
+
+  const mailOptions = {
+    from: `Tiny Tides Therapy`,
+    to: email,
+    subject: `You're enrolled: ${courseTitle}`,
+    text: `Thanks for your purchase!\n\nYou now have full access to "${courseTitle}".\n\nStart here: ${startUrl}\n\nQuestions? Just reply to this email.`,
+  }
+
+  try {
+    const info = await transporter.sendMail(mailOptions)
+    return info
+  } catch (error) {
+    console.error('Error sending purchase confirmation email:', error)
     throw error
   }
 }

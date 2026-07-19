@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte'
   import { createBrowserClient } from '@supabase/ssr'
+  import { completedVideos } from '../../lib/videoCompletionStore.svelte'
   let { chapters, chapIndx, videoId, user, length, courseSlug } = $props()
 
   const supabase = createBrowserClient(
@@ -178,17 +179,25 @@
   $effect(() => {
     localStorage.setItem('autoplay', autoplay.toString())
   })
+
+  // Keep the shared completion store in sync so other islands (e.g. the
+  // Sidebar) can react the instant this video is marked complete.
+  $effect(() => {
+    if (videoId) {
+      completedVideos[videoId] = completed
+    }
+  })
 </script>
 
 <div>
   <div class="bg-black rounded-sm overflow-hidden shadow-lg relative">
+    <!-- poster="/logo-wave.png" -->
     <video
       bind:this={videoEl}
       src={videoUrl || null}
       controls
       controlslist="nodownload"
-      class="w-full h-auto sm:h-[525px] object-contain"
-      poster="/logo-wave.png"
+      class="w-full h-auto sm:h-[525px] object-contain"  
       preload="metadata"
       ontimeupdate={onTimeUpdate}
       onended={onVideoEnded}
@@ -259,12 +268,13 @@
             chapters[chapIndx - 1] &&
             `/courses/${courseSlug}/${chapters[chapIndx - 1].slug}/${chapters[chapIndx - 1].videos[0].slug}`}
           aria-label="prev-chapter-btn"
+          class="flex items-center justify-center rounded-full border border-black/10 bg-white shadow-sm p-2 cursor-pointer hover:bg-secondary/30 hover:border-black/20 hover:shadow-md hover:scale-[1.10] transition-all duration-300 ease-out"
         >
           <svg
             viewBox="0 0 24 24"
             width="24"
             height="24"
-            class={`cursor-pointer rotate-180 stroke stroke-black hover:scale-[1.10] transition-all duration-300 ease-out`}
+            class="rotate-180 stroke stroke-black"
             xmlns="http://www.w3.org/2000/svg"
             fill-rule="evenodd"
             clip-rule="evenodd"
@@ -283,12 +293,13 @@
             chapters[chapIndx + 1].videos &&
             `/courses/${courseSlug}/${chapters[chapIndx + 1].slug}/${chapters[chapIndx + 1].videos[0].slug}`}
           aria-label="next-chapter-btn"
+          class="flex items-center justify-center rounded-full border border-black/10 bg-white shadow-sm p-2 cursor-pointer hover:bg-secondary/30 hover:border-black/20 hover:shadow-md hover:scale-[1.10] transition-all duration-300 ease-out"
         >
           <svg
             viewBox="0 0 24 24"
             width="24"
             height="24"
-            class={`cursor-pointer stroke stroke-black hover:scale-[1.10] transition-all duration-300 ease-out`}
+            class="stroke stroke-black"
             xmlns="http://www.w3.org/2000/svg"
             fill-rule="evenodd"
             clip-rule="evenodd"
@@ -310,17 +321,30 @@
           width="30"
           height="30"
           viewBox="0 0 60 60"
-          class="transition-all duration-500 ease-out"
           xmlns="http://www.w3.org/2000/svg"
         >
           <circle
             cx="30"
             cy="30"
             r="25"
-            class="transition-all duration-500 ease-out origin-center {completed
-              ? 'stroke-green-400 fill-green-300 scale-[1.12]'
+            class="origin-center transition-[fill,stroke,transform] duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] {completed
+              ? 'stroke-green-400 fill-green-300 scale-[1.08]'
               : 'stroke-slate-300 fill-transparent scale-100'}"
             style="stroke-width: 4; transform-origin: center;"
+          />
+          <path
+            d="M18 31l8 8 16-16"
+            fill="none"
+            stroke="white"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="transition-all ease-out {completed
+              ? 'opacity-100 duration-300 delay-100'
+              : 'opacity-0 duration-150'}"
+            style="stroke-dasharray: 34; stroke-dashoffset: {completed
+              ? 0
+              : 34};"
           />
         </svg>
       </button>

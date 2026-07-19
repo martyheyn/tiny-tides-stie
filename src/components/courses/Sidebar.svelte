@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Chapter } from '../../utils/tpyes'
+  import { completedVideos } from '../../lib/videoCompletionStore.svelte'
 
   let openedChapters = $state(new Map())
 
@@ -33,11 +34,14 @@
     <h2
       class="text-gray-800 font-bold text-xl uppercase pb-4 border-b border-black/20"
     >
-      ⚡ {course && course.name}
+      {course && course.name}
     </h2>
 
     <nav class="flex-1">
       {#each chapters as chapter}
+        {@const isCompleted =
+          completedVideos[chapter.videos[0]?.id] ??
+          chapter.videos[0].completed}
         <a
           href={course &&
             `/courses/${course.slug}/${chapter.slug}/${chapter.videos[0].slug}`}
@@ -46,18 +50,22 @@
           <span>{chapter.label}</span>
 
           <div class="flex gap-x-3 items-center">
-            {#key chapter.section_id}
+            {#key `${chapter.section_id}-${isCompleted}`}
               <!-- Completed CHeck for chapters -->
-              {#if chapter.videos[0].completed}
+              {#if isCompleted}
                 <svg
-                  class="w-5 h-4/5 text-green-500 transform transition-all duration-200 ease-out animate-[popIn_.2s_forwards]"
+                  class="w-5 h-5 text-green-500"
                   viewBox="0 0 20 20"
-                  fill="currentColor"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
                 >
                   <path
-                    fill-rule="evenodd"
-                    d="M16.707 5.293a1 1 0 00-1.414-1.414L8 11.172 4.707 7.879A1 1 0 003.293 9.293l4 4a1 1 0 001.414 0l8-8z"
-                    clip-rule="evenodd"
+                    d="M4 10l4 4 8-8"
+                    class="draw-check"
+                    style="stroke-dasharray: 17; stroke-dashoffset: 17;"
                   />
                 </svg>
               {:else}
@@ -80,7 +88,7 @@
 
   <a
     href={course && `/courses/${course.slug}`}
-    class="flex items-center gap-x-4 opacity-60 px-4 py-1 border border-black/50 hover:bg-primary/50 rounded-md transition-all ease-out duration-300 hover:scale-[1.02]"
+    class="flex items-center gap-x-4 px-4 py-2 bg-white border border-black/10 shadow-sm rounded-md hover:bg-secondary/30 hover:border-black/20 hover:shadow-md hover:scale-[1.02] transition-all ease-out duration-300"
   >
     <svg
       viewBox="0 0 24 24"
@@ -101,18 +109,13 @@
 </div>
 
 <style>
-  @keyframes popIn {
-    0% {
-      transform: scale(0.5);
-      opacity: 0;
-    }
-    70% {
-      transform: scale(1.15);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(1);
-      opacity: 1;
+  .draw-check {
+    animation: draw-check 0.4s ease-out forwards;
+  }
+
+  @keyframes draw-check {
+    to {
+      stroke-dashoffset: 0;
     }
   }
 </style>

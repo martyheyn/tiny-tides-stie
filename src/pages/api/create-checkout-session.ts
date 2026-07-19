@@ -1,10 +1,9 @@
 import type { APIRoute } from 'astro'
-import Stripe from 'stripe'
+import type { MarkdownInstance } from 'astro'
+import { stripe } from '../../lib/Stripe'
 import { createBEClient } from '../../lib/SupabaseServer'
 
-const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2025-10-29.clover',
-})
+const isTestMode = import.meta.env.STRIPE_SECRET_KEY?.startsWith('sk_test_')
 
 export const POST: APIRoute = async (context) => {
   const supabase = createBEClient({
@@ -16,12 +15,15 @@ export const POST: APIRoute = async (context) => {
     const { data: user } = await supabase.auth.getUser()
 
     if (!user.user?.id) {
-      return new Response('Unauthorized', { status: 401 })
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      })
     }
 
     const { data: course, error } = await supabase
       .from('course')
-      .select('id, price_id')
+      .select('id, price_id_test, price_id_live')
       .eq('slug', slug.trim())
       .single()
 
@@ -31,6 +33,15 @@ export const POST: APIRoute = async (context) => {
 
     if (!course) {
       return new Response('Error getting course', { status: 500 })
+    }
+
+    const priceId = isTestMode ? course.price_id_test : course.price_id_live
+
+    if (!priceId) {
+      return new Response(
+        JSON.stringify({ error: 'This course is not yet available for purchase.' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } },
+      )
     }
 
     const { data: chapter, error: chapterErr } = await supabase
@@ -55,19 +66,36 @@ export const POST: APIRoute = async (context) => {
       return new Response('Error getting course', { status: 500 })
     }
 
+    // Course title lives in markdown frontmatter, not the DB — stash it in
+    // Stripe metadata so the confirmation page and receipt email don't need
+    // to re-derive it later.
+    const markdownFiles = import.meta.glob<MarkdownInstance<any>>(
+      '../courses-md/*md',
+      { eager: true },
+    )
+    const courseTitle =
+      Object.values(markdownFiles).find(
+        (file) => file.frontmatter.slug === slug.trim(),
+      )?.frontmatter.title ?? slug
+
+    const startPath = `/courses/${slug}/${chapter.slug}/${video.slug}`
+
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: [
         {
-          price: course.price_id,
+          price: priceId,
           quantity: 1,
         },
       ],
       metadata: {
         user_id: user.user?.id,
         course_id: course?.id,
+        course_slug: slug,
+        course_title: courseTitle,
+        start_path: startPath,
       },
-      success_url: `http://${baseUrl}/courses/${slug}/${chapter.slug}/${video.slug}`,
+      success_url: `http://${baseUrl}/courses/${slug}/confirmed?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `http://${baseUrl}/courses/${slug}`,
       allow_promotion_codes: true,
     })

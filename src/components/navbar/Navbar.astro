@@ -145,7 +145,7 @@ const user = Astro.locals.user
 
 <Modal id='signin-dialog' title="Signin Modal">
   <main slot='main'>
-    <Signin url={url.pathname} client:load />
+    <Signin client:load />
   </main>
   <button slot='close'>Close modal</button>
 </Modal>
