@@ -24,6 +24,9 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'auto',
   },
+  image: {
+    domains: ['dkbi9cj3nodif.cloudfront.net'],
+  },
   env: {
     schema: {
       GOOGLE_MAPS_PLACES_API_KEY: envField.string({
