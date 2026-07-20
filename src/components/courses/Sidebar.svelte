@@ -1,6 +1,13 @@
 <script lang="ts">
   import type { Chapter } from '../../utils/tpyes'
   import { completedVideos } from '../../lib/videoCompletionStore.svelte'
+  import DownloadResourcesButton from './DownloadResourcesButton.svelte'
+
+  type Resource = {
+    id: string
+    name: string
+    file_type: string | null
+  }
 
   let openedChapters = $state(new Map())
 
@@ -9,12 +16,16 @@
     chapters,
     pathname,
     course,
+    resources,
+    hasFeedback,
   }: {
     value: boolean
     chapters: Chapter[]
     pathname: string
     course: { id: string; name: string; slug: string } | null
     video: any | null
+    resources: Resource[]
+    hasFeedback: boolean
   } = $props()
   const currChapter = pathname.split('/')[pathname.split('/').length - 2]
 
@@ -38,7 +49,7 @@
     </h2>
 
     <nav class="flex-1">
-      {#each chapters as chapter}
+      {#each chapters as chapter, i}
         {@const isCompleted =
           completedVideos[chapter.videos[0]?.id] ??
           chapter.videos[0].completed}
@@ -82,6 +93,16 @@
             {/key}
           </div>
         </a>
+
+        {#if i === chapters.length - 1 && course}
+          <div class="pl-2 pt-2">
+            <DownloadResourcesButton
+              courseId={course.id}
+              {resources}
+              {hasFeedback}
+            />
+          </div>
+        {/if}
       {/each}
     </nav>
   </aside>

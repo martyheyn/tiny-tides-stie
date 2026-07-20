@@ -57,7 +57,36 @@ export async function getCoursePageData(
     )
   }
 
-  return { course, chapters, currChapter, video, alreadyPurchased }
+  // 5. Downloadable resources for this course (course-level for now; a
+  // resource can also carry a section_id for future per-section resources)
+  const { data: resources } = await supabase
+    .from('resource')
+    .select('id, name, file_type, section_id, resource_order')
+    .eq('course_id', course.id)
+    .order('resource_order')
+
+  // 6. Has this user already left feedback for this course?
+  let hasFeedback = false
+  if (userId) {
+    const { data: feedbackRes } = await supabase
+      .from('feedback')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('course_id', course.id)
+      .maybeSingle()
+
+    hasFeedback = !!feedbackRes
+  }
+
+  return {
+    course,
+    chapters,
+    currChapter,
+    video,
+    alreadyPurchased,
+    resources: resources || [],
+    hasFeedback,
+  }
 }
 
 async function recordPurchaseFromSession(

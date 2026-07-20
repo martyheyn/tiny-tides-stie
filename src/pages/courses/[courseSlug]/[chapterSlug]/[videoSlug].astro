@@ -13,7 +13,7 @@ if (!courseSlug) {
 const user = Astro.locals.user
 const sessionId = Astro.url.searchParams.get('session_id')
 
-const { course, chapters, currChapter, video, alreadyPurchased } =
+const { course, chapters, currChapter, video, alreadyPurchased, resources, hasFeedback } =
   await getCoursePageData(
     Astro.request,
     Astro.cookies,
@@ -30,7 +30,7 @@ const pageTitle = `${course?.name} - ${currChapter?.label}`
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-    <CourseLayout client:load chapters={chapters} pathname={pathname} course={course} video{video}>
+    <CourseLayout client:load chapters={chapters} pathname={pathname} course={course} video={video} resources={resources} hasFeedback={hasFeedback}>
 
       <!-- Main Content -->
       <main class="flex-1 p-2 md:p-6">
