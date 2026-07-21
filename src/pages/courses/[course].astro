@@ -80,19 +80,25 @@ if (
   import.meta.env.CF_PRIVATE_KEY
 ) {
   // TEMP DEBUG: remove once the CloudFront signing crash is diagnosed
+  const rawKey = import.meta.env.CF_PRIVATE_KEY
+  const normalizedKey = rawKey.replace(/\\n/g, '\n')
   console.log(
-    '[cf-debug] node:',
-    process.version,
-    'openssl:',
-    process.versions.openssl,
-    'key length:',
-    import.meta.env.CF_PRIVATE_KEY.length,
+    '[cf-debug] node:', process.version,
+    'openssl:', process.versions.openssl,
+    'raw length:', rawKey.length,
+    'raw has literal \\n:', rawKey.includes('\\n'),
+    'normalized length:', normalizedKey.length,
+    'normalized line count:', normalizedKey.split('\n').length,
+    'starts with BEGIN:', normalizedKey.trimStart().startsWith('-----BEGIN'),
+    'ends with END:', normalizedKey.trimEnd().endsWith('-----END PRIVATE KEY-----'),
+    'first 27 chars:', JSON.stringify(normalizedKey.slice(0, 27)),
+    'last 25 chars:', JSON.stringify(normalizedKey.slice(-25)),
   )
   try {
     previewVideoUrl = getSignedUrl({
       url: `https://${import.meta.env.CF_COURSE_VID_DOMAIN}/${courseData.frontmatter.preview_vid}`,
       keyPairId: import.meta.env.CF_PUBLIC_KEY_ID!,
-      privateKey: import.meta.env.CF_PRIVATE_KEY!.replace(/\\n/g, '\n'),
+      privateKey: normalizedKey,
       dateLessThan: new Date(Date.now() + 1000 * 60 * 60 * 2), // 2 hours
     })
   } catch (err: any) {
