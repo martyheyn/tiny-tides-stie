@@ -152,15 +152,6 @@ const user = Astro.locals.user
 
 
 <script>
-  import { createBrowserClient } from '@supabase/ssr'
-  import type { User } from '@supabase/supabase-js'
-
-  // Create the Supabase client in the browser
-  const supabase = createBrowserClient(
-    import.meta.env.PUBLIC_SUPABASE_URL,
-    import.meta.env.PUBLIC_SUPABASE_KEY
-  )
-
   const handleToggleServices = () => {
     const serviceNavitem = document.getElementById('services-navitem')
 

@@ -48,7 +48,7 @@ const { id = "modal" } = Astro.props;
     }
 </style>
 
-<script type="module">
+<script type="module" is:inline>
     const id = "modal";
     const dialog = document.getElementById(id);
     const backdrop = document.getElementById(`${id}-backdrop`);

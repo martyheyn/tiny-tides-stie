@@ -28,7 +28,7 @@ export const GET: APIRoute = async (context) => {
   }
 
   // 2. Lookup the video + make sure user owns it
-  const { data: video, error } = await supabase
+  const { data: video } = await supabase
     .from('video')
     .select('id, host_url, course_id')
     .eq('id', videoId)
