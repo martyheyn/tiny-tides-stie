@@ -1,15 +1,19 @@
 ---
 import Service from '../components/Service.astro'
 import BaseLayout from '../layouts/BaseLayout.astro'
-import type { MarkdownInstance } from 'astro';
-import { Image } from 'astro:assets';
+import type { MarkdownInstance } from 'astro'
+import { Image } from 'astro:assets'
 
-const markdownFiles = import.meta.glob<MarkdownInstance<any>>('./services/*md', { eager: true })
+const markdownFiles = import.meta.glob<MarkdownInstance<any>>(
+  './services/*md',
+  { eager: true },
+)
 
 const services: MarkdownInstance<any>[] = Object.values(markdownFiles)
 
 const pageTitle = 'Services - OT, Lactation, Baltimore'
-const description = 'Tiny Tides Therapy offers a variety of services to support your child’s development. From feeding therapy to sensory processing, we provide individualized care to help your child reach their full potential. Baltimore Pediatric Occupational Therapy'
+const description =
+  'Tiny Tides Therapy offers a variety of services to support your child’s development. From feeding therapy to sensory processing, we provide individualized care to help your child reach their full potential. Baltimore Pediatric Occupational Therapy'
 ---
 
 <BaseLayout pageTitle={pageTitle} description={description}>

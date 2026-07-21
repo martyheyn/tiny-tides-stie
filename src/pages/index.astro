@@ -47,7 +47,7 @@ const services = [
 <BaseLayout pageTitle={pageTitle} description={description}>
   <!-- Landing -->
   <section class="bg-gradient-to-b from-primary to-secondary overflow-x-hidden">
-    <div class="h-[106vh] w-full relative overflow-hidden pt-14 md:pt-[76px]">
+    <div class="h-[106vh] w-full relative overflow-hidden">
       <div
         class="relative bg-transparent md:bg-gradient-to-b md:from-primary md:to-[#c5e8e8] w-full md:w-1/2 h-full flex justify-center items-center z-20 px-4 md:px-12 rounded-b-lg"
       >
@@ -142,6 +142,60 @@ const services = [
           </div>
         </div>
 
+
+        <!-- Steps -->
+        <div class="pt-28 pb-4">
+          <div
+            class="relative flex flex-col md:flex-row gap-y-12 md:gap-x-8 justify-between items-center px-8 lg:px-20 transition-all duration-300 ease-in-out"
+          >
+            <Step
+              stepNum="1"
+              description="Schedule a free 15 minute consultation"
+            />
+            <div
+              class="absolute top-[27%] md:top-[40%] md:left-[28%] hidden lg:block step-arrow-1"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="100"
+                height="100"
+                xmlns="http://www.w3.org/2000/svg"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                class=""
+                ><path
+                  d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"
+                ></path>
+              </svg>
+            </div>
+
+            <Step
+              stepNum="2"
+              description="Get a comprehensive in home evaluation"
+            />
+
+            <div
+              class="absolute lg:top-[40%] lg:left-[64%] hidden lg:block step-arrow-2"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="100"
+                height="100"
+                xmlns="http://www.w3.org/2000/svg"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                class=""
+                ><path
+                  d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"
+                ></path>
+              </svg>
+            </div>
+
+            <Step stepNum="3" description="Receive a personalized plan" />
+          </div>
+        </div>
+
+
         <div
           class="mt-32 w-full flex flex-row justify-center transition-all ease-in-out duration-300"
         >
@@ -190,58 +244,39 @@ const services = [
         <Testamonials />
       </section>
 
-      <!-- Steps -->
-      <div class="py-16 pb-36">
-        <div
-          class="relative flex flex-col md:flex-row gap-y-12 md:gap-x-8 justify-between items-center px-8 lg:px-20 transition-all duration-300 ease-in-out"
-        >
-          <Step
-            stepNum="1"
-            description="Schedule a free 15 minute consultation"
-          />
-          <div
-            class="absolute top-[27%] md:top-[40%] md:left-[28%] hidden lg:block step-arrow-1"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              width="100"
-              height="100"
-              xmlns="http://www.w3.org/2000/svg"
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              class=""
-              ><path
-                d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"
-              ></path>
-            </svg>
+
+      <!-- Courses -->
+       <section class="w-full pt-16 pb-44 px-4 transition-all ease-in-out duration-300">
+           <div class="max-w-6xl grid grid-flow-col grid-cols-1 md:grid-cols-12 md:gap-x-8 lg:gap-x-16">
+            <div class="md:col-span-7 flex justify-center items-center">
+              Yooooo
+            </div>
+
+            <div class="w-full h-full bg-white/30 rounded-lg py-8 px-6 md:col-span-5 flex justify-center items-center">
+              <div class="w-full h-full flex flex-col items-center justify-center gap-y-8">
+                <h1 class="header-title md:text-3xl text-center w-full max-w-3xl text-blue-950">
+                  We've got Online Courses too!
+                </h1>
+
+                <p class="header-title md:text-3xl text-center w-full max-w-3xl text-blue-950">
+                  Start making progress 
+                  <!-- <span>Intro to Solids</span> 
+                  <span>Laction Help</span> 
+                  <span>Developmental Milestones</span>  -->
+                  Now!
+                </p>
+
+                <a href="/courses" class="pt-4">
+                  <Button
+                    text="Check out our Courses"
+                    textColor="#173f69bf"
+                    textSize="text-base"
+                  />
+                </a>
+              </div>
+            </div>
           </div>
-
-          <Step
-            stepNum="2"
-            description="Get a comprehensive in home evaluation"
-          />
-
-          <div
-            class="absolute lg:top-[40%] lg:left-[64%] hidden lg:block step-arrow-2"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              width="100"
-              height="100"
-              xmlns="http://www.w3.org/2000/svg"
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              class=""
-              ><path
-                d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"
-              ></path>
-            </svg>
-          </div>
-
-          <Step stepNum="3" description="Receive a personalized plan" />
-        </div>
-      </div>
-
+       </section>
       <WaveDivider placement="bottom" fill="#f3ffff" />
     </div>
   </section>

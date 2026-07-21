@@ -74,7 +74,13 @@ import '../styles/global.css'
   <body class="">
     <Navbar />
 
-    <slot />
+    <div
+      class="w-full h-full bg-primary transition-all duration-300 ease-in-out"
+    >
+      <div class="w-full min-h-[85.5vh] pt-14 sm:pt-[76px]">
+        <slot />
+      </div>
+    </div>
 
     <Footer />
     <!-- Google Tag Manager (noscript) -->

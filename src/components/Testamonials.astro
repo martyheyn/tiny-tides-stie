@@ -37,8 +37,6 @@ const testamonials: MarkdownInstance<any>[] = Object.values(markdownFiles);
         testamonials.map((testamonial) => (
           <Testamonial
             userName={testamonial.frontmatter.userName}
-            numReviews={testamonial.frontmatter.numReviews}
-            sincePost={testamonial.frontmatter.sincePost}
             link={testamonial.frontmatter.link}
             client:load
           >
@@ -51,8 +49,6 @@ const testamonials: MarkdownInstance<any>[] = Object.values(markdownFiles);
       {testamonials.map((testamonial) => (
         <Testamonial
           userName={testamonial.frontmatter.userName}
-          numReviews={testamonial.frontmatter.numReviews}
-          sincePost={testamonial.frontmatter.sincePost}
           link={testamonial.frontmatter.link}
           client:load
         >
@@ -65,8 +61,6 @@ const testamonials: MarkdownInstance<any>[] = Object.values(markdownFiles);
     {testamonials.map((t) => (
       <Testamonial
         userName={t.frontmatter.userName}
-        numReviews={t.frontmatter.numReviews}
-        sincePost={t.frontmatter.sincePost}
         link={t.frontmatter.link}
         client:load
         class="snap-start shrink-0"

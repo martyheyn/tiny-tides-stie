@@ -1,0 +1,310 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import Modal from '../../components/Modal.astro'
+import Signin from '../../components/signin/Signin.svelte'
+import PurchaseButton from '../../components/PurchaseButton.svelte'
+import BetaCodeRedeem from '../../components/BetaCodeRedeem.svelte'
+import { createBEClient } from '../../lib/SupabaseServer'
+import type { MarkdownInstance } from 'astro'
+import { getSignedUrl } from '@aws-sdk/cloudfront-signer'
+
+const { course: courseSlug } = Astro.params
+if (!courseSlug) {
+  return Astro.redirect('/404')
+}
+const user = Astro.locals.user
+const supabase = createBEClient({
+  request: Astro.request,
+  cookies: Astro.cookies,
+})
+
+// Load all markdown
+const markdownFiles = import.meta.glob<MarkdownInstance<any>>(
+  '../courses-md/*md',
+  { eager: true },
+)
+const allCourses = Object.values(markdownFiles).map((file) => ({
+  content: file.compiledContent(),
+  frontmatter: file.frontmatter,
+}))
+
+// Find this course
+const courseData =
+  allCourses.find((c) => c.frontmatter.slug === courseSlug) ?? null
+
+if (!courseData) {
+  return Astro.redirect('/404')
+}
+
+// Run these in parallel
+const [chaptersRes, purchaseRes] = await Promise.all([
+  supabase
+    .from('section_with_progress')
+    .select('*')
+    .eq('course_id', courseData.frontmatter.id)
+    .order('section_order'),
+  user
+    ? supabase
+        .from('purchases')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('course_id', courseData.frontmatter.id)
+        .maybeSingle()
+    : Promise.resolve({ data: null }),
+])
+
+const chapters = chaptersRes.data ?? []
+const alreadyPurchased = !!purchaseRes.data
+
+// Clean helper for constructing the start URL
+function startCourseUrl(slug: string, chapters: any) {
+  if (!chapters.length || !chapters[0].videos.length) return '#'
+  const c = chapters[0]
+  const v = c.videos[0]
+  return `/courses/${slug}/${c.slug}/${v.slug}`
+}
+
+const startUrl = startCourseUrl(courseData.frontmatter.slug, chapters)
+const pageTitle = courseData
+  ? `Course - ${courseData.frontmatter.title}`
+  : 'Course'
+
+// Preview video lives on the private, signed CloudFront distribution (same
+// one served through /api/video-url) — sign it here since this is a public
+// page with no purchase to gate against.
+let previewVideoUrl = ''
+if (
+  courseData.frontmatter.preview_vid &&
+  import.meta.env.CF_COURSE_VID_DOMAIN &&
+  import.meta.env.CF_PUBLIC_KEY_ID &&
+  import.meta.env.CF_PRIVATE_KEY
+) {
+  previewVideoUrl = getSignedUrl({
+    url: `https://${import.meta.env.CF_COURSE_VID_DOMAIN}/${courseData.frontmatter.preview_vid}`,
+    keyPairId: import.meta.env.CF_PUBLIC_KEY_ID!,
+    privateKey: import.meta.env.CF_PRIVATE_KEY!,
+    dateLessThan: new Date(Date.now() + 1000 * 60 * 60 * 2), // 2 hours
+  })
+}
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <div
+    class="course-font w-full h-full px-4 sm:px-8 pb-2 flex flex-col justify-center items-center relative overflow-hidden bg-gradient-to-b from-secondary/40 via-primary/70 to-secondary/30"
+  >
+    <div
+      class="pointer-events-none absolute -top-32 -right-32 w-96 h-96 bg-secondary/40 rounded-full blur-3xl"
+    >
+    </div>
+    <div
+      class="pointer-events-none absolute top-64 -left-32 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl"
+    >
+    </div>
+    <div
+      class="pointer-events-none absolute top-[110vh] -right-40 w-[500px] h-[500px] bg-secondary/30 rounded-full blur-3xl"
+    >
+    </div>
+    <div
+      class="pointer-events-none absolute top-[170vh] -left-40 w-[500px] h-[500px] bg-blue-100/40 rounded-full blur-3xl"
+    >
+    </div>
+    <div class="max-w-5xl pb-24">
+      {
+        courseData ? (
+          <>
+            <header class="text-center mb-8 mt-20">
+              <span class="inline-block mb-4 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-[#173f69] bg-secondary/40 rounded-full">
+                Course
+              </span>
+              <h1 class="text-[54px] mb-2 font-semibold bg-gradient-to-r from-[#173f69] to-[#2f8f8f] bg-clip-text text-transparent">
+                {courseData.frontmatter.title}
+              </h1>
+              <p class="text-[16px] my-0 text-gray-700">
+                {courseData.frontmatter.description}
+              </p>
+              {(courseData.frontmatter.ages ||
+                courseData.frontmatter.length) && (
+                <div class="flex justify-center gap-3 mt-5">
+                  {courseData.frontmatter.ages && (
+                    <span class="px-3 py-1 text-sm font-medium text-gray-700 bg-white shadow-sm border border-black/5 rounded-full">
+                      👶 {courseData.frontmatter.ages}
+                    </span>
+                  )}
+                  {courseData.frontmatter.length && (
+                    <span class="px-3 py-1 text-sm font-medium text-gray-700 bg-white shadow-sm border border-black/5 rounded-full">
+                      ⏱ {courseData.frontmatter.length}
+                    </span>
+                  )}
+                </div>
+              )}
+            </header>
+            <div class="mx-auto w-[50%] h-1 my-12 bg-gradient-to-r from-slate-100 to-slate-300 rounded-full" />
+
+            <div class="w-full flex justify-center">
+              <div class="w-full md:w-[90%] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-black/5 bg-black">
+                <video
+                  id="course-preview-video"
+                  controls
+                  controlslist="nodownload"
+                  src={previewVideoUrl}
+                  class="w-full min-h-[315px] md:min-h-[400px] bg-blue-300/30"
+                />
+              </div>
+            </div>
+
+            <div class="w-full flex flex-col items-center gap-3 mt-20">
+              {/* if logged in and purchased then go to course */}
+              {alreadyPurchased ? (
+                <a
+                  href={startUrl}
+                  class="group w-72 flex items-center justify-center gap-2 text-center font-semibold text-xl px-6 py-3 bg-gradient-to-r from-[#9ddcdc] to-[#7fd0d0] hover:from-[#a6e6e6] hover:to-[#8fdcdc] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl"
+                >
+                  Go to the Course!
+                  <span class="transition-transform duration-300 group-hover:translate-x-1">
+                    →
+                  </span>
+                </a>
+              ) : (
+                <>
+                  <PurchaseButton slug={courseSlug} client:load />
+                  <BetaCodeRedeem
+                    courseId={courseData.frontmatter.id}
+                    startUrl={startUrl}
+                    client:load
+                  />
+                </>
+              )}
+            </div>
+
+            <div class="mx-auto w-[80%] h-1 my-12 bg-gradient-to-r from-slate-100 to-slate-300 rounded-full" />
+
+            <article set:html={courseData.content} />
+          </>
+        ) : null
+      }
+    </div>
+
+    <div class="w-full flex justify-center py-8 pb-28">
+      {
+        alreadyPurchased ? (
+          <a
+            href={startUrl}
+            class="group w-72 flex items-center justify-center gap-2 text-center font-semibold text-xl px-6 py-3 bg-gradient-to-r from-[#9ddcdc] to-[#7fd0d0] hover:from-[#a6e6e6] hover:to-[#8fdcdc] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl"
+          >
+            Go to the Course!
+            <span class="transition-transform duration-300 group-hover:translate-x-1">
+              →
+            </span>
+          </a>
+        ) : (
+          <PurchaseButton slug={courseSlug} client:load />
+        )
+      }
+    </div>
+
+    <div class="pb-24">
+      <h1 class="text-4xl uppercase text-center font-semibold">Chapters</h1>
+      <div
+        class="mx-auto w-[30%] h-1 mb-12 mt-4 bg-gradient-to-r from-blue-200 to-blue-100 rounded-full"
+      >
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {
+          chapters &&
+            chapters.map((chapter, i) => (
+              <div class="group max-w-sm overflow-hidden shadow-md hover:shadow-2xl bg-white border border-black/5 hover:border-secondary/60 rounded-xl hover:-translate-y-1 cursor-pointer transition-all duration-300 relative">
+                <a
+                  href={
+                    chapter.videos &&
+                    chapter.videos[0] &&
+                    `/courses/${courseSlug}/${chapter.slug}/${chapter.videos[0].slug}`
+                  }
+                  class="flex flex-col h-full p-6 gap-4"
+                >
+                  <div class="flex items-center gap-3">
+                    <span class="flex items-center justify-center w-9 h-9 text-sm font-bold bg-secondary/40 text-[#173f69] rounded-full flex-shrink-0">
+                      {i + 1}
+                    </span>
+                    <h5 class="text-lg uppercase font-semibold tracking-tight">
+                      {chapter.label}
+                    </h5>
+                  </div>
+                  <p class="text-base text-gray-600 leading-relaxed flex-1">
+                    {chapter.description}
+                  </p>
+                  <div class="flex items-center justify-between pt-4 border-t border-black/5">
+                    <span class="inline-flex items-center gap-1 text-sm font-semibold text-[#173f69]">
+                      Watch chapter
+                      <span class="transition-transform duration-300 group-hover:translate-x-1">
+                        →
+                      </span>
+                    </span>
+                  </div>
+                </a>
+              </div>
+            ))
+        }
+      </div>
+    </div>
+
+    {
+      !alreadyPurchased && (
+        <div class="w-full sticky bottom-1">
+          <div class="flex justify-end">
+            <PurchaseButton slug={courseSlug} lockBtn={true} client:load />
+          </div>
+        </div>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<Modal id="signin-dialog" title="Signin Modal">
+  <main slot="main">
+    <Signin client:load />
+  </main>
+  <button slot="close">Close modal</button>
+</Modal>
+
+<script>
+  // Astro's ClientRouter swaps in this page's DOM via client-side navigation
+  // (e.g. the course Sidebar's "Back to Course Details" link) rather than a
+  // full browser reload. The freshly-signed preview video src attribute is
+  // correct at that point, but a <video> element only runs the browser's
+  // resource-selection algorithm on true insertion into the document — it
+  // doesn't reliably re-trigger through the swap, so we force it explicitly.
+  const handleNavigation = () => {
+    const video = document.getElementById('course-preview-video')
+    if (video instanceof HTMLVideoElement) {
+      video.load()
+    }
+  }
+
+  document.addEventListener('astro:page-load', handleNavigation) // Astro-specific event
+  document.addEventListener('DOMContentLoaded', handleNavigation)
+</script>
+
+<style>
+  /* Loads all 3 candidate fonts so you can preview each one just by editing
+     the font-family below — no other changes needed. This is scoped to this
+     page only (sitewide font stays Lora, set in BaseLayout). */
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&family=Quicksand:wght@500;600;700&display=swap');
+
+  .course-font {
+    /* Option 1 (active): Fraunces — a warm, soft-edged serif. Pairs with the
+       sitewide Lora serif so the course page feels like part of the same
+       family, but its rounder, chunkier letterforms read a bit friendlier
+       and less formal — good fit for a course landing page. */
+    /* font-family: 'Fraunces', serif; */
+
+    /* Option 2: Nunito — a rounded, warm sans-serif. More modern/neutral
+       than Fraunces, still soft rather than corporate. Uncomment to try: */
+    /* font-family: 'Nunito', sans-serif; */
+
+    /* Option 3: Quicksand — a light, geometric, very rounded sans-serif.
+       Leans playful/childlike — fits the baby/parenting subject matter most
+       literally, at some cost to a "clinical expert" feel. Uncomment to try: */
+    font-family: 'Quicksand', sans-serif;
+  }
+</style>

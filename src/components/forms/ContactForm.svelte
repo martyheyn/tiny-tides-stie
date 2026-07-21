@@ -1,6 +1,7 @@
 <script lang="ts">
   import { slide } from "svelte/transition"
-  let { homepage = false }: { homepage: boolean } = $props();
+  import Notification from "../Notification.svelte"
+  let { homepage = false }: { homepage?: boolean } = $props();
 
   type GoogleAutoompleteSuggestion = {
     placePrediction: {
@@ -13,6 +14,7 @@
 
   
   let error: string = $state('');
+  let successMessage: string;
   let responseMessage: { success: boolean; error?: string } = {
     success: false,
   };
@@ -108,7 +110,7 @@
       </div>
       
       {#if error}
-        <p transition:slide={{ duration: 200 }} class="text-xs text-red-400">{error}</p>
+        <Notification message={error} type="error" />
       {/if}
 
 
@@ -303,9 +305,9 @@
 </div>
 
 <style>
-input:-webkit-autofill {
-  box-shadow: 0 0 0px 1000px #fcfeff inset !important; /* Matches your background color */
-  -webkit-text-fill-color: black !important; /* Ensures text color matches */
-  transition: background-color 500ms ease-in-out, color 500ms ease-in-out;
+  input:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px #fcfeff inset !important; /* Matches your background color */
+    -webkit-text-fill-color: black !important; /* Ensures text color matches */
+    transition: background-color 500ms ease-in-out, color 500ms ease-in-out;
 }
 </style>

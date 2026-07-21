@@ -1,6 +1,11 @@
 ---
 import Logo from '../Logo.astro'
 import Hambuger from './Hambuger.astro'
+import Modal from '../Modal.astro';
+import Signin from '../signin/Signin.svelte';
+
+const url = Astro.url;
+const user = Astro.locals.user
 ---
 
 <nav
@@ -26,18 +31,18 @@ import Hambuger from './Hambuger.astro'
         </div>
 
         <div
-          class="navbtn sm:py-6 flex justify-between group relative before:bottom-4"
+          class="navbtn sm:py-6 flex justify-between group relative before:bottom-4 max-w-[106px]"
           id="services-navitem"
         >
           <!-- <a href="/what-we-treat">What We Treat</a> -->
           <div class="">Services</div>
           <div
-            class="flex items-center ml-2 mt-[1px] transition-all duration-300 ease-in-out opacity-0 -translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 group-hover:rotate-180"
+            class="flex items-center ml-1 mt-[1px] transition-all duration-300 ease-in-out opacity-0 -translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 group-hover:rotate-180"
           >
             <svg
               data-baseweb="icon"
               viewBox="0 0 24 24"
-              class="w-4 h-4 fill-white chevron"
+              class="w-4 h-4 fill-white chevron hidden group-hover:block transition-all duration-150 ease-in-out"
             >
               <title>Chevron Down</title>
               <path
@@ -50,7 +55,7 @@ import Hambuger from './Hambuger.astro'
           </div>
 
           <div
-            class="absolute bg-[#232020]/60 rounded-sm mx-4 w-40 z-20 -right-8 -bottom-[180px] transition-all duration-300 ease-in-out opacity-0 transform -translate-y-4 invisible flex flex-col"
+            class="absolute bg-[#232020]/80 rounded-sm mx-4 w-40 z-20 -right-12 -bottom-[241px] transition-all duration-300 ease-in-out opacity-0 transform -translate-y-4 invisible flex flex-col"
             id="services-dropdown"
           >
             <a
@@ -68,27 +73,66 @@ import Hambuger from './Hambuger.astro'
               class="py-4 px-2 border-white border-b border-l border-r hover:bg-gray-700 w-full h-full"
               >Groups</a
             >
+            <a
+              href="/courses"
+              class="py-4 px-2 border-white border-b border-l border-r hover:bg-gray-700 w-full h-full"
+              >Courses</a
+            >
           </div>
         </div>
-
-        <!-- <div class="navbtn sm:my-6 hover:scale-[1.04]">
-          <a href="/faqs">Services</a>
-        </div> -->
 
         <div class="navbtn sm:my-6 hover:scale-[1.04]">
           <a href="/faqs">FAQs</a>
         </div>
 
-        <div
-          class="hidden md:flex items-center text-[18px] justify-center transition-all duration-300 cursor-pointer"
-        >
-          <a
-            href="/contact"
-            class="px-4 rounded-xl hover:bg-slate-100 hover:ring-2 hover:ring-slate-300 bg-white text-black"
-            >Contact Us</a
+        {!user && url.pathname.includes('courses') ? (
+          <div
+            class={`flex items-center text-[18px] justify-center transition-all duration-300 cursor-pointer`}
           >
+            <button
+              id="open-modal-btn"
+              class="px-4 rounded-xl hover:bg-slate-100 hover:ring-2 hover:ring-slate-300 bg-white text-black"
+            >Sign In</button>
+          </div>
+        ) : (
+          <div
+            class="hidden lg:flex items-center text-[18px] justify-center transition-all duration-300 cursor-pointer"
+          >
+            <a
+              href="/contact"
+              class="px-4 rounded-xl hover:bg-slate-100 hover:ring-2 hover:ring-slate-300 bg-white text-black"
+            >Contact Us</a>
+          </div>
+        )} 
+
+        {user && (
+          <div class="sm:my-4 relative" id="user-navitem">
+            <div class="flex items-center cursor-pointer p-1 rounded-3xl text-black transition-all duration-300 ease-in-out hover:bg-black/30  hover:scale-[1.03]">
+              <svg xmlns="http://www.w3.org/2000/svg" stroke="white" fill="white" width="32" height="32" viewBox="0 0 32 32" style="enable-background:new 0 0 32 32" xml:space="preserve"><path d="M16 31C7.729 31 1 24.271 1 16S7.729 1 16 1s15 6.729 15 15-6.729 15-15 15zm0-28C8.832 3 3 8.832 3 16s5.832 13 13 13 13-5.832 13-13S23.168 3 16 3z"/><circle cx="16" cy="15.133" r="4.267"/><path d="M16 30c2.401 0 4.66-.606 6.635-1.671-.425-3.229-3.18-5.82-6.635-5.82s-6.21 2.591-6.635 5.82A13.935 13.935 0 0 0 16 30z"/></svg>
+            </div>
+
+            <div
+              class="absolute bg-[#232020]/80 rounded-sm mx-4 w-40 z-50 -right-20 -bottom-[131px] transition-all duration-300 ease-in-out opacity-0 pointer-events-none transform -translate-y-4 flex flex-col"
+              id="user-dropdown"
+            >
+              {/* <a
+                href={`/profile/${user.id}`}
+                class="py-4 px-2 border-white border-b border-l border-r hover:bg-gray-700 w-full h-full"
+                >Profile</a> */}
+              <a
+                href={`/profile/mycourses`}
+                class="py-4 px-2 border-white border-b border-l border-r hover:bg-gray-700 w-full h-full"
+                >My Classes</a>
+              <button
+                class="py-4 px-2 border-white border-b border-l border-r hover:bg-gray-700 w-full h-full cursor-pointer text-left"
+                id="signout-btn"
+                >Signout
+              </button>
+
+            </div>
+          </div>
+        )}
         </div>
-      </div>
     </div>
     <div
       class="pt-2 flex flex-col justify-center items-center sm:hidden text-white"
@@ -98,12 +142,35 @@ import Hambuger from './Hambuger.astro'
   </div>
 </nav>
 
+
+<Modal id='signin-dialog' title="Signin Modal">
+  <main slot='main'>
+    <Signin client:load />
+  </main>
+  <button slot='close'>Close modal</button>
+</Modal>
+
+
 <script>
-  const handleNavigation = () => {
+  import { createBrowserClient } from '@supabase/ssr'
+  import type { User } from '@supabase/supabase-js'
+
+  // Create the Supabase client in the browser
+  const supabase = createBrowserClient(
+    import.meta.env.PUBLIC_SUPABASE_URL,
+    import.meta.env.PUBLIC_SUPABASE_KEY
+  )
+
+  const handleToggleServices = () => {
     const serviceNavitem = document.getElementById('services-navitem')
 
     function toggleServices() {
       const serviceDropdown = document.getElementById('services-dropdown')
+      const userDropdown = document.getElementById('user-dropdown')
+
+      if(userDropdown?.classList.contains('expanded')) {
+        userDropdown.classList.toggle('expanded')
+      }
 
       if (serviceDropdown) {
         serviceDropdown.classList.toggle('expanded')
@@ -112,11 +179,74 @@ import Hambuger from './Hambuger.astro'
 
     if (serviceNavitem) {
       serviceNavitem.addEventListener('click', toggleServices)
+    }    
+  }
+
+  const handleToggleProfile = () => {
+    const userNavitem = document.getElementById('user-navitem')
+
+    function toggleServices() {
+      const userDropdown = document.getElementById('user-dropdown')
+      const serviceDropdown = document.getElementById('services-dropdown')
+
+      if(serviceDropdown?.classList.contains('expanded')) {
+        serviceDropdown.classList.toggle('expanded')
+      }
+
+
+      if (userDropdown) {
+        userDropdown.classList.toggle('expanded')
+      }
     }
+
+    if (userNavitem) {
+      userNavitem.addEventListener('click', toggleServices)
+    }    
   }
 
   // Reinitialize on navigation
-  document.addEventListener('astro:page-load', handleNavigation) // Astro-specific event
+  document.addEventListener('astro:page-load', handleToggleServices) // Astro-specific event
+  document.addEventListener('astro:page-load', handleToggleProfile) // Astro-specific event
+
+  const attachModalListeners = () => {
+    const modal = document.getElementById('signin-dialog') as HTMLDialogElement | null;
+    const openBtn = document.getElementById('open-modal-btn');
+
+    if (!modal || !openBtn) return;
+
+    openBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!modal.open) modal.showModal();
+    });
+
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) modal.close();
+    });
+  };
+
+  // Attach once at page load
+  attachModalListeners();
+
+  // Reattach after Astro swaps new content in
+  document.addEventListener('astro:after-swap', attachModalListeners);
+
+  const signoutBtn = document.getElementById('signout-btn')
+  if (signoutBtn) {
+    document.addEventListener('click', async (event) => {
+    const el = event.target as HTMLElement | null;
+
+    if (el && el.closest('#signout-btn')) {
+      console.log("Here trying to hit the signout btn");
+
+      try {
+        await fetch('/api/auth/signout', { method: 'POST' });
+        window.location.reload();
+      } catch (err) {
+        console.error('Unexpected sign-out error:', err);
+      }
+    }
+  });
+  }
 </script>
 
 <style>
@@ -125,5 +255,6 @@ import Hambuger from './Hambuger.astro'
     visibility: visible;
     opacity: 1;
     transform: translateY(0);
+    pointer-events: auto;
   }
 </style>

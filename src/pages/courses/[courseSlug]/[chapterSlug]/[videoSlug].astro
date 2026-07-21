@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro'
+import CourseLayout from '../../../../layouts/CourseLayout.svelte'
+import Video from '../../../../components/courses/Video.svelte'
+import PurchaseButton from '../../../../components/PurchaseButton.svelte'
+import { getCoursePageData } from '../../../../lib/queries/getCourseVideo';
+
+const pathname = Astro.url.pathname
+const { courseSlug, chapterSlug, videoSlug } = Astro.params
+if (!courseSlug) {
+  return Astro.redirect('/404')
+}
+const user = Astro.locals.user
+const sessionId = Astro.url.searchParams.get('session_id')
+
+const { course, chapters, currChapter, video, alreadyPurchased, resources, hasFeedback } =
+  await getCoursePageData(
+    Astro.request,
+    Astro.cookies,
+    courseSlug,
+    chapterSlug,
+    videoSlug,
+    user?.id,
+    sessionId
+  );
+
+const chapIndx = chapters && chapters.length > 0 && chapters.findIndex((chap) => chap.slug === chapterSlug)
+
+const pageTitle = `${course?.name} - ${currChapter?.label}`
+---
+
+<BaseLayout pageTitle={pageTitle}>
+    <CourseLayout client:load chapters={chapters} pathname={pathname} course={course} video={video} resources={resources} hasFeedback={hasFeedback}>
+
+      <!-- Main Content -->
+      <main class="flex-1 p-2 md:p-6">
+        <!-- Title -->
+        <div class="w-full flex justify-between">
+          <h1 class="mb-4 text-gray-800 text-3xl font-bold flex gap-x-2 items-center">
+            {currChapter && currChapter.label}
+          </h1>
+
+
+          {!alreadyPurchased && (
+            <PurchaseButton 
+              slug={courseSlug}
+              lockBtn={true}
+              client:load
+            />
+          )}
+        </div>
+
+        <!-- Video Area -->
+        <Video 
+          client:load
+          chapters={chapters}
+          chapIndx={chapIndx}
+          videoId={video?.id}
+          user={user}
+          length={video?.length}
+          courseSlug={courseSlug}
+        />
+      </main>
+    </CourseLayout>
+</BaseLayout>

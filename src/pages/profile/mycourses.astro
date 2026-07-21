@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { loadCourses } from "../../lib/loadCourses";
+
+const pageTitle = 'My Courses'
+
+const user = Astro.locals.user
+if(!user) {
+    return Astro.redirect("/")
+}
+
+const { courses, purchasedIds } = await loadCourses({
+  request: Astro.request,
+  cookies: Astro.cookies,
+  user
+});
+
+
+const myCourses = courses.filter(course =>
+  purchasedIds.has(course.frontmatter.id)
+);
+---
+
+
+<BaseLayout pageTitle={pageTitle}>
+    <div
+        class="w-full h-full px-4 sm:px-8 flex flex-col justify-center items-center relative"
+    >
+        <div class="max-w-5xl py-8">
+            <div class="flex justify-center px-4 sm:px-8 pb-16">
+                <div class="max-w-7xl">
+                    <h1 class="max-w-full flex justify-center header-title pt-6 pb-12">
+                        Continue Your Course
+                    </h1>
+
+                    <div
+                        class={`grid grid-cols-1 ${courses.length < 2 ? 'sm:grid-cols-1' : 'sm:grid-cols-2'} gap-4 sm:gap-12 md:gap-28 place-items-center transition-all ease-out duration-300`}
+                    >
+                        {myCourses.map((course) => (
+                            <article class="p-4 max-w-[520px] border border-black/20 overflow-hidden shadow-xl bg-gray hover:scale-105 rounded-xl transition-transform ease-in-out duration-500 relative">
+                                <a
+                                    href={`${course.frontmatter.avaiable && `/courses/${course.frontmatter.slug}`}`}
+                                    class={`no-underline ${course.frontmatter.avaiable ? 'cursor-pointer' : 'grayscale blur-[1.5px] cursor-not-allowed'}`}
+                                >
+                                    <section class="p-3">
+                                        <h5 class="text-[20px] font-semibold">
+                                            {course.frontmatter.title}
+                                        </h5>
+
+                                        {/* progress */}
+                                    </section>
+
+                                    <img
+                                        src="https://dkbi9cj3nodif.cloudfront.net/tummy_time_in_park_riverside.jpg"
+                                        alt="intro to solids"
+                                        class="w-full m-0 rounded-b-xl"
+                                    />
+                                </a>
+                            </article>
+                            ))
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</BaseLayout>

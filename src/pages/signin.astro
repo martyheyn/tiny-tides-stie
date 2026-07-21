@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import SigninForm from '../components/signin/Signin.svelte'
+
+const pageTitle = 'Signin - OT, Lactation, Baltimore'
+const description = 'Tiny Tides Therapy offers a variety of services to support your child’s development. From feeding therapy to sensory processing, we provide individualized care to help your child reach their full potential. Baltimore Pediatric Occupational Therapy'
+---
+
+<BaseLayout pageTitle={pageTitle} description={description}>
+  <div class="w-full h-full bg-primary transition-all duration-300 ease-in-out">
+    <div class="relative w-full h-[85vh]">
+        <SigninForm client:load />
+    </div>
+</div>
+</BaseLayout>

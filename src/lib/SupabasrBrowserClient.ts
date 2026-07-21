@@ -1,0 +1,10 @@
+import { createBrowserClient } from '@supabase/ssr'
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_KEY
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error('Missing PUBLIC_SUPABASE_URL or PUBLIC_SUPABASE_ANON_KEY')
+}
+
+export const supabase = createBrowserClient(supabaseUrl, supabaseKey)

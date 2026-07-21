@@ -29,6 +29,10 @@ export default defineConfig({
     // demand instead.
     optimizeDeps: {
       noDiscovery: true,
+      // cookie is a nested dep of @supabase/ssr with no ESM entry point;
+      // with noDiscovery on, it never gets pre-bundled/CJS-interop'd
+      // otherwise, breaking the named `parse`/`serialize` imports in the browser.
+      include: ['@supabase/ssr', 'cookie'],
     },
   },
   build: {
