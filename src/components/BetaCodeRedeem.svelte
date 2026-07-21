@@ -64,7 +64,7 @@
     <div class="flex gap-2">
       <input
         type="text"
-        placeholder="BETA-CODE"
+        placeholder="DISCOUNT-CODE"
         bind:value={code}
         disabled={loading || redeemed}
         class="py-2 px-3 text-black !bg-[#fcfeff] border focus:outline-none focus:border-blue-300 rounded-md transition duration-150 ease-in-out uppercase disabled:opacity-50"
@@ -90,7 +90,7 @@
     onclick={() => (expanded = true)}
     class="text-sm text-gray-600 underline hover:text-gray-900 transition-colors duration-200 cursor-pointer"
   >
-    Have a beta code?
+    Have a discount code?
   </button>
 {/if}
 

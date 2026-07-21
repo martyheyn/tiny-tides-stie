@@ -6,6 +6,9 @@ import { Image } from 'astro:assets'
 const pageTitle = 'Contact Us - Baltimore'
 const description =
   'Contact Tiny Tides Therapy for a free consultation, Baltimore Pediatric Occupational Therapy'
+
+import ContactForm from '../components/forms/ContactForm.svelte'
+import { Image } from 'astro:assets'
 ---
 
 <BaseLayout pageTitle={pageTitle} description={description}>
@@ -61,7 +64,7 @@ const description =
         </div>
 
         <div class="w-full h-full md:w-1/2 flex justify-center">
-          <ContactForm client:load />
+          <ContactForm homepage={false} client:load />
         </div>
       </div>
     </div>

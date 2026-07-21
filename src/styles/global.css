@@ -1,6 +1,30 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #f3ffff;
+  --color-secondary: #9ddcdc;
+  --color-text: #173f69bf;
+  --color-accent: #f0f0f0;
+  --color-dark: #1a1a1a;
+  --color-light: #f0f0f0;
+  --color-error: #ff0000;
+
+  --font-header: Lora, sans-serif;
+  --font-body: Lora, sans-serif;
+}
+
+/*
+ * Tailwind v4 changed the default border/ring color from gray-200/blue-500
+ * to currentColor. These overrides keep the pre-upgrade v3 appearance.
+ */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop {
+    border-color: #e5e7eb;
+  }
+}
 
 @layer components {
   .navbtn {
@@ -55,16 +79,13 @@ p {
   @apply text-lg;
 }
 
-@layer utilities {
-  /* For Webkit-based browsers (Chrome, Safari and Opera) */
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
+@utility scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 
-  /* For IE, Edge and Firefox */
-  .scrollbar-hide {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+  /* For Webkit-based browsers (Chrome, Safari and Opera) */
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 

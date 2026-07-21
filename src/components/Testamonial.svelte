@@ -1,8 +1,19 @@
 <script lang="ts">
-  let { userName, link, children, class: className = '' } = $props();
+  import type { Snippet } from 'svelte'
+
+  interface Props {
+    userName: string
+    numReviews?: unknown
+    sincePost?: unknown
+    link: string
+    class?: string
+    children: Snippet
+  }
+
+  let { userName, link, children }: Props = $props();
 </script>
 
-<a href={link} target="_blank" class={className}>
+<a href={link} target="_blank">
   <div class="google-border cursor-pointer hover:shadow-xl transition-transform duration-300 ease-in-out">
     <div
       class={`flex flex-row w-[375px] md:w-[400px] h-[365px] bg-primary rounded-lg gap-x-2 p-4 relative`}

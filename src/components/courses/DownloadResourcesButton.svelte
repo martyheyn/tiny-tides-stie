@@ -19,7 +19,8 @@
   let feedbackGiven = $state(hasFeedback)
   let feedbackText = $state('')
   let submitting = $state(false)
-  let downloading = $state(false)
+  let panelOpen = $state(false)
+  let downloadingId = $state<string | null>(null)
   let errorMsg = $state('')
 
   function handleButtonClick() {
@@ -27,13 +28,13 @@
       dialogEl?.showModal()
       return
     }
-    downloadAllResources()
+    panelOpen = !panelOpen
   }
 
-  // Closing always proceeds to download -- feedback is optional, so the modal
-  // is a one-time nudge, never a gate. The dialog's native "close" event (fired
-  // by dialog.close(), the Escape key, or a backdrop click) is the single
-  // trigger, so every dismissal path downloads exactly once.
+  // Closing always reveals the resource list -- feedback is optional, so the
+  // modal is a one-time nudge, never a gate. The dialog's native "close" event
+  // (fired by dialog.close(), the Escape key, or a backdrop click) is the
+  // single trigger, so every dismissal path opens the panel exactly once.
   function closeModal() {
     dialogEl?.close()
   }
@@ -61,43 +62,35 @@
     }
   }
 
-  async function downloadAllResources() {
+  async function downloadResource(resource: Resource) {
     errorMsg = ''
-
-    if (resources.length === 0) {
-      errorMsg = 'No resources for this course yet.'
-      return
-    }
-
-    downloading = true
+    downloadingId = resource.id
     try {
-      for (const resource of resources) {
-        const res = await fetch(`/api/resource-url?resourceId=${resource.id}`, {
-          credentials: 'include',
-        })
-        const data = await res.json()
+      const res = await fetch(`/api/resource-url?resourceId=${resource.id}`, {
+        credentials: 'include',
+      })
+      const data = await res.json()
 
-        if (!res.ok || !data.url) {
-          errorMsg = data.error || 'Could not download resources.'
-          continue
-        }
-
-        const a = document.createElement('a')
-        a.href = data.url
-        a.download = resource.name
-        a.click()
+      if (!res.ok || !data.url) {
+        errorMsg = data.error || 'Could not download that resource.'
+        return
       }
+
+      const a = document.createElement('a')
+      a.href = data.url
+      a.download = data.name
+      a.click()
     } finally {
-      downloading = false
+      downloadingId = null
     }
   }
 </script>
 
 <button
   onclick={handleButtonClick}
-  disabled={downloading}
   aria-label="download-resources-btn"
-  class="w-full flex items-center gap-x-4 px-4 py-2 bg-white border border-black/10 shadow-sm rounded-md hover:bg-secondary/30 hover:border-black/20 hover:shadow-md hover:scale-[1.02] transition-all ease-out duration-300 disabled:opacity-50"
+  aria-expanded={panelOpen}
+  class="w-full flex items-center gap-x-4 px-4 py-2 bg-white border border-black/10 shadow-sm rounded-md hover:bg-secondary/30 hover:border-black/20 hover:shadow-md hover:scale-[1.02] transition-all ease-out duration-300"
 >
   <svg
     viewBox="0 0 24 24"
@@ -114,12 +107,65 @@
     <path d="M7 10l5 5 5-5" />
     <path d="M4 19h16" />
   </svg>
-  <p>{downloading ? 'Downloading…' : 'Download Resources'}</p>
+  <p class="flex-1">Download Resources</p>
+  <svg
+    viewBox="0 0 24 24"
+    width="14"
+    height="14"
+    class={`stroke stroke-black transition-transform duration-300 ease-out ${panelOpen ? 'rotate-180' : ''}`}
+    fill="none"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M6 9l6 6 6-6" />
+  </svg>
 </button>
 
 {#if errorMsg}
   <p class="text-red-600 text-xs mt-1">{errorMsg}</p>
 {/if}
+
+<div
+  class={`grid transition-all duration-300 ease-in-out ${panelOpen ? 'grid-rows-[1fr] opacity-100 mt-2' : 'grid-rows-[0fr] opacity-0'}`}
+>
+  <div class="overflow-hidden">
+    <div class="flex flex-col gap-y-1 border border-black/10 rounded-md bg-white shadow-sm overflow-hidden">
+      {#each resources as resource (resource.id)}
+        <button
+          onclick={() => downloadResource(resource)}
+          disabled={downloadingId === resource.id}
+          aria-label={`download-resource-${resource.id}`}
+          class="w-full flex items-center justify-between gap-x-2 px-3 py-2 text-sm text-left hover:bg-secondary/20 transition-colors disabled:opacity-50"
+        >
+          <span class="truncate">{resource.name}</span>
+          {#if downloadingId === resource.id}
+            <span class="text-xs text-gray-400 shrink-0">Downloading…</span>
+          {:else}
+            <svg
+              viewBox="0 0 24 24"
+              width="14"
+              height="14"
+              class="stroke stroke-black shrink-0"
+              fill="none"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M12 3v12" />
+              <path d="M7 10l5 5 5-5" />
+              <path d="M4 19h16" />
+            </svg>
+          {/if}
+        </button>
+      {:else}
+        <p class="px-3 py-2 text-xs text-gray-500">No resources for this course yet.</p>
+      {/each}
+    </div>
+  </div>
+</div>
 
 <dialog
   bind:this={dialogEl}
@@ -128,7 +174,7 @@
   onclick={(e) => {
     if (e.target === dialogEl) closeModal()
   }}
-  onclose={() => downloadAllResources()}
+  onclose={() => (panelOpen = true)}
 >
   <div class="px-8 py-6 w-[90vw] max-w-md">
     <div class="flex items-start justify-between">
@@ -179,7 +225,7 @@
       <button
         onclick={submitFeedback}
         disabled={submitting}
-        class="text-sm font-semibold px-4 py-2 bg-[#9ddcdc] hover:bg-[#90e8e8] text-[#173f69bf] rounded-md cursor-pointer transition-all duration-300 ease-in-out disabled:opacity-50"
+        class="text-sm font-semibold px-4 py-2 bg-secondary hover:bg-[#90e8e8] text-text rounded-md cursor-pointer transition-all duration-300 ease-in-out disabled:opacity-50"
       >
         {submitting ? 'Submitting…' : 'Submit Feedback'}
       </button>
@@ -189,6 +235,11 @@
 
 <style>
   .feedback-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
     border: none;
     padding: 0;
     border-radius: 0.75rem;

@@ -1,9 +1,9 @@
 ---
-title: 'Intro to Solids'
+title: 'Tiny Tastes: Intro to Solids Class'
 id: '4f246168-7ca8-4544-a9f4-3d496f3aea00'
 pubDate: 2024-10-05
 author: 'Erin Helms'
-description: 'Help your little ones make the jump from to solids!'
+description: 'Everything you need to confidently start solids and create positive mealtimes from day one.'
 ages: '4+ months'
 length: '1 hour'
 avaiable: true
@@ -15,13 +15,7 @@ tags: ['astro', 'course', 'intro-to-solids']
 ---
 
 <p class="text-lg leading-relaxed text-gray-700">
-  <span class="font-semibold text-black">Intro to Solids</span> is a pediatric
-  occupational therapist's guide to helping your baby make the jump from
-  bottle or breast to their first solid foods. Taught by
-  <span class="font-semibold text-black">Erin Helms</span>, this course walks you through
-  everything you need to feel confident starting solids around
-  <span class="font-semibold text-black">4+ months</span>, from spotting
-  readiness cues to handling the first messy, wonderful bites.
+  <span class="font-semibold text-black">Tiny Tastes</span> is a course designed by a pediatric occupational therapist and feeding specialist to support your baby’s first bites. Dr. Erin Heyn walks you through <span class="font-semibold text-black">everything you need to feel confident with starting solid foods</span>  from knowing when to get started, what methods of feeding are out there, and materials for success
 </p>
 
 <h2 class="text-3xl font-semibold mt-16 mb-6 tracking-tight">
@@ -30,43 +24,43 @@ tags: ['astro', 'course', 'intro-to-solids']
 
 <ul class="space-y-3 pl-4 text-gray-700 text-lg font-semibold">
   <li class="flex items-start gap-2">
-    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-[#9ddcdc] flex-shrink-0"></span>
+    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-secondary shrink-0"></span>
     <span>Signs of readiness and pre-feeding activities to build the right skills first</span>
   </li>
   <li class="flex items-start gap-2">
-    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-[#9ddcdc] flex-shrink-0"></span>
+    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-secondary shrink-0"></span>
     <span>Seating and positioning for safe, supported mealtimes</span>
   </li>
   <li class="flex items-start gap-2">
-    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-[#9ddcdc] flex-shrink-0"></span>
+    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-secondary shrink-0"></span>
     <span>Responsive feeding and the general rules of introducing solids</span>
   </li>
   <li class="flex items-start gap-2">
-    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-[#9ddcdc] flex-shrink-0"></span>
+    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-secondary shrink-0"></span>
     <span>Different methods of starting solids, with real food examples</span>
   </li>
   <li class="flex items-start gap-2">
-    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-[#9ddcdc] flex-shrink-0"></span>
+    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-secondary shrink-0"></span>
     <span>What it actually looks like when babies eat — real footage, real reactions</span>
   </li>
   <li class="flex items-start gap-2">
-    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-[#9ddcdc] flex-shrink-0"></span>
+    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-secondary shrink-0"></span>
     <span>The materials you'll want on hand before getting started</span>
   </li>
   <li class="flex items-start gap-2">
-    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-[#9ddcdc] flex-shrink-0"></span>
+    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-secondary shrink-0"></span>
     <span>Introducing cup and straw drinking</span>
   </li>
   <li class="flex items-start gap-2">
-    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-[#9ddcdc] flex-shrink-0"></span>
+    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-secondary shrink-0"></span>
     <span>Choking vs. gagging, and how to safely introduce common allergens</span>
   </li>
   <li class="flex items-start gap-2">
-    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-[#9ddcdc] flex-shrink-0"></span>
+    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-secondary shrink-0"></span>
     <span>Chewing and oral motor skill development</span>
   </li>
   <li class="flex items-start gap-2">
-    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-[#9ddcdc] flex-shrink-0"></span>
+    <span class="mt-2 h-1.5 w-1.5 rounded-full bg-secondary shrink-0"></span>
     <span>Activities to practice at home, and when it's time to seek extra help</span>
   </li>
 </ul>
@@ -77,12 +71,7 @@ tags: ['astro', 'course', 'intro-to-solids']
 
 <div class="relative border-l-4 border-secondary bg-white shadow-md px-6 sm:px-8 py-6 rounded-2xl">
   <p class="text-gray-700 leading-relaxed">
-    This course is <span class="font-semibold text-[#173f69]">beginner friendly</span> 🍼 —
-    no prior experience needed. It's built for
-    <span class="font-semibold text-[#173f69]">parents and caregivers</span> of babies around
-    4+ months who are getting ready to start solids or are already in the
-    thick of it. Each chapter is short, practical, and meant to be watched in
-    order as you and your baby progress.
+    This course is designed for parents and caregivers who are thinking about starting solid foods, recently started, or have been working on solid foods for a while. Each chapter is short, practical, and easy to follow along.
   </p>
 </div>
 

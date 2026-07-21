@@ -2,9 +2,10 @@
 import { Image } from 'astro:assets'
 import Service from '../components/Service.astro'
 import BaseLayout from '../layouts/BaseLayout.astro'
+import TinySensorySignup from '../components/modals/TinySensorySignup.svelte'
 import type { MarkdownInstance } from 'astro'
 
-const markdownFiles = import.meta.glob<MarkdownInstance<any>>('./groups/*md', {
+const markdownFiles = import.meta.glob<MarkdownInstance<any>>('./groups/*mdx', {
   eager: true,
 })
 
@@ -44,6 +45,9 @@ const description =
             id={group.frontmatter.id}
           >
             <group.Content />
+            {/* {group.frontmatter.id === 'tiny-tots-sensory-playtime' && (
+              <TinySensorySignup client:load />
+            )} */}
           </Service>
         ))
       }

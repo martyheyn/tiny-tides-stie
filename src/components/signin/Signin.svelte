@@ -39,7 +39,7 @@
                 return
             }
 
-            mLNotification.message = 'Magic link sent! Check your email to log in.';
+            mLNotification.message = 'Email link sent! Check your email to log in.';
             mLNotification.type = 'success'
         } catch (err: any) {
             mLNotification.message = err.message;
@@ -72,7 +72,7 @@
             <h2 class="text-2xl font-semibold pb-2">Login</h2>
         </div>
 
-        <p class="font-semibold text-[16px] text-slate-700 p-0 text-left">With magic email link</p>
+        <p class="font-semibold text-[16px] text-slate-700 p-0 text-left">With email link</p>
         <form method="POST" onsubmit={sendMagicLink} class="space-y-4 w-full">
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700/80">Email address</label>
