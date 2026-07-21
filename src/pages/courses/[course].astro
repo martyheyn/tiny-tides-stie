@@ -79,12 +79,32 @@ if (
   import.meta.env.CF_PUBLIC_KEY_ID &&
   import.meta.env.CF_PRIVATE_KEY
 ) {
-  previewVideoUrl = getSignedUrl({
-    url: `https://${import.meta.env.CF_COURSE_VID_DOMAIN}/${courseData.frontmatter.preview_vid}`,
-    keyPairId: import.meta.env.CF_PUBLIC_KEY_ID!,
-    privateKey: import.meta.env.CF_PRIVATE_KEY!.replace(/\\n/g, '\n'),
-    dateLessThan: new Date(Date.now() + 1000 * 60 * 60 * 2), // 2 hours
-  })
+  // TEMP DEBUG: remove once the CloudFront signing crash is diagnosed
+  console.log(
+    '[cf-debug] node:',
+    process.version,
+    'openssl:',
+    process.versions.openssl,
+    'key length:',
+    import.meta.env.CF_PRIVATE_KEY.length,
+  )
+  try {
+    previewVideoUrl = getSignedUrl({
+      url: `https://${import.meta.env.CF_COURSE_VID_DOMAIN}/${courseData.frontmatter.preview_vid}`,
+      keyPairId: import.meta.env.CF_PUBLIC_KEY_ID!,
+      privateKey: import.meta.env.CF_PRIVATE_KEY!.replace(/\\n/g, '\n'),
+      dateLessThan: new Date(Date.now() + 1000 * 60 * 60 * 2), // 2 hours
+    })
+  } catch (err: any) {
+    console.error(
+      '[cf-debug] signing failed —',
+      'node:', process.version,
+      'openssl:', process.versions.openssl,
+      'opensslErrorStack:', err?.opensslErrorStack,
+      err,
+    )
+    throw err
+  }
 }
 ---
 
