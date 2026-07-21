@@ -64,7 +64,7 @@ export const GET: APIRoute = async (context) => {
     const signedUrl = getSignedUrl({
       url: `https://${import.meta.env.CF_COURSE_VID_DOMAIN}/${video.host_url}`,
       keyPairId: import.meta.env.CF_PUBLIC_KEY_ID!,
-      privateKey: import.meta.env.CF_PRIVATE_KEY!,
+      privateKey: import.meta.env.CF_PRIVATE_KEY!.replace(/\\n/g, '\n'),
       dateLessThan: expires,
     })
 
