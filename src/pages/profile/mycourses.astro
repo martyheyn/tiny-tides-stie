@@ -37,13 +37,13 @@ const myCourses = courses.filter(course =>
                         class={`grid grid-cols-1 ${courses.length < 2 ? 'sm:grid-cols-1' : 'sm:grid-cols-2'} gap-4 sm:gap-12 md:gap-28 place-items-center transition-all ease-out duration-300`}
                     >
                         {myCourses.map((course) => (
-                            <article class="p-4 max-w-[520px] border border-black/20 overflow-hidden shadow-xl bg-gray hover:scale-105 rounded-xl transition-transform ease-in-out duration-500 relative">
+                            <article class="p-4 max-w-130 border border-black/20 overflow-hidden shadow-xl bg-gray hover:scale-105 rounded-xl transition-transform ease-in-out duration-500 relative">
                                 <a
                                     href={`${course.frontmatter.avaiable && `/courses/${course.frontmatter.slug}`}`}
                                     class={`no-underline ${course.frontmatter.avaiable ? 'cursor-pointer' : 'grayscale blur-[1.5px] cursor-not-allowed'}`}
                                 >
                                     <section class="p-3">
-                                        <h5 class="text-[20px] font-semibold">
+                                        <h5 class="text-xl font-semibold">
                                             {course.frontmatter.title}
                                         </h5>
 

@@ -14,7 +14,7 @@ Includes:
 
 <ul class="ml-2">
     <li class="flex gap-x-2 items-start"> 
-        <div class="min-w-[8px] w-2 h-2 bg-[#282082] rounded-full mt-3"></div>
+        <div class="min-w-2 w-2 h-2 bg-[#282082] rounded-full mt-3"></div>
         <p>Individualized treatment plan based on your childs needs</p>
     </li>
 </ul>

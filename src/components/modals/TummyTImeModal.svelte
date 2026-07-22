@@ -10,7 +10,7 @@
 
 <button
   onclick={() => modal.openModal()}
-  class="w-full md:w-fit font-semibold text-base px-6 py-3 transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl text-black bg-[#9ddcdc] hover:bg-[#90e8e8]"
+  class="w-full md:w-fit font-semibold text-base px-6 py-3 transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-102 shadow-lg hover:shadow-2xl text-black bg-secondary hover:bg-[#90e8e8]"
 >
   Click Here to Sign Up
 </button>

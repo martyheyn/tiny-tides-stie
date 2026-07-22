@@ -90,7 +90,7 @@ if (
 
 <BaseLayout pageTitle={pageTitle}>
   <div
-    class="course-font w-full h-full px-4 sm:px-8 pb-2 flex flex-col justify-center items-center relative overflow-hidden bg-gradient-to-b from-secondary/40 via-primary/70 to-secondary/30"
+    class="course-font w-full h-full px-4 sm:px-8 pb-2 flex flex-col justify-center items-center relative overflow-hidden bg-linear-to-b from-secondary/40 via-primary/70 to-secondary/30"
   >
     <div
       class="pointer-events-none absolute -top-32 -right-32 w-96 h-96 bg-secondary/40 rounded-full blur-3xl"
@@ -101,11 +101,11 @@ if (
     >
     </div>
     <div
-      class="pointer-events-none absolute top-[110vh] -right-40 w-[500px] h-[500px] bg-secondary/30 rounded-full blur-3xl"
+      class="pointer-events-none absolute top-[110vh] -right-40 w-125 h-125 bg-secondary/30 rounded-full blur-3xl"
     >
     </div>
     <div
-      class="pointer-events-none absolute top-[170vh] -left-40 w-[500px] h-[500px] bg-blue-100/40 rounded-full blur-3xl"
+      class="pointer-events-none absolute top-[170vh] -left-40 w-125 h-125 bg-blue-100/40 rounded-full blur-3xl"
     >
     </div>
     <div class="max-w-5xl pb-24">
@@ -116,10 +116,10 @@ if (
               <span class="inline-block mb-4 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-[#173f69] bg-secondary/40 rounded-full">
                 Course
               </span>
-              <h1 class="text-[54px] mb-2 font-semibold bg-gradient-to-r from-[#173f69] to-[#2f8f8f] bg-clip-text text-transparent">
+              <h1 class="text-[54px] mb-2 font-semibold bg-linear-to-r from-[#173f69] to-[#2f8f8f] bg-clip-text text-transparent">
                 {courseData.frontmatter.title}
               </h1>
-              <p class="text-[16px] my-0 text-gray-700">
+              <p class="text-base my-0 text-gray-700">
                 {courseData.frontmatter.description}
               </p>
               {(courseData.frontmatter.ages ||
@@ -138,7 +138,7 @@ if (
                 </div>
               )}
             </header>
-            <div class="mx-auto w-[50%] h-1 my-12 bg-gradient-to-r from-slate-100 to-slate-300 rounded-full" />
+            <div class="mx-auto w-1/2 h-1 my-12 bg-linear-to-r from-slate-100 to-slate-300 rounded-full" />
 
             <div class="w-full flex justify-center">
               <div class="w-full md:w-[90%] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-black/5 bg-black">
@@ -147,7 +147,7 @@ if (
                   controls
                   controlslist="nodownload"
                   src={previewVideoUrl}
-                  class="w-full min-h-[315px] md:min-h-[400px] bg-blue-300/30"
+                  class="w-full min-h-78.75 md:min-h-100 bg-blue-300/30"
                 />
               </div>
             </div>
@@ -157,7 +157,7 @@ if (
               {alreadyPurchased ? (
                 <a
                   href={startUrl}
-                  class="group w-72 flex items-center justify-center gap-2 text-center font-semibold text-xl px-6 py-3 bg-gradient-to-r from-[#9ddcdc] to-[#7fd0d0] hover:from-[#a6e6e6] hover:to-[#8fdcdc] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl"
+                  class="group w-72 flex items-center justify-center gap-2 text-center font-semibold text-xl px-6 py-3 bg-linear-to-r from-secondary to-[#7fd0d0] hover:from-[#a6e6e6] hover:to-[#8fdcdc] text-text transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-102 shadow-lg hover:shadow-2xl"
                 >
                   Go to the Course!
                   <span class="transition-transform duration-300 group-hover:translate-x-1">
@@ -176,7 +176,7 @@ if (
               )}
             </div>
 
-            <div class="mx-auto w-[80%] h-1 my-12 bg-gradient-to-r from-slate-100 to-slate-300 rounded-full" />
+            <div class="mx-auto w-4/5 h-1 my-12 bg-linear-to-r from-slate-100 to-slate-300 rounded-full" />
 
             <article set:html={courseData.content} />
           </>
@@ -189,7 +189,7 @@ if (
         alreadyPurchased ? (
           <a
             href={startUrl}
-            class="group w-72 flex items-center justify-center gap-2 text-center font-semibold text-xl px-6 py-3 bg-gradient-to-r from-[#9ddcdc] to-[#7fd0d0] hover:from-[#a6e6e6] hover:to-[#8fdcdc] text-[#173f69bf] transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-[1.02] shadow-lg hover:shadow-2xl"
+            class="group w-72 flex items-center justify-center gap-2 text-center font-semibold text-xl px-6 py-3 bg-linear-to-r from-secondary to-[#7fd0d0] hover:from-[#a6e6e6] hover:to-[#8fdcdc] text-text transition-all duration-300 ease-in-out cursor-pointer rounded-md hover:scale-102 shadow-lg hover:shadow-2xl"
           >
             Go to the Course!
             <span class="transition-transform duration-300 group-hover:translate-x-1">
@@ -205,7 +205,7 @@ if (
     <div class="pb-24">
       <h1 class="text-4xl uppercase text-center font-semibold">Chapters</h1>
       <div
-        class="mx-auto w-[30%] h-1 mb-12 mt-4 bg-gradient-to-r from-blue-200 to-blue-100 rounded-full"
+        class="mx-auto w-[30%] h-1 mb-12 mt-4 bg-linear-to-r from-blue-200 to-blue-100 rounded-full"
       >
       </div>
 
@@ -223,7 +223,7 @@ if (
                   class="flex flex-col h-full p-6 gap-4"
                 >
                   <div class="flex items-center gap-3">
-                    <span class="flex items-center justify-center w-9 h-9 text-sm font-bold bg-secondary/40 text-[#173f69] rounded-full flex-shrink-0">
+                    <span class="flex items-center justify-center w-9 h-9 text-sm font-bold bg-secondary/40 text-[#173f69] rounded-full shrink-0">
                       {i + 1}
                     </span>
                     <h5 class="text-lg uppercase font-semibold tracking-tight">

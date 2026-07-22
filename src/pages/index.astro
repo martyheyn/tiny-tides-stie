@@ -46,10 +46,10 @@ const services = [
 
 <BaseLayout pageTitle={pageTitle} description={description}>
   <!-- Landing -->
-  <section class="bg-gradient-to-b from-primary to-secondary overflow-x-hidden">
+  <section class="bg-linear-to-b from-primary to-secondary overflow-x-hidden">
     <div class="h-[106vh] w-full relative overflow-hidden">
       <div
-        class="relative bg-transparent md:bg-gradient-to-b md:from-primary md:to-[#c5e8e8] w-full md:w-1/2 h-full flex justify-center items-center z-20 px-4 md:px-12 rounded-b-lg"
+        class="relative bg-transparent md:bg-linear-to-b md:from-primary md:to-[#c5e8e8] w-full md:w-1/2 h-full flex justify-center items-center z-20 px-4 md:px-12 rounded-b-lg"
       >
         <div class="flex flex-col gap-y-4 justify-center items-center">
           <Logo fill="#172554" width="400px" />
@@ -82,7 +82,7 @@ const services = [
       </div>
 
       <video
-        class="absolute top-0 left-0 h-full w-full z-10 object-cover opacity-100 grayscale-[10%]"
+        class="absolute top-0 left-0 h-full w-full z-10 object-cover opacity-100 grayscale-10"
         playsinline
         autoplay
         loop
@@ -153,7 +153,7 @@ const services = [
               description="Schedule a free 15 minute consultation"
             />
             <div
-              class="absolute top-[27%] md:top-[40%] md:left-[28%] hidden lg:block step-arrow-1"
+              class="absolute top-[27%] md:top-2/5 md:left-[28%] hidden lg:block step-arrow-1"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -175,7 +175,7 @@ const services = [
             />
 
             <div
-              class="absolute lg:top-[40%] lg:left-[64%] hidden lg:block step-arrow-2"
+              class="absolute lg:top-2/5 lg:left-[64%] hidden lg:block step-arrow-2"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -230,7 +230,7 @@ const services = [
             <div class="w-full md:w-1/2 flex justify-center">
               <Image
                 src="https://dkbi9cj3nodif.cloudfront.net/monthly_calendar_.png"
-                class="max-h-[600px] max-w-[500px] w-full rounded-md"
+                class="max-h-150 max-w-125 w-full rounded-md"
                 alt="free group occupational therapy, lactation, infant feeding calendar"
                 inferSize
               />
@@ -280,7 +280,7 @@ const services = [
 
   <!-- Contact -->
   <div class="bg-primary w-full py-16 px-4 flex justify-center">
-    <div class="max-w-7xl lg:w-[1256px]">
+    <div class="max-w-7xl lg:w-314">
       <div class="flex justify-center">
         <h1 class="header-title text-blue-950">
           <span class="straight_underline z-10">Get in Touch</span>

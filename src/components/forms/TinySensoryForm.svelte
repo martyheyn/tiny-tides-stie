@@ -133,12 +133,12 @@
             type="text"
             placeholder="Jane Doe"
             bind:value={parentName}
-            class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            class="mt-0.5 py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
           />
         </label>
 
         <label for="phone" class="block text-sm font-semibold text-gray-800 flex-1"
-          ><span class="pl-[2px]">Phone <span class="text-red-400">*</span></span>
+          ><span class="pl-0.5">Phone <span class="text-red-400">*</span></span>
           <input
             required
             id="phone"
@@ -146,7 +146,7 @@
             type="tel"
             bind:value={phone}
             placeholder="(410) 555-5555"
-            class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            class="mt-0.5 py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
           />
         </label>
       </div>
@@ -161,13 +161,13 @@
             type="text"
             placeholder="Child(s) Name"
             bind:value={childName}
-            class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            class="mt-0.5 py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
           />
         </label>
 
 
         <label for="birthDate" class="block text-sm font-semibold text-gray-800 flex-1"
-          ><span class="pl-[2px]">Child's Date of Birth <span class="text-red-400">*</span></span>
+          ><span class="pl-0.5">Child's Date of Birth <span class="text-red-400">*</span></span>
           <input
             required
             id="birthDate"
@@ -176,7 +176,7 @@
             min="2018-01-01"
             max={monthAhead}
             bind:value={birthDate}
-            class={`mt-[2px] py-2 text-black !bg-[#fcfeff] px-2 border focus:outline-none focus:border-blue-300
+            class={`mt-0.5 py-2 text-black !bg-[#fcfeff] px-2 border focus:outline-none focus:border-blue-300
              w-full rounded-md transition duration-150 ease-in-out ${birthDate ? '' : 'text-gray-400'}`}
           />
         </label>
@@ -184,7 +184,7 @@
 
       <div class="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-4">
         <label for="email" class="block text-sm font-semibold text-gray-800 flex-1"
-          ><span class="pl-[2px]">Email <span class="text-red-400">*</span></span>
+          ><span class="pl-0.5">Email <span class="text-red-400">*</span></span>
           <input
             required
             id="email"
@@ -192,18 +192,18 @@
             type="email"
             placeholder="janedoe@gmail.com"
             bind:value={email}
-            class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            class="mt-0.5 py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
           />
         </label>
 
         <label for="hearAboutUs" class="block text-sm font-semibold text-gray-800 flex-1"
-          ><span class="pl-[2px]">How did you hear about us? <span class="text-red-400">*</span></span>
+          ><span class="pl-0.5">How did you hear about us? <span class="text-red-400">*</span></span>
           <select
             required
             id="hearAboutUs"
             name="hearAboutUs"
             bind:value={hearAboutUs}
-            class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            class="mt-0.5 py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
           >
             <option value="facebook">Facebook</option>
             <option value="instagram">Instagram</option>
@@ -228,7 +228,7 @@
               type="text"
               placeholder="How did you hear about us? (Other)"
               bind:value={hearAboutUsOther}
-              class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+              class="mt-0.5 py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
             />
           </label>
         </div>
@@ -237,7 +237,7 @@
 
       <div class="relative">
         <label class="block text-sm font-semibold text-gray-800">
-          <span class="pl-[2px]">Where do you live? <span class="text-red-400">*</span></span>
+          <span class="pl-0.5">Where do you live? <span class="text-red-400">*</span></span>
 
           <input
             required
@@ -245,7 +245,7 @@
             placeholder="City or address"
             bind:value={locationQuery}
             oninput={handleInput}
-            class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            class="mt-0.5 py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
           />
 
           <input type="hidden" name="location" value={location} />
@@ -285,14 +285,14 @@
 
       <div>        
         <label for="message" class="block text-sm font-semibold text-gray-800"
-          ><span class="pl-[2px]">Additional Info</span>
+          ><span class="pl-0.5">Additional Info</span>
           <textarea
             rows="5"
             id="message"
             name="message"
             placeholder="Anything else you would like us to know?"
             bind:value={message}
-            class="mt-[2px] py-2 text-black px-2 !bg-[#fcfeff] border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            class="mt-0.5 py-2 text-black px-2 !bg-[#fcfeff] border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
           ></textarea>
         </label>
       </div>
@@ -307,7 +307,7 @@
             type="text"
             placeholder="peanut, gluten, nut, etc."
             bind:value={allergies}
-            class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            class="mt-0.5 py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
           />
         </label>
       </div>
@@ -344,7 +344,7 @@
           Sensory Playtime is not a drop-off or babysitting service. A caregiver must remain present with their child for the entire session 
           and is responsible for their child's safety and supervision at all times. <span class="text-red-400">*</span></p>
         <label for="consentToCaregiver" class="text-sm font-semibold text-gray-800 flex gap-x-2 items-center">
-          <span class="pl-[2px]">Caregiver Consent</span>
+          <span class="pl-0.5">Caregiver Consent</span>
           <input
             required
             id="consentToCaregiver"

@@ -138,7 +138,7 @@
                 type="full_name"
                 bind:value={full_name}
                 required
-                class="appearance-none block w-full px-3 py-2 border mt-[2px] text-black !bg-[#fcfeff] focus:outline-none focus:border-blue-300 rounded-md transition duration-150 ease-in-out"
+                class="appearance-none block w-full px-3 py-2 border mt-0.5 text-black !bg-[#fcfeff] focus:outline-none focus:border-blue-300 rounded-md transition duration-150 ease-in-out"
                 placeholder="Your Name"
             />
             </div>

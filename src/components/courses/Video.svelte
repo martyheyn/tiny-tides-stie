@@ -197,7 +197,7 @@
       src={videoUrl || null}
       controls
       controlslist="nodownload"
-      class="w-full h-auto sm:h-[525px] object-contain"  
+      class="w-full h-auto sm:h-131.25 object-contain"  
       preload="metadata"
       ontimeupdate={onTimeUpdate}
       onended={onVideoEnded}
@@ -268,7 +268,7 @@
             chapters[chapIndx - 1] &&
             `/courses/${courseSlug}/${chapters[chapIndx - 1].slug}/${chapters[chapIndx - 1].videos[0].slug}`}
           aria-label="prev-chapter-btn"
-          class="flex items-center justify-center rounded-full border border-black/10 bg-white shadow-sm p-2 cursor-pointer hover:bg-secondary/30 hover:border-black/20 hover:shadow-md hover:scale-[1.10] transition-all duration-300 ease-out"
+          class="flex items-center justify-center rounded-full border border-black/10 bg-white shadow-sm p-2 cursor-pointer hover:bg-secondary/30 hover:border-black/20 hover:shadow-md hover:scale-110 transition-all duration-300 ease-out"
         >
           <svg
             viewBox="0 0 24 24"
@@ -293,7 +293,7 @@
             chapters[chapIndx + 1].videos &&
             `/courses/${courseSlug}/${chapters[chapIndx + 1].slug}/${chapters[chapIndx + 1].videos[0].slug}`}
           aria-label="next-chapter-btn"
-          class="flex items-center justify-center rounded-full border border-black/10 bg-white shadow-sm p-2 cursor-pointer hover:bg-secondary/30 hover:border-black/20 hover:shadow-md hover:scale-[1.10] transition-all duration-300 ease-out"
+          class="flex items-center justify-center rounded-full border border-black/10 bg-white shadow-sm p-2 cursor-pointer hover:bg-secondary/30 hover:border-black/20 hover:shadow-md hover:scale-110 transition-all duration-300 ease-out"
         >
           <svg
             viewBox="0 0 24 24"
@@ -328,7 +328,7 @@
             cy="30"
             r="25"
             class="origin-center transition-[fill,stroke,transform] duration-300 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] {completed
-              ? 'stroke-green-400 fill-green-300 scale-[1.08]'
+              ? 'stroke-green-400 fill-green-300 scale-108'
               : 'stroke-slate-300 fill-transparent scale-100'}"
             style="stroke-width: 4; transform-origin: center;"
           />

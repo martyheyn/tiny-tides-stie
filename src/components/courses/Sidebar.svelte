@@ -37,7 +37,7 @@
 </script>
 
 <div
-  class={`${value ? 'w-full lg:w-[475px]' : 'w-full md:w-24'} px-6 py-12 flex flex-col gap-y-4 transition-all ease-in-out duration-300`}
+  class={`${value ? 'w-full lg:w-118.75' : 'w-full md:w-24'} px-6 py-12 flex flex-col gap-y-4 transition-all ease-in-out duration-300`}
 >
   <aside
     class={`${value ? 'opacity-100' : 'opacity-0'} transition-all ease-in-out duration-150 `}
@@ -56,7 +56,7 @@
         <a
           href={course &&
             `/courses/${course.slug}/${chapter.slug}/${chapter.videos[0].slug}`}
-          class={`w-full course-nav-item text-left ${chapter.slug === currChapter ? 'text-black font-semibold scale-[1.005] bg-blue-100/80 rounded-md' : 'hover:bg-blue-100/30'}`}
+          class={`w-full course-nav-item text-left ${chapter.slug === currChapter ? 'text-black font-semibold scale-100.5 bg-blue-100/80 rounded-md' : 'hover:bg-blue-100/30'}`}
         >
           <span>{chapter.label}</span>
 
@@ -109,7 +109,7 @@
 
   <a
     href={course && `/courses/${course.slug}`}
-    class="flex items-center gap-x-4 px-4 py-2 bg-white border border-black/10 shadow-sm rounded-md hover:bg-secondary/30 hover:border-black/20 hover:shadow-md hover:scale-[1.02] transition-all ease-out duration-300"
+    class="flex items-center gap-x-4 px-4 py-2 bg-white border border-black/10 shadow-sm rounded-md hover:bg-secondary/30 hover:border-black/20 hover:shadow-md hover:scale-102 transition-all ease-out duration-300"
   >
     <svg
       viewBox="0 0 24 24"

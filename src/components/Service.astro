@@ -12,7 +12,7 @@ const { title, id, img, link } = Astro.props
   <div class="lg:w-1/2 flex flex-col gap-y-6">
     <a href={link} target={link !== '/contact' ? '_blank' : ''}>
       <h4
-        class="text-4xl w-fit hover:scale-[1.01] hover:shadow-sm transition-all duration-300 ease-in-out"
+        class="text-4xl w-fit hover:scale-101 hover:shadow-sm transition-all duration-300 ease-in-out"
       >
         <span class="straight_underline z-10">
           {title}
@@ -36,7 +36,7 @@ const { title, id, img, link } = Astro.props
         img.map((im: string) => (
           <div class="min-w-0">
             <Image
-              class="max-w-[425px] w-full h-full object-contain rounded-sm"
+              class="max-w-106.25 w-full h-full object-contain rounded-sm"
               inferSize
               src={im}
               alt={`${title}, occupational therapy, lactation, infant feeding`}

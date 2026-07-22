@@ -124,12 +124,12 @@
             type="text"
             placeholder="Name"
             bind:value={name}
-            class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            class="mt-0.5 py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
           />
         </label>
 
         <label for="phone" class="block text-sm font-semibold text-gray-800 flex-1"
-          ><span class="pl-[2px]">Phone</span>
+          ><span class="pl-0.5">Phone</span>
           <input
             required
             id="phone"
@@ -137,14 +137,14 @@
             type="tel"
             bind:value={phone}
             placeholder="(410) 555-5555"
-            class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            class="mt-0.5 py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
           />
         </label>
       </div>
 
       <div class="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-4">
         <label for="email" class="block text-sm font-semibold text-gray-800 flex-1"
-          ><span class="pl-[2px]">Email</span>
+          ><span class="pl-0.5">Email</span>
           <input
             required
             id="email"
@@ -152,12 +152,12 @@
             type="email"
             placeholder="Email"
             bind:value={email}
-            class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            class="mt-0.5 py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
           />
         </label>
 
         <label for="birthDate" class="block text-sm font-semibold text-gray-800 flex-1"
-          ><span class="pl-[2px]">Patient Birth Date</span>
+          ><span class="pl-0.5">Patient Birth Date</span>
           <input
             required
             id="birthDate"
@@ -166,7 +166,7 @@
             min="2018-01-01"
             max={monthAhead}
             bind:value={birthDate}
-            class={`mt-[2px] py-2 text-black !bg-[#fcfeff] px-2 border focus:outline-none focus:border-blue-300
+            class={`mt-0.5 py-2 text-black !bg-[#fcfeff] px-2 border focus:outline-none focus:border-blue-300
              w-full rounded-md transition duration-150 ease-in-out ${birthDate ? '' : 'text-gray-400'}`}
           />
         </label>
@@ -175,13 +175,13 @@
 
       <div>
         <label for="medicaid" class="block text-sm font-semibold text-gray-800"
-          ><span class="pl-[2px]">Do you have Medicaid?</span>
+          ><span class="pl-0.5">Do you have Medicaid?</span>
           <select
             required
             id="medicaid"
             name="medicaid"
             bind:value={medicaid}
-            class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            class="mt-0.5 py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
           >
             <option value="yes">Yes</option>
             <option value="no">No</option>
@@ -193,13 +193,13 @@
 
       <div>
         <label for="hearAboutUs" class="block text-sm font-semibold text-gray-800"
-          ><span class="pl-[2px]">How did you hear about us?</span>
+          ><span class="pl-0.5">How did you hear about us?</span>
           <select
             required
             id="hearAboutUs"
             name="hearAboutUs"
             bind:value={hearAboutUs}
-            class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            class="mt-0.5 py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
           >
           <option value="facebook">Facebook</option>
           <option value="instagram">Instagram</option>
@@ -216,7 +216,7 @@
       {#if hearAboutUs === 'referral'}
         <div transition:slide={{ duration: 200 }}>
           <label for="referral" class="block text-sm font-semibold text-gray-800"
-            ><span class="pl-[2px]">Referral</span>
+            ><span class="pl-0.5">Referral</span>
             <input
               required={hearAboutUs === 'referral'}
               id="referral"
@@ -224,7 +224,7 @@
               type="text"
               placeholder="Which provider pointed you our way?"
               bind:value={referral}
-              class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+              class="mt-0.5 py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
             />
           </label>
         </div>
@@ -241,7 +241,7 @@
               type="text"
               placeholder="How did you hear about us? (Other)"
               bind:value={hearAboutUsOther}
-              class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+              class="mt-0.5 py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
             />
           </label>
         </div>
@@ -250,7 +250,7 @@
 
       <div class="relative">
         <label class="block text-sm font-semibold text-gray-800">
-          <span class="pl-[2px]">Where do you live?</span>
+          <span class="pl-0.5">Where do you live?</span>
 
           <input
             required
@@ -258,7 +258,7 @@
             placeholder="City or address"
             bind:value={locationQuery}
             oninput={handleInput}
-            class="mt-[2px] py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            class="mt-0.5 py-2 text-black !bg-[#fcfeff] indent-2 border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
           />
 
           <input type="hidden" name="location" value={location} />
@@ -280,7 +280,7 @@
 
       <div>
         <label for="message" class="block text-sm font-semibold text-gray-800"
-          ><span class="pl-[2px]">Message</span>
+          ><span class="pl-0.5">Message</span>
           <textarea
             required
             rows="5"
@@ -288,7 +288,7 @@
             name="message"
             placeholder="Leave a short description of what you need help with."
             bind:value={message}
-            class="mt-[2px] py-2 text-black px-2 !bg-[#fcfeff] border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
+            class="mt-0.5 py-2 text-black px-2 !bg-[#fcfeff] border focus:outline-none focus:border-blue-300 w-full rounded-md transition duration-150 ease-in-out"
           ></textarea>
         </label>
       </div>

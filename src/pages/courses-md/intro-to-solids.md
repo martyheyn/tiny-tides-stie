@@ -4,6 +4,8 @@ id: '4f246168-7ca8-4544-a9f4-3d496f3aea00'
 pubDate: 2024-10-05
 author: 'Erin Helms'
 description: 'Everything you need to confidently start solids and create positive mealtimes from day one.'
+price: '24.99'
+blurb: 'A single pediatric OT feeding consult runs $150–300+. Get the same training for $24.99.'
 ages: '4+ months'
 length: '1 hour'
 avaiable: true
@@ -14,9 +16,15 @@ preview_vid: 'intro-to-solids/intro.mp4'
 tags: ['astro', 'course', 'intro-to-solids']
 ---
 
+
 <p class="text-lg leading-relaxed text-gray-700">
-  <span class="font-semibold text-black">Tiny Tastes</span> is a course designed by a pediatric occupational therapist and feeding specialist to support your baby’s first bites. Dr. Erin Heyn walks you through <span class="font-semibold text-black">everything you need to feel confident with starting solid foods</span>  from knowing when to get started, what methods of feeding are out there, and materials for success
+  <span class="font-semibold text-black">Tiny Tastes</span> is a course designed by a pediatric occupational therapist and feeding specialist to support your baby’s first bites. Dr. Erin Heyn built this course based o years of practice and hundreds of success stories transitioning infants to solids. In the course she walks you through <span class="font-semibold text-black">everything you need to feel confident with starting solid foods</span>  from knowing when to get started, what methods of feeding are out there, and materials for success.
 </p>
+
+<p class="text-lg leading-relaxed text-gray-700 py-6">
+  A single in-person feeding consult with a pediatric OT runs $150–300+. This course gives you the same choking/gagging safety training, seating setup, and feeding-method breakdown and more for $24.99. For the same price as a pack of teethers you get skills you'll use every single meal for the next year.
+</p>
+
 
 <h2 class="text-3xl font-semibold mt-16 mb-6 tracking-tight">
   What will I learn?
@@ -86,31 +94,31 @@ tags: ['astro', 'course', 'intro-to-solids']
   </p>
   <ul class="space-y-4">
     <li class="flex items-start gap-3">
-      <svg class="w-5 h-5 mt-0.5 text-[#173f69] flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+      <svg class="w-5 h-5 mt-0.5 text-[#173f69] shrink-0" viewBox="0 0 20 20" fill="currentColor">
         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414-1.414L8 11.172 4.707 7.879A1 1 0 003.293 9.293l4 4a1 1 0 001.414 0l8-8z" clip-rule="evenodd" />
       </svg>
       <span class="text-gray-700"><span class="font-semibold text-[#173f69]">Start solids with real confidence</span> — no more second-guessing every bite or googling at 2am</span>
     </li>
     <li class="flex items-start gap-3">
-      <svg class="w-5 h-5 mt-0.5 text-[#173f69] flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+      <svg class="w-5 h-5 mt-0.5 text-[#173f69] shrink-0" viewBox="0 0 20 20" fill="currentColor">
         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414-1.414L8 11.172 4.707 7.879A1 1 0 003.293 9.293l4 4a1 1 0 001.414 0l8-8z" clip-rule="evenodd" />
       </svg>
       <span class="text-gray-700"><span class="font-semibold text-[#173f69]">Tell gagging from real choking</span> at a glance, and know exactly how to respond</span>
     </li>
     <li class="flex items-start gap-3">
-      <svg class="w-5 h-5 mt-0.5 text-[#173f69] flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+      <svg class="w-5 h-5 mt-0.5 text-[#173f69] shrink-0" viewBox="0 0 20 20" fill="currentColor">
         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414-1.414L8 11.172 4.707 7.879A1 1 0 003.293 9.293l4 4a1 1 0 001.414 0l8-8z" clip-rule="evenodd" />
       </svg>
       <span class="text-gray-700"><span class="font-semibold text-[#173f69]">Choose the feeding style that fits your family</span> — purees, baby-led weaning, or a mix of both</span>
     </li>
     <li class="flex items-start gap-3">
-      <svg class="w-5 h-5 mt-0.5 text-[#173f69] flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+      <svg class="w-5 h-5 mt-0.5 text-[#173f69] shrink-0" viewBox="0 0 20 20" fill="currentColor">
         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414-1.414L8 11.172 4.707 7.879A1 1 0 003.293 9.293l4 4a1 1 0 001.414 0l8-8z" clip-rule="evenodd" />
       </svg>
       <span class="text-gray-700"><span class="font-semibold text-[#173f69]">Set up mealtimes your baby can actually join in on</span> — the right seating, tools, and pacing</span>
     </li>
     <li class="flex items-start gap-3">
-      <svg class="w-5 h-5 mt-0.5 text-[#173f69] flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+      <svg class="w-5 h-5 mt-0.5 text-[#173f69] shrink-0" viewBox="0 0 20 20" fill="currentColor">
         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414-1.414L8 11.172 4.707 7.879A1 1 0 003.293 9.293l4 4a1 1 0 001.414 0l8-8z" clip-rule="evenodd" />
       </svg>
       <span class="text-gray-700"><span class="font-semibold text-[#173f69]">Know exactly when it's time to loop in a professional</span> — and when things are right on track</span>
@@ -125,6 +133,6 @@ tags: ['astro', 'course', 'intro-to-solids']
   When was the course last updated?
 </h2>
 
-<span class="px-4 py-2 bg-green-300/70 rounded-lg shadow-md font-semibold text-gray-800 inline-block hover:scale-[1.02] transition-transform">
+<span class="px-4 py-2 bg-green-300/70 rounded-lg shadow-md font-semibold text-gray-800 inline-block hover:scale-102 transition-transform">
   Updated: 08-2025
 </span> -->

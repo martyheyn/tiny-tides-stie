@@ -14,7 +14,7 @@
           {frontmatter.question}
         </p>
         <button
-          class="cursor-pointer hover:scale-[1.10] transition-all duration-300 ease-in-out"
+          class="cursor-pointer hover:scale-110 transition-all duration-300 ease-in-out"
           aria-label="Toggle FAQ"
           onclick={() =>selectedFaq = i}
         >

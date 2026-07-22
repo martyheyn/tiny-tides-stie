@@ -90,7 +90,7 @@
   onclick={handleButtonClick}
   aria-label="download-resources-btn"
   aria-expanded={panelOpen}
-  class="w-full flex items-center gap-x-4 px-4 py-2 bg-white border border-black/10 shadow-sm rounded-md hover:bg-secondary/30 hover:border-black/20 hover:shadow-md hover:scale-[1.02] transition-all ease-out duration-300"
+  class="w-full flex items-center gap-x-4 px-4 py-2 bg-white border border-black/10 shadow-sm rounded-md hover:bg-secondary/30 hover:border-black/20 hover:shadow-md hover:scale-102 transition-all ease-out duration-300"
 >
   <svg
     viewBox="0 0 24 24"

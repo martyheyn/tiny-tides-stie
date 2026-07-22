@@ -72,7 +72,7 @@
       <button
         type="submit"
         disabled={loading || redeemed || !code.trim()}
-        class="px-4 py-2 bg-[#9ddcdc] hover:bg-[#90e8e8] text-[#173f69bf] font-semibold transition-all duration-300 ease-in-out cursor-pointer rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+        class="px-4 py-2 bg-secondary hover:bg-[#90e8e8] text-text font-semibold transition-all duration-300 ease-in-out cursor-pointer rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {#if loading}
           Checking…
