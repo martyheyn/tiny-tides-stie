@@ -104,8 +104,12 @@
 
         </form>
 
+        <!-- Google OAuth is not enabled on the Supabase project yet (returns
+             "provider is not enabled"). Hidden until that's set up so beta
+             testers aren't offered a sign-in method that just errors out. -->
+        <!--
         <div class="w-full h-0.5 bg-black/10 my-4"></div>
-        
+
         <p class="font-semibold text-base text-slate-700 p-0 text-left">or with gmail account</p>
         <div class="space-y-4 w-full">
             <button onclick={signInWithGoogle} class="w-full flex gap-x-2 items-center text-left bg-[#85c0c0] hover:bg-[#639696] cursor-pointer px-4 py-2.5 transition-all duration-300 ease-in-out rounded-md text-white text-base">
@@ -119,7 +123,7 @@
         {#if gmailNotification.message}
             <Notification message={gmailNotification.message} type={gmailNotification.type} />
         {/if}
-
+        -->
 
     </div>
 </div>
