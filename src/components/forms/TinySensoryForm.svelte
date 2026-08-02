@@ -25,6 +25,7 @@
 
   
   let error: string = $state('');
+  let isSubmitting = $state(false);
   let responseMessage: { success: boolean; error?: string } = {
     success: false,
   };
@@ -63,8 +64,9 @@
 
   async function submit(e: SubmitEvent) {
     e.preventDefault();
+    isSubmitting = true;
     const formData = new FormData(e.currentTarget as HTMLFormElement);
-    
+
     // Save form data to localStorage before redirecting to Stripe
     const formObj: Record<string, any> = {};
     formData.forEach((value, key) => {
@@ -362,10 +364,11 @@
         </p>
         <div class="flex justify-center sm:justify-end items-center">
           <button
-            class="bg-[#85c0c0] hover:bg-[#639696] cursor-pointer px-6 py-2 transition-all duration-300 ease-in-out rounded-md text-white"
+            class="bg-[#85c0c0] hover:bg-[#639696] disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer px-6 py-2 transition-all duration-300 ease-in-out rounded-md text-white flex items-center gap-x-2"
             type="submit"
+            disabled={isSubmitting}
           >
-            Proceed to Payment →
+            {#if isSubmitting}<span class="spinner"></span>{/if}Proceed to Payment →
           </button>
         </div>
       </div>
@@ -374,6 +377,22 @@
 </div>
 
 <style>
+.spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 input:-webkit-autofill {
   box-shadow: 0 0 0px 1000px #fcfeff inset !important; /* Matches your background color */
   -webkit-text-fill-color: black !important; /* Ensures text color matches */

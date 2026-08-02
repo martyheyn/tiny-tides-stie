@@ -13,6 +13,7 @@
 
   
   let error: string = $state('');
+  let isSubmitting = $state(false);
   let responseMessage: { success: boolean; error?: string } = {
     success: false,
   };
@@ -49,23 +50,28 @@
 
   async function submit(e: SubmitEvent) {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget as HTMLFormElement);
-    const res = await fetch("/api/tummy-time", {
-      method: "POST",
-      body: formData,
-    });
-    const data = await res.json();
-    responseMessage = data;
+    isSubmitting = true;
+    try {
+      const formData = new FormData(e.currentTarget as HTMLFormElement);
+      const res = await fetch("/api/tummy-time", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      responseMessage = data;
 
-    if(!responseMessage.success) {
-      error = 'There was an error trying to submit. Please try again at a later time'
-      onResult('error');
-    }
+      if(!responseMessage.success) {
+        error = 'There was an error trying to submit. Please try again at a later time'
+        onResult('error');
+      }
 
-    if(responseMessage.success) {
-      resetForm();
-      // notification that they submitted the form
-      onResult('success');
+      if(responseMessage.success) {
+        resetForm();
+        // notification that they submitted the form
+        onResult('success');
+      }
+    } finally {
+      isSubmitting = false;
     }
   }
 
@@ -99,10 +105,8 @@
   }
 
   const availableDates = [
-    { label: 'July 06, 2026 (Monday) ', value: '07/06/2026' },
-    { label: 'July 13, 2026 (Monday) ', value: '07/13/2026' },
-    { label: 'July 20, 2026 (Monday) ', value: '07/20/2026' },
-    { label: 'July 27, 2026 (Monday) ', value: '07/27/2026' },
+    { label: 'August 03, 2026 (Monday) ', value: '08/03/2026' },
+    { label: 'August 10, 2026 (Monday) ', value: '08/10/2026' },
   ]
 
   function toggleDate(date: { label: string, value: string }) {
@@ -319,9 +323,10 @@
 
       <div class="flex justify-center sm:justify-end items-center">
         <button
-          class={`bg-[#85c0c0] hover:bg-[#639696] cursor-pointer px-6 py-2 transition-all duration-300 ease-in-out rounded-md text-white`}
+          class="bg-[#85c0c0] hover:bg-[#639696] disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer px-6 py-2 transition-all duration-300 ease-in-out rounded-md text-white flex items-center gap-x-2"
           type="submit"
-          >Submit</button
+          disabled={isSubmitting}
+          >{#if isSubmitting}<span class="spinner"></span>{/if}Submit</button
         >
       </div>
     </form>
@@ -329,6 +334,22 @@
 </div>
 
 <style>
+.spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 input:-webkit-autofill {
   box-shadow: 0 0 0px 1000px #fcfeff inset !important; /* Matches your background color */
   -webkit-text-fill-color: black !important; /* Ensures text color matches */
