@@ -44,7 +44,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   if (referer) {
     try {
       const refUrl = new URL(referer)
-      redirectTo += `?next=${refUrl.pathname.slice(1)}`
+      redirectTo += `?next=${(refUrl.pathname + refUrl.search).slice(1)}`
     } catch (e) {
       console.warn('Invalid referer header:', referer)
     }

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { createBrowserClient } from '@supabase/ssr';
   import Notification from './Notification.svelte';
 
@@ -11,10 +12,50 @@
   );
 
   let expanded = $state(false);
+  let toggling = $state(false);
   let code = $state('');
   let loading = $state(false);
   let redeemed = $state(false);
   let notification: { message: string; type: 'error' | 'success' | 'warning' | '' } = $state({ message: '', type: '' });
+
+  // After a magic-link login (a full page reload — there's no client-side
+  // session-changed event in this codebase), resume straight into the
+  // code input if the user came here via the toggle below.
+  onMount(async () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('redeem') === '1') {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) expanded = true;
+
+      const url = new URL(window.location.href);
+      url.searchParams.delete('redeem');
+      window.history.replaceState({}, '', url);
+    }
+  });
+
+  async function handleToggleClick() {
+    if (toggling || expanded) return;
+    toggling = true;
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (!session?.user) {
+        const modal = document.getElementById(modalId) as HTMLDialogElement | null;
+        if (!modal) return;
+
+        const url = new URL(window.location.href);
+        url.searchParams.set('redeem', '1');
+        window.history.replaceState({}, '', url);
+
+        modal.showModal();
+        return;
+      }
+
+      expanded = true;
+    } finally {
+      toggling = false;
+    }
+  }
 
   async function handleRedeem(e: SubmitEvent) {
     e.preventDefault();
@@ -33,6 +74,10 @@
     try {
       loading = true;
 
+      // Grants access by inserting into `purchases` (the only table every
+      // access check reads). `beta_code_redemptions` is bookkeeping only,
+      // used to enforce max_redemptions — deleting a row there does NOT
+      // revoke access; delete the matching row in `purchases` instead.
       const { data, error } = await supabase.rpc('redeem_beta_code', { p_code: code.trim() });
 
       if (error) {
@@ -87,8 +132,9 @@
 {:else}
   <button
     type="button"
-    onclick={() => (expanded = true)}
-    class="text-sm text-gray-600 underline hover:text-gray-900 transition-colors duration-200 cursor-pointer"
+    onclick={handleToggleClick}
+    disabled={toggling}
+    class="text-xl font-semibold mt-2 text-gray-800 underline decoration-secondary decoration-2 underline-offset-2 hover:text-gray-900 transition-colors duration-200 cursor-pointer disabled:opacity-50"
   >
     Have a discount code?
   </button>

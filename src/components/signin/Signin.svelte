@@ -68,7 +68,7 @@
     <div class="w-full flex flex-col gap-y-2 items-start mb-8">
         <div class="w-full flex flex-col justify-center text-center gap-y-1">
             <img src="https://dkbi9cj3nodif.cloudfront.net/logo.svg" alt="" class="h-20 mb-4">
-            <p class="text-sm text-slate-700">You must have an authenticate via email to take classes</p>
+            <p class="text-sm text-slate-700">You must authenticate via email to take classes</p>
             <h2 class="text-2xl font-semibold pb-2">Login</h2>
         </div>
 
@@ -91,10 +91,19 @@
             
             <div class="flex flex-col gap-y-3">
                 <button
-                    class={`w-fit bg-[#85c0c0] hover:bg-[#639696] cursor-pointer px-6 py-2 transition-all duration-300 ease-in-out rounded-md text-white`}
+                    class={`w-fit flex items-center gap-x-2 bg-[#85c0c0] hover:bg-[#639696] cursor-pointer px-6 py-2 transition-all duration-300 ease-in-out rounded-md text-white disabled:opacity-50 disabled:cursor-not-allowed`}
                     type="submit"
+                    disabled={loading}
                 >
-                    Submit
+                    {#if loading}
+                        <svg class="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4Z"></path>
+                        </svg>
+                        Sending…
+                    {:else}
+                        Submit
+                    {/if}
                 </button>
             </div>
 
