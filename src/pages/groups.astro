@@ -8,7 +8,9 @@ const markdownFiles = import.meta.glob<MarkdownInstance<any>>('./groups/*mdx', {
   eager: true,
 })
 
-const groups: MarkdownInstance<any>[] = Object.values(markdownFiles)
+const groups: MarkdownInstance<any>[] = Object.values(markdownFiles).filter(
+  (group) => !group.frontmatter.hidden,
+)
 
 const pageTitle = 'Groups - OT, Lactation, Baltimore'
 const description =
