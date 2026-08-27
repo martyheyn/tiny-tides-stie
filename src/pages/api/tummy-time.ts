@@ -38,6 +38,11 @@ export const POST: APIRoute = async ({ request }) => {
   const datesAttending = datesAttendingRaw
     ? datesAttendingRaw.toString().split(',').filter(Boolean)
     : []
+  const eventLocationsRaw = data.get('eventLocations')
+  const eventLocations = eventLocationsRaw
+    ? eventLocationsRaw.toString().split(',').map(s => s.trim()).filter(Boolean)
+    : []
+
   const aoc = data.get('areaOfConcern')
   const consentToPic = data.get('consentToPic') === 'on'
 
@@ -90,6 +95,7 @@ export const POST: APIRoute = async ({ request }) => {
                 'Child First Name': childName,
                 'Childs DOB': birthDate,
                 'Tummy Time Dates': datesAttending,
+                Location: eventLocations,
                 'Phone Number': phone,
                 Address: location,
                 "Area's of Concern": aoc,

@@ -105,9 +105,18 @@
   }
 
   const availableDates = [
-    { label: 'August 03, 2026 (Monday) ', value: '08/03/2026' },
-    { label: 'August 10, 2026 (Monday) ', value: '08/10/2026' },
+    { label: 'September 12, 2026 (Saturday)  Our House', value: '09/12/2026', location: 'Our House' },
+    { label: 'September 14, 2026 (Monday) Patterson', value: '09/14/2026', location: 'Patterson' },
+    { label: 'September 21, 2026 (Monday) Patterson', value: '09/21/2026', location: 'Patterson' },
   ]
+
+  let eventLocations = $derived(
+    [...new Set(
+      availableDates
+        .filter(d => datesAttending.includes(d.value))
+        .map(d => d.location)
+    )]
+  );
 
   function toggleDate(date: { label: string, value: string }) {
     if (datesAttending.includes(date.value)) {
@@ -277,6 +286,7 @@
           <span class="pl-0.5">Which dates are you planning to attend? <span class="text-red-400">*</span></span>
         </label>
         <input type="hidden" name="datesAttending" value={datesAttending.join(', ')} />
+        <input type="hidden" name="eventLocations" value={eventLocations.join(', ')} />
         <div class="pl-1 py-2 flex flex-col gap-y-2">
           {#each availableDates as date}
           <label class="flex items-center gap-x-2 text-sm text-gray-700 cursor-pointer">
