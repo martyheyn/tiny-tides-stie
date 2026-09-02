@@ -48,6 +48,26 @@ export async function sendEmail(
   }
 }
 
+export async function sendCrmFailureNotification(details: string) {
+  const transporter = createTransporter()
+  const SMTP_USER = import.meta.env.SMTP_USER
+
+  const mailOptions = {
+    from: `Tiny Tides Therapy`,
+    to: SMTP_USER,
+    subject: 'CRM write failed for an inquiry',
+    text: details,
+  }
+
+  try {
+    const info = await transporter.sendMail(mailOptions)
+    return info
+  } catch (error) {
+    console.error('Error sending CRM failure notification email:', error)
+    throw error
+  }
+}
+
 export async function sendPurchaseConfirmationEmail(
   email: string,
   courseTitle: string,

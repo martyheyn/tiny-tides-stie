@@ -14,6 +14,7 @@
 
   
   let error: string = $state('');
+  let isSubmitting = $state(false);
   let successMessage: string;
   let responseMessage: { success: boolean; error?: string } = {
     success: false,
@@ -49,21 +50,26 @@
 
   async function submit(e: SubmitEvent) {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget as HTMLFormElement);
-    const res = await fetch("/api/email", {
-      method: "POST",
-      body: formData,
-    });
-    const data = await res.json();
-    responseMessage = data;
+    isSubmitting = true;
+    try {
+      const formData = new FormData(e.currentTarget as HTMLFormElement);
+      const res = await fetch("/api/email", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      responseMessage = data;
 
-    if(!responseMessage.success) {
-      error = 'There was an error trying to submit. Please try again at a later time'
-    }
+      if(!responseMessage.success) {
+        error = 'There was an error trying to submit. Please try again at a later time'
+      }
 
-    if(responseMessage.success) {
-      resetForm();
-      window.location.href = "/thank-you";
+      if(responseMessage.success) {
+        resetForm();
+        window.location.href = "/thank-you";
+      }
+    } finally {
+      isSubmitting = false;
     }
   }
 
@@ -295,9 +301,10 @@
 
       <div class="flex justify-center sm:justify-end items-center">
         <button
-          class={`bg-[#85c0c0] hover:bg-[#639696] cursor-pointer px-6 py-2 transition-all duration-300 ease-in-out rounded-md text-white`}
+          class={`bg-[#85c0c0] hover:bg-[#639696] disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer px-6 py-2 transition-all duration-300 ease-in-out rounded-md text-white flex items-center gap-x-2`}
           type="submit"
-          >Submit</button
+          disabled={isSubmitting}
+          >{#if isSubmitting}<span class="spinner"></span>{/if}Submit</button
         >
       </div>
     </form>
@@ -305,7 +312,23 @@
 </div>
 
 <style>
-  input:-webkit-autofill {
+.spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+input:-webkit-autofill {
     box-shadow: 0 0 0px 1000px #fcfeff inset !important; /* Matches your background color */
     -webkit-text-fill-color: black !important; /* Ensures text color matches */
     transition: background-color 500ms ease-in-out, color 500ms ease-in-out;

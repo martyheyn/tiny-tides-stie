@@ -26,6 +26,7 @@
     "airtable": "^0.12.2",
     "astro": "^7.1.1",
     "esm-env": "^1.2.1",
+    "fuse.js": "^7.5.0",
     "nodemailer": "^9.0.3",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1",

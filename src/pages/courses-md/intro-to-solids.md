@@ -18,7 +18,7 @@ tags: ['astro', 'course', 'intro-to-solids']
 
 
 <p class="text-lg leading-relaxed text-gray-700">
-  <span class="font-semibold text-black">Tiny Tastes</span> is a course designed by a pediatric occupational therapist and feeding specialist to support your baby’s first bites. Dr. Erin Heyn built this course based o years of practice and hundreds of success stories transitioning infants to solids. In the course she walks you through <span class="font-semibold text-black">everything you need to feel confident with starting solid foods</span>  from knowing when to get started, what methods of feeding are out there, and materials for success.
+  <span class="font-semibold text-black">Tiny Tastes</span> is a course designed by a pediatric occupational therapist and feeding specialist to support your baby’s first bites. Dr. Erin Heyn built this coursn years of practice and hundreds of success stories transitioning infants to solids. In the course she walks you through <span class="font-semibold text-black">everything you need to feel confident with starting solid foods</span>  from knowing when to get started, what methods of feeding are out there, and materials for success.
 </p>
 
 <p class="text-lg leading-relaxed text-gray-700 py-6">
