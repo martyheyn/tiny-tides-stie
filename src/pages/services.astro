@@ -14,6 +14,24 @@ const services: MarkdownInstance<any>[] = Object.values(markdownFiles)
 const pageTitle = 'Services - OT, Lactation, Baltimore'
 const description =
   'Tiny Tides Therapy offers a variety of services to support your child’s development. From feeding therapy to sensory processing, we provide individualized care to help your child reach their full potential. Baltimore Pediatric Occupational Therapy'
+
+const provider = {
+  '@type': 'MedicalClinic',
+  name: 'Tiny Tides Therapy',
+  url: 'https://www.tinytidestherapy.com/',
+}
+
+const servicesSchema = {
+  '@context': 'https://schema.org',
+  '@graph': services.map((service) => ({
+    '@type': 'Service',
+    '@id': `https://www.tinytidestherapy.com/services#${service.frontmatter.id}`,
+    name: service.frontmatter.title,
+    description: `${service.frontmatter.title} — ${service.frontmatter.price}, ${service.frontmatter.duration}.`,
+    provider,
+    areaServed: 'Baltimore, MD',
+  })),
+}
 ---
 
 <BaseLayout pageTitle={pageTitle} description={description}>
@@ -49,3 +67,5 @@ const description =
     </div>
   </div>
 </BaseLayout>
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(servicesSchema)} />

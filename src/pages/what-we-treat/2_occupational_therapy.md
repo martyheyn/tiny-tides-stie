@@ -2,7 +2,7 @@
 title: 'Occupational Therapy'
 id: 'occupational-therapy'
 pubDate: 2024-10-05
-description: 'Lactation service brief description'
+description: 'Pediatric occupational therapy in Baltimore, MD to support infant motor skills, feeding challenges, sensory processing, and developmental milestones.'
 author: 'Tiny Tides Brah'
 tags: ['astro', 'occupational therapy', 'services']
 ---

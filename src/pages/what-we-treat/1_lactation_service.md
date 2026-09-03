@@ -2,7 +2,7 @@
 title: 'Lactation Counseling'
 id: 'lactation-consulting'
 pubDate: 2024-10-05
-description: 'Lactation service brief description'
+description: 'Certified lactation counseling in Baltimore, MD for breastfeeding challenges, including latch, positioning, oral motor skills, and low milk supply.'
 author: 'Tiny Tides Brah'
 tags: ['astro', 'lactation counseling', 'services']
 ---

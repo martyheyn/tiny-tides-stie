@@ -15,6 +15,19 @@ const faqs = await Promise.all(
     frontmatter: file.frontmatter,
   }))
 );
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.frontmatter.question.trim(),
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.html.replace(/<[^>]+>/g, '').trim(),
+    },
+  })),
+}
 ---
 
 <BaseLayout pageTitle={pageTitle} description={description}>
@@ -30,3 +43,5 @@ const faqs = await Promise.all(
     </div>
   </div>
 </BaseLayout>
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />

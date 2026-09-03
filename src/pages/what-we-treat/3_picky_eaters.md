@@ -2,7 +2,7 @@
 title: 'Transition to Solids'
 id: 'transition-to-solids'
 pubDate: 2024-10-05
-description: 'Lactation service brief description'
+description: 'Feeding therapy in Baltimore, MD for bottle feeding, transitioning to solids, and picky eating, using a responsive, child-led approach.'
 author: 'Tiny Tides Brah'
 tags: ['astro', 'Transition to Solids', 'services']
 ---

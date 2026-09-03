@@ -59,6 +59,9 @@ const reasons = {
 
 <BaseLayout pageTitle={pageTitle} description={description}>
   <div class="w-full h-full bg-primary">
+    <h1 class="header-title text-center pt-8">
+      <span class="straight_underline z-10">What We Treat</span>
+    </h1>
     {
       treating.map((treat, i) => (
         <>
@@ -83,11 +86,11 @@ const reasons = {
                   </div>
                   <div class="flex flex-col gap-y-4 w-full h-full justify-center md:px-8">
                     <div class="flex flex-col gap-y-4 w-full h-full justify-center">
-                      <h1 class="text-5xl mb-6">
+                      <h2 class="text-5xl mb-6">
                         <span class="straight_underline z-10">
                           {treat.frontmatter.title}
                         </span>
-                      </h1>
+                      </h2>
                       <treat.Content />
                     </div>
                   </div>
@@ -115,11 +118,11 @@ const reasons = {
                 >
                   <div class="flex flex-col gap-y-4 w-full h-full justify-center md:px-8">
                     <div class="flex flex-col gap-y-4 w-full h-full justify-center">
-                      <h1 class="text-5xl mb-6">
+                      <h2 class="text-5xl mb-6">
                         <span class="straight_underline z-10">
                           {treat.frontmatter.title}
                         </span>
-                      </h1>
+                      </h2>
                       <treat.Content />
                     </div>
                   </div>

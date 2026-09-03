@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { slide } from "svelte/transition"
-
   let { faqs } = $props();
 
   let selectedFaq = $state(0);
@@ -35,13 +33,17 @@
           {/if}
         </button>
       </div>
-      {#if selectedFaq === i}
-        <div transition:slide={{ duration: 250 }} class="py-2">
-          <p class="">
+      <div
+        class="grid transition-[grid-template-rows] duration-[250ms] ease-in-out overflow-hidden"
+        class:grid-rows-[1fr]={selectedFaq === i}
+        class:grid-rows-[0fr]={selectedFaq !== i}
+      >
+        <div class="min-h-0 overflow-hidden">
+          <p class="py-2">
             {@html html}
           </p>
         </div>
-      {/if}
+      </div>
   </div>
 {/each}
 </div>
