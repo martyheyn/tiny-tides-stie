@@ -4,6 +4,8 @@ const airtableApiKey = import.meta.env.AIRTABLE_API_KEY
 const crmBaseId = import.meta.env.AIRTABLE_CRM_BASE_ID
 const inquiriesTableId = import.meta.env.AIRTABLE_CRM_INQUIRIES_TABLE_ID
 const referralsTableId = import.meta.env.AIRTABLE_CRM_REFERRALS_TABLE_ID
+const tummyTimeBaseId = import.meta.env.AIRTABLE_BASE_ID
+const tummyTimeTableId = import.meta.env.AIRTABLE_TUMMY_TIME_TABLE_ID
 
 // score <= HIGH: auto-link. score <= LOW: flag for manual review. above LOW: no match.
 const HIGH_CONFIDENCE_THRESHOLD = 0.3
@@ -130,4 +132,54 @@ export async function createInquiry(
     })
 
   return result.records[0]
+}
+
+type TummyTimeFields = {
+  'Email Address'?: string
+  'Child First Name'?: string
+  Location?: string[]
+  'Tummy Time Dates'?: string[]
+  'Reminder Sent Dates'?: string
+}
+
+// dateStr must match the MM/DD/YYYY format the sign-up form writes into
+// 'Tummy Time Dates'. Uses filterByFormula rather than fetch-all since this
+// is an exact match, not a fuzzy one — Airtable can do the filtering itself.
+export async function findTummyTimeRemindersDue(
+  dateStr: string,
+): Promise<AirtableRecord<TummyTimeFields>[]> {
+  const records: AirtableRecord<TummyTimeFields>[] = []
+  let offset: string | undefined
+
+  const formula = `AND(FIND("${dateStr}", ARRAYJOIN({Tummy Time Dates})), NOT(FIND("${dateStr}", {Reminder Sent Dates})))`
+
+  do {
+    const params = new URLSearchParams({ filterByFormula: formula })
+    if (offset) params.set('offset', offset)
+
+    const page: {
+      records: AirtableRecord<TummyTimeFields>[]
+      offset?: string
+    } = await airtableRequest(tummyTimeBaseId, tummyTimeTableId, `?${params}`)
+
+    records.push(...page.records)
+    offset = page.offset
+  } while (offset)
+
+  return records
+}
+
+export async function markTummyTimeReminderSent(
+  recordId: string,
+  reminderSentDates: string,
+): Promise<void> {
+  await airtableRequest(tummyTimeBaseId, tummyTimeTableId, '', {
+    method: 'PATCH',
+    body: JSON.stringify({
+      records: [
+        { id: recordId, fields: { 'Reminder Sent Dates': reminderSentDates } },
+      ],
+      typecast: true,
+    }),
+  })
 }

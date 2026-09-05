@@ -68,6 +68,55 @@ export async function sendCrmFailureNotification(details: string) {
   }
 }
 
+export async function sendTummyTimeReminder(
+  email: string,
+  childName: string,
+  dateLabel: string,
+  location: string,
+) {
+  const transporter = createTransporter()
+
+  const mailOptions = {
+    from: `Tiny Tides Therapy`,
+    to: email,
+    subject: `Reminder: Tiny Tides Tummy Time Tomorrow (${dateLabel})`,
+    text: `Hi there!\n\nJust a friendly reminder that ${childName ? `${childName}'s` : 'your'} Tummy Time session is tomorrow, ${dateLabel}${location ? ` at ${location}` : ''}.\n\nWe can't wait to see you!\n\n- Tiny Tides Therapy`,
+  }
+
+  try {
+    const info = await transporter.sendMail(mailOptions)
+    return info
+  } catch (error) {
+    console.error('Error sending Tummy Time reminder email:', error)
+    throw error
+  }
+}
+
+export async function sendTummyTimeReminderFailureNotification(
+  details: string,
+) {
+  const transporter = createTransporter()
+  const SMTP_USER = import.meta.env.SMTP_USER
+
+  const mailOptions = {
+    from: `Tiny Tides Therapy`,
+    to: SMTP_USER,
+    subject: 'Tummy Time reminder cron encountered errors',
+    text: details,
+  }
+
+  try {
+    const info = await transporter.sendMail(mailOptions)
+    return info
+  } catch (error) {
+    console.error(
+      'Error sending Tummy Time reminder failure notification email:',
+      error,
+    )
+    throw error
+  }
+}
+
 export async function sendPurchaseConfirmationEmail(
   email: string,
   courseTitle: string,
