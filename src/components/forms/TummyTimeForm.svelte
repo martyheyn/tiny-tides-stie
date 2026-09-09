@@ -105,7 +105,7 @@
   }
 
   const availableDates = [
-    { label: 'September 12, 2026 (Saturday)  Our House', value: '09/12/2026', location: 'Our House' },
+    // { label: 'September 12, 2026 (Saturday)  Our House', value: '09/12/2026', location: 'Our House' },
     { label: 'September 14, 2026 (Monday) Patterson', value: '09/14/2026', location: 'Patterson' },
     { label: 'September 21, 2026 (Monday) Patterson', value: '09/21/2026', location: 'Patterson' },
   ]
