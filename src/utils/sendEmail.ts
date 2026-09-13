@@ -1,5 +1,12 @@
 import nodemailer from 'nodemailer'
 
+// Visible sender/recipient for all outbound mail. SMTP still authenticates as
+// whichever real mailbox holds the app password (see SMTP_USER below) — this
+// is a Workspace group that account is allowed to post as, not a login of
+// its own, so it can't hold credentials directly.
+const ADMIN_EMAIL = 'admin@tinytidestherapy.com'
+const MAIL_FROM = `Tiny Tides Therapy <${ADMIN_EMAIL}>`
+
 function createTransporter() {
   const SMTP_USER = import.meta.env.SMTP_USER
   const SMTP_PASS = import.meta.env.SMTP_PASS
@@ -28,12 +35,11 @@ export async function sendEmail(
   email: string,
 ) {
   const transporter = createTransporter()
-  const SMTP_USER = import.meta.env.SMTP_USER
 
   // Email options
   const mailOptions = {
-    from: `Tiny Tides Therapy`,
-    to: `${!ooo ? SMTP_USER : email}`,
+    from: MAIL_FROM,
+    to: !ooo ? ADMIN_EMAIL : email,
     subject: `${!ooo ? `New Inquiry: ${name}` : 'Out of Office'}`,
     text: body,
   }
@@ -50,11 +56,10 @@ export async function sendEmail(
 
 export async function sendCrmFailureNotification(details: string) {
   const transporter = createTransporter()
-  const SMTP_USER = import.meta.env.SMTP_USER
 
   const mailOptions = {
-    from: `Tiny Tides Therapy`,
-    to: SMTP_USER,
+    from: MAIL_FROM,
+    to: ADMIN_EMAIL,
     subject: 'CRM write failed for an inquiry',
     text: details,
   }
@@ -84,7 +89,7 @@ export async function sendTummyTimeReminder(
   const transporter = createTransporter()
 
   const mailOptions = {
-    from: `Tiny Tides Therapy`,
+    from: MAIL_FROM,
     to: email,
     subject: `Reminder: Tiny Tides Tummy Time Tomorrow (${dateLabel})`,
     text: `Hi there!\n\nJust a friendly reminder that ${childName ? `${childName}'s` : 'your'} Tummy Time session is tomorrow, ${dateLabel}${location ? ` at ${location}` : ''}.${locationDetails ? `\n\n${locationDetails}` : ''}\n\nWe can't wait to see you!\n\n- Tiny Tides Therapy`,
@@ -104,11 +109,10 @@ export async function sendTummyTimeReminderFailureNotification(
   details: string,
 ) {
   const transporter = createTransporter()
-  const SMTP_USER = import.meta.env.SMTP_USER
 
   const mailOptions = {
-    from: `Tiny Tides Therapy`,
-    to: SMTP_USER,
+    from: MAIL_FROM,
+    to: ADMIN_EMAIL,
     subject: 'Tummy Time reminder cron encountered errors',
     text: details,
   }
@@ -133,7 +137,7 @@ export async function sendPurchaseConfirmationEmail(
   const transporter = createTransporter()
 
   const mailOptions = {
-    from: `Tiny Tides Therapy`,
+    from: MAIL_FROM,
     to: email,
     subject: `You're enrolled: ${courseTitle}`,
     text: `Thanks for your purchase!\n\nYou now have full access to "${courseTitle}".\n\nStart here: ${startUrl}\n\nQuestions? Just reply to this email.`,

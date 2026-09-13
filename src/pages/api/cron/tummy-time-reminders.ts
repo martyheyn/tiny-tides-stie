@@ -32,11 +32,7 @@ Pin for exact location: https://maps.app.goo.gl/iS4vY8BrdaBozEN48?g_st=ic`,
 // Email attachments (parking maps, entrance photos, etc.) per location. Files
 // live under public/tummy-time/<location-slug>/ in this repo and are
 // referenced by their production URL, since this cron runs as a serverless
-// function and can't read repo files directly at runtime. Add entries here
-// as images are dropped into that folder, e.g.:
-// Patterson: [
-//   { filename: 'parking-map.png', path: 'https://www.tinytidestherapy.com/tummy-time/patterson/parking-map.png' },
-// ],
+// function and can't read repo files directly at runtime.
 const LOCATION_ATTACHMENTS: Record<
   string,
   { filename: string; path: string }[]
@@ -98,23 +94,35 @@ export const GET: APIRoute = async ({ request }) => {
   // GET /api/cron/tummy-time-reminders?testEmail=you@example.com
   const testEmail = new URL(request.url).searchParams.get('testEmail')
   if (testEmail) {
-    await sendTummyTimeReminder(
-      testEmail,
-      'Test Child',
-      dateStr,
-      scheduledLocation ?? '',
-      locationDetails,
-      locationAttachments,
-    )
-    return new Response(
-      JSON.stringify({
-        test: true,
-        sentTo: testEmail,
-        date: dateStr,
-        location: scheduledLocation ?? null,
-      }),
-      { status: 200 },
-    )
+    try {
+      await sendTummyTimeReminder(
+        testEmail,
+        'Test Child',
+        dateStr,
+        scheduledLocation ?? '',
+        locationDetails,
+        locationAttachments,
+      )
+      return new Response(
+        JSON.stringify({
+          test: true,
+          sentTo: testEmail,
+          date: dateStr,
+          location: scheduledLocation ?? null,
+        }),
+        { status: 200 },
+      )
+    } catch (error) {
+      console.error('Test Tummy Time reminder failed:', error)
+      return new Response(
+        JSON.stringify({
+          test: true,
+          success: false,
+          error: error instanceof Error ? error.message : String(error),
+        }),
+        { status: 500 },
+      )
+    }
   }
 
   const dueRecords = await findTummyTimeRemindersDue(dateStr)
