@@ -73,6 +73,7 @@ export const GET: APIRoute = async ({ request }) => {
   }
 
   const dateStr = tomorrowDateString()
+  console.log(`[tummy-time-reminders] Running for date: ${dateStr}`)
 
   const scheduledLocation = LOCATION_BY_DATE[dateStr]
   if (!scheduledLocation) {
@@ -88,6 +89,15 @@ export const GET: APIRoute = async ({ request }) => {
     : undefined
 
   const dueRecords = await findTummyTimeRemindersDue(dateStr)
+  console.log(
+    `[tummy-time-reminders] ${dueRecords.length} record(s) due for ${dateStr}:`,
+    dueRecords.map((r) => ({
+      id: r.id,
+      email: r.fields['Email Address'],
+      dates: r.fields['Tummy Time Dates'],
+      reminderSentDates: r.fields['Reminder Sent Dates'],
+    })),
+  )
 
   let sent = 0
   const failures: string[] = []
@@ -107,6 +117,7 @@ export const GET: APIRoute = async ({ request }) => {
         locationDetails,
         locationAttachments,
       )
+      console.log(`[tummy-time-reminders] Sent reminder to ${email} (record ${record.id})`)
 
       const existing = record.fields['Reminder Sent Dates']
       const updated = existing ? `${existing}, ${dateStr}` : dateStr

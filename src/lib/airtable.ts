@@ -152,6 +152,7 @@ export async function findTummyTimeRemindersDue(
   let offset: string | undefined
 
   const formula = `AND(FIND("${dateStr}", ARRAYJOIN({Tummy Time Dates})), NOT(FIND("${dateStr}", {Reminder Sent Dates})))`
+  console.log(`[findTummyTimeRemindersDue] filterByFormula: ${formula}`)
 
   do {
     const params = new URLSearchParams({ filterByFormula: formula })
