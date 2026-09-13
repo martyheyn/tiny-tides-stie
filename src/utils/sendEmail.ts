@@ -36,11 +36,19 @@ export async function sendEmail(
 ) {
   const transporter = createTransporter()
 
+  // Timestamp appended to the subject so multiple inquiries don't get bundled
+  // into one Gmail thread just for sharing a name.
+  const timestamp = new Date().toLocaleString('en-US', {
+    timeZone: 'America/New_York',
+    dateStyle: 'short',
+    timeStyle: 'short',
+  })
+
   // Email options
   const mailOptions = {
     from: MAIL_FROM,
     to: !ooo ? ADMIN_EMAIL : email,
-    subject: `${!ooo ? `New Inquiry: ${name}` : 'Out of Office'}`,
+    subject: !ooo ? `New Inquiry: ${name} — ${timestamp}` : 'Out of Office',
     text: body,
   }
 
