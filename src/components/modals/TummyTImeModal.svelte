@@ -18,7 +18,7 @@
 <Modal
   bind:this={modal}
   title="Tummy Time Group"
-  subtitle="09:00–09:45am · Free"
+  subtitle="Free"
 >
   <TummyTimeForm onResult={(res) => {
     formRes = res;

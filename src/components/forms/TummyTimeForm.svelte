@@ -1,5 +1,6 @@
 <script lang="ts">
   import { slide } from "svelte/transition"
+  import { availableDates } from "../../lib/tummyTimeSchedule"
   let { onResult } = $props<{ onResult: (res: 'success' | 'error') => void }>();
 
   type GoogleAutoompleteSuggestion = {
@@ -103,12 +104,6 @@
     locationQuery = location;
     suggestions = [];
   }
-
-  const availableDates = [
-    // { label: 'September 12, 2026 (Saturday)  Our House', value: '09/12/2026', location: 'Our House' },
-    { label: 'September 14, 2026 (Monday) Patterson', value: '09/14/2026', location: 'Patterson' },
-    { label: 'September 21, 2026 (Monday) Patterson', value: '09/21/2026', location: 'Patterson' },
-  ]
 
   let eventLocations = $derived(
     [...new Set(

@@ -3,10 +3,50 @@ import {
   findTummyTimeRemindersDue,
   markTummyTimeReminderSent,
 } from '../../../lib/airtable'
+import { availableDates } from '../../../lib/tummyTimeSchedule'
 import {
   sendTummyTimeReminder,
   sendTummyTimeReminderFailureNotification,
 } from '../../../utils/sendEmail'
+
+// Which physical location hosts each Tummy Time date, derived from the same
+// schedule the sign-up form uses. Looked up here (rather than read off the
+// Airtable record) because a record's `Location` field is the union of every
+// location a family signed up for across all their dates, not the one
+// specific to the date being reminded about — using it directly would show
+// the wrong directions to a family attending multiple locations.
+const LOCATION_BY_DATE: Record<string, string> = Object.fromEntries(
+  availableDates.map((d) => [d.value, d.location]),
+)
+
+// Parking/meeting directions appended to the reminder email, keyed by
+// location name from LOCATION_BY_DATE.
+const LOCATION_DETAILS: Record<string, string> = {
+  Patterson: `Patterson Park Tummy Time directions:
+
+The entrance to our meeting spot is across from the top of the stairs at Eastern Ave and S Port St. Look for the green sign with the "friends of Patterson Park" logo on it. The sign is along the wide path that goes around the playground with the castle structure, on the side of the park along Eastern Ave. To the left of the sign, there is a corner of the fence — go up the path next to the fence. Follow the path until you see an open gate on your right that leads to a concrete path. You'll be able to see us from there! We'll have a large beige/pattern mat on the ground.
+
+Pin for exact location: https://maps.app.goo.gl/iS4vY8BrdaBozEN48?g_st=ic`,
+}
+
+// Email attachments (parking maps, entrance photos, etc.) per location. Files
+// live under public/tummy-time/<location-slug>/ in this repo and are
+// referenced by their production URL, since this cron runs as a serverless
+// function and can't read repo files directly at runtime. Add entries here
+// as images are dropped into that folder, e.g.:
+// Patterson: [
+//   { filename: 'parking-map.png', path: 'https://www.tinytidestherapy.com/tummy-time/patterson/parking-map.png' },
+// ],
+const LOCATION_ATTACHMENTS: Record<
+  string,
+  { filename: string; path: string }[]
+> = {
+  Patterson: [
+      { filename: 'patterson_park_1.png', path: 'https://www.tinytidestherapy.com/tummy-time/patterson/patterson_park_tummy_time_1.jpeg' },
+      { filename: 'patterson_park_2.png', path: 'https://www.tinytidestherapy.com/tummy-time/patterson/patterson_park_tummy_time_2.jpeg' },
+      { filename: 'patterson_park_3.png', path: 'https://www.tinytidestherapy.com/tummy-time/patterson/patterson_park_tummy_time_3.jpeg' },
+    ],
+}
 
 // Computes MM/DD/YYYY for "tomorrow" in the practice's local timezone, since
 // this cron runs on Vercel's UTC clock but the event dates stored in Airtable
@@ -37,6 +77,46 @@ export const GET: APIRoute = async ({ request }) => {
   }
 
   const dateStr = tomorrowDateString()
+
+  const scheduledLocation = LOCATION_BY_DATE[dateStr]
+  if (!scheduledLocation) {
+    console.warn(
+      `No scheduled location configured for ${dateStr} — add it to LOCATION_BY_DATE.`,
+    )
+  }
+  const locationDetails = scheduledLocation
+    ? LOCATION_DETAILS[scheduledLocation]
+    : undefined
+  const locationAttachments = scheduledLocation
+    ? LOCATION_ATTACHMENTS[scheduledLocation]
+    : undefined
+
+  // Test hook: send a single reminder straight to a test address using
+  // tomorrow's scheduled location/details/attachments, without touching
+  // Airtable at all (no due-records lookup, nothing marked as reminded).
+  // Still gated behind CRON_SECRET above. e.g.
+  // GET /api/cron/tummy-time-reminders?testEmail=you@example.com
+  const testEmail = new URL(request.url).searchParams.get('testEmail')
+  if (testEmail) {
+    await sendTummyTimeReminder(
+      testEmail,
+      'Test Child',
+      dateStr,
+      scheduledLocation ?? '',
+      locationDetails,
+      locationAttachments,
+    )
+    return new Response(
+      JSON.stringify({
+        test: true,
+        sentTo: testEmail,
+        date: dateStr,
+        location: scheduledLocation ?? null,
+      }),
+      { status: 200 },
+    )
+  }
+
   const dueRecords = await findTummyTimeRemindersDue(dateStr)
 
   let sent = 0
@@ -53,7 +133,9 @@ export const GET: APIRoute = async ({ request }) => {
         email,
         record.fields['Child First Name'] ?? '',
         dateStr,
-        (record.fields.Location ?? []).join(', '),
+        scheduledLocation ?? (record.fields.Location ?? []).join(', '),
+        locationDetails,
+        locationAttachments,
       )
 
       const existing = record.fields['Reminder Sent Dates']

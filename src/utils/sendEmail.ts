@@ -68,11 +68,18 @@ export async function sendCrmFailureNotification(details: string) {
   }
 }
 
+type EmailAttachment = {
+  filename: string
+  path: string
+}
+
 export async function sendTummyTimeReminder(
   email: string,
   childName: string,
   dateLabel: string,
   location: string,
+  locationDetails?: string,
+  attachments?: EmailAttachment[],
 ) {
   const transporter = createTransporter()
 
@@ -80,7 +87,8 @@ export async function sendTummyTimeReminder(
     from: `Tiny Tides Therapy`,
     to: email,
     subject: `Reminder: Tiny Tides Tummy Time Tomorrow (${dateLabel})`,
-    text: `Hi there!\n\nJust a friendly reminder that ${childName ? `${childName}'s` : 'your'} Tummy Time session is tomorrow, ${dateLabel}${location ? ` at ${location}` : ''}.\n\nWe can't wait to see you!\n\n- Tiny Tides Therapy`,
+    text: `Hi there!\n\nJust a friendly reminder that ${childName ? `${childName}'s` : 'your'} Tummy Time session is tomorrow, ${dateLabel}${location ? ` at ${location}` : ''}.${locationDetails ? `\n\n${locationDetails}` : ''}\n\nWe can't wait to see you!\n\n- Tiny Tides Therapy`,
+    ...(attachments?.length ? { attachments } : {}),
   }
 
   try {
