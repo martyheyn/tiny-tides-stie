@@ -87,44 +87,6 @@ export const GET: APIRoute = async ({ request }) => {
     ? LOCATION_ATTACHMENTS[scheduledLocation]
     : undefined
 
-  // Test hook: send a single reminder straight to a test address using
-  // tomorrow's scheduled location/details/attachments, without touching
-  // Airtable at all (no due-records lookup, nothing marked as reminded).
-  // Still gated behind CRON_SECRET above. e.g.
-  // GET /api/cron/tummy-time-reminders?testEmail=you@example.com
-  const testEmail = new URL(request.url).searchParams.get('testEmail')
-  if (testEmail) {
-    try {
-      await sendTummyTimeReminder(
-        testEmail,
-        'Test Child',
-        dateStr,
-        scheduledLocation ?? '',
-        locationDetails,
-        locationAttachments,
-      )
-      return new Response(
-        JSON.stringify({
-          test: true,
-          sentTo: testEmail,
-          date: dateStr,
-          location: scheduledLocation ?? null,
-        }),
-        { status: 200 },
-      )
-    } catch (error) {
-      console.error('Test Tummy Time reminder failed:', error)
-      return new Response(
-        JSON.stringify({
-          test: true,
-          success: false,
-          error: error instanceof Error ? error.message : String(error),
-        }),
-        { status: 500 },
-      )
-    }
-  }
-
   const dueRecords = await findTummyTimeRemindersDue(dateStr)
 
   let sent = 0
