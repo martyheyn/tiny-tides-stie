@@ -3,7 +3,11 @@ import {
   findTummyTimeRemindersDue,
   markTummyTimeReminderSent,
 } from '../../../lib/airtable'
-import { availableDates } from '../../../lib/tummyTimeSchedule'
+import {
+  availableDates,
+  locationDetails as LOCATION_DETAILS,
+  locationAttachments as LOCATION_ATTACHMENTS,
+} from '../../../lib/tummyTimeSchedule'
 import {
   sendTummyTimeReminder,
   sendTummyTimeReminderFailureNotification,
@@ -19,36 +23,11 @@ const LOCATION_BY_DATE: Record<string, string> = Object.fromEntries(
   availableDates.map((d) => [d.value, d.location]),
 )
 
-// Parking/meeting directions appended to the reminder email, keyed by
-// location name from LOCATION_BY_DATE.
-const LOCATION_DETAILS: Record<string, string> = {
-  Patterson: `Patterson Park Tummy Time directions:
-
-The entrance to our meeting spot is across from the top of the stairs at Eastern Ave and S Port St. Look for the green sign with the "friends of Patterson Park" logo on it. The sign is along the wide path that goes around the playground with the castle structure, on the side of the park along Eastern Ave. To the left of the sign, there is a corner of the fence — go up the path next to the fence. Follow the path until you see an open gate on your right that leads to a concrete path. You'll be able to see us from there! We'll have a large beige/pattern mat on the ground.
-
-Pin for exact location: https://maps.app.goo.gl/iS4vY8BrdaBozEN48?g_st=ic`,
-}
-
-// Email attachments (parking maps, entrance photos, etc.) per location. Files
-// live under public/tummy-time/<location-slug>/ in this repo and are
-// referenced by their production URL, since this cron runs as a serverless
-// function and can't read repo files directly at runtime.
-const LOCATION_ATTACHMENTS: Record<
-  string,
-  { filename: string; path: string }[]
-> = {
-  Patterson: [
-      { filename: 'patterson_park_1.png', path: 'https://www.tinytidestherapy.com/tummy-time/patterson/patterson_park_tummy_time_1.jpeg' },
-      { filename: 'patterson_park_2.png', path: 'https://www.tinytidestherapy.com/tummy-time/patterson/patterson_park_tummy_time_2.jpeg' },
-      { filename: 'patterson_park_3.png', path: 'https://www.tinytidestherapy.com/tummy-time/patterson/patterson_park_tummy_time_3.jpeg' },
-    ],
-}
-
-// Computes MM/DD/YYYY for "today" in the practice's local timezone, since
+// Computes MM/DD/YYYY for "tomorrow" in the practice's local timezone, since
 // this cron runs on Vercel's UTC clock but the event dates stored in Airtable
-// are local calendar dates. Runs at 8am ET, a same-day reminder ahead of the
-// 9am session.
-function todayDateString(): string {
+// are local calendar dates. Runs at 5pm ET, a night-before reminder ahead of
+// the next day's 9am session.
+function tomorrowDateString(): string {
   const parts = new Intl.DateTimeFormat('en-US', {
     timeZone: 'America/New_York',
     year: 'numeric',
@@ -57,7 +36,12 @@ function todayDateString(): string {
   }).formatToParts(new Date())
   const map = Object.fromEntries(parts.map((p) => [p.type, p.value]))
 
-  return `${map.month}/${map.day}/${map.year}`
+  const today = new Date(Number(map.year), Number(map.month) - 1, Number(map.day))
+  today.setDate(today.getDate() + 1)
+
+  const mm = String(today.getMonth() + 1).padStart(2, '0')
+  const dd = String(today.getDate()).padStart(2, '0')
+  return `${mm}/${dd}/${today.getFullYear()}`
 }
 
 export const GET: APIRoute = async ({ request }) => {
@@ -68,7 +52,7 @@ export const GET: APIRoute = async ({ request }) => {
     return new Response('Unauthorized', { status: 401 })
   }
 
-  const dateStr = todayDateString()
+  const dateStr = tomorrowDateString()
   console.log(`[tummy-time-reminders] Running for date: ${dateStr}`)
 
   const scheduledLocation = LOCATION_BY_DATE[dateStr]

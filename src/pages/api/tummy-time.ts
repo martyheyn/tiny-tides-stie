@@ -1,5 +1,7 @@
 import type { APIRoute } from 'astro'
 import { validEmail } from '../../utils/validInputs'
+import { locationDetails, locationAttachments } from '../../lib/tummyTimeSchedule'
+import { sendTummyTimeConfirmation } from '../../utils/sendEmail'
 
 const airtableApiKey = import.meta.env.AIRTABLE_API_KEY
 const baseId = import.meta.env.AIRTABLE_BASE_ID
@@ -118,6 +120,29 @@ export const POST: APIRoute = async ({ request }) => {
         JSON.stringify({ success: false, error: errorBody }),
         { status: 500 },
       )
+    }
+
+    // Best-effort: the signup already succeeded above, so a confirmation
+    // email failure shouldn't fail the whole request.
+    try {
+      const combinedLocationDetails = eventLocations
+        .map((loc) => locationDetails[loc])
+        .filter(Boolean)
+        .join('\n\n')
+      const combinedAttachments = eventLocations.flatMap(
+        (loc) => locationAttachments[loc] ?? [],
+      )
+
+      await sendTummyTimeConfirmation(
+        email,
+        (childName as string) ?? '',
+        datesAttending.join(', '),
+        eventLocations.join(', '),
+        combinedLocationDetails || undefined,
+        combinedAttachments,
+      )
+    } catch (error) {
+      console.error('Error sending Tummy Time confirmation email:', error)
     }
 
     return new Response(

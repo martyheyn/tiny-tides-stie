@@ -86,6 +86,33 @@ type EmailAttachment = {
   path: string
 }
 
+export async function sendTummyTimeConfirmation(
+  email: string,
+  childName: string,
+  dateLabel: string,
+  location: string,
+  locationDetails?: string,
+  attachments?: EmailAttachment[],
+) {
+  const transporter = createTransporter()
+
+  const mailOptions = {
+    from: MAIL_FROM,
+    to: email,
+    subject: 'Tummy Time Confirmation!',
+    text: `Hi there!\n\nThanks for signing ${childName ? `${childName}'s` : 'your'} up for Tummy Time on ${dateLabel}${location ? ` at ${location}` : ''}! We are excited to see you!${locationDetails ? `\n\n________________________________________\n${locationDetails}` : ''}\n\nSee you soon!\n\n- Tiny Tides Therapy`,
+    ...(attachments?.length ? { attachments } : {}),
+  }
+
+  try {
+    const info = await transporter.sendMail(mailOptions)
+    return info
+  } catch (error) {
+    console.error('Error sending Tummy Time confirmation email:', error)
+    throw error
+  }
+}
+
 export async function sendTummyTimeReminder(
   email: string,
   childName: string,
@@ -99,8 +126,8 @@ export async function sendTummyTimeReminder(
   const mailOptions = {
     from: MAIL_FROM,
     to: email,
-    subject: `Reminder: Tiny Tides Tummy Time Today (${dateLabel})${childName ? ` - ${childName}` : ''}`,
-    text: `Hi there!\n\nJust a friendly reminder that ${childName ? `${childName}'s` : 'your'} Tummy Time session is today, ${dateLabel}${location ? ` at ${location}` : ''}.${locationDetails ? `\n\n${locationDetails}` : ''}\n\nWe can't wait to see you!\n\n- Tiny Tides Therapy`,
+    subject: `Reminder: Tiny Tides Tummy Time Tomorrow (${dateLabel})${childName ? ` - ${childName}` : ''}`,
+    text: `Hi there!\n\nJust a friendly reminder that ${childName ? `${childName}'s` : 'your'} Tummy Time session is tomorrow, ${dateLabel}${location ? ` at ${location}` : ''}.${locationDetails ? `\n\n________________________________________\n${locationDetails}` : ''}\n\nWe can't wait to see you!\n\n- Tiny Tides Therapy`,
     ...(attachments?.length ? { attachments } : {}),
   }
 
