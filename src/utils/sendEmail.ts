@@ -99,8 +99,8 @@ export async function sendTummyTimeReminder(
   const mailOptions = {
     from: MAIL_FROM,
     to: email,
-    subject: `Reminder: Tiny Tides Tummy Time Tomorrow (${dateLabel})${childName ? ` - ${childName}` : ''}`,
-    text: `Hi there!\n\nJust a friendly reminder that ${childName ? `${childName}'s` : 'your'} Tummy Time session is tomorrow, ${dateLabel}${location ? ` at ${location}` : ''}.${locationDetails ? `\n\n${locationDetails}` : ''}\n\nWe can't wait to see you!\n\n- Tiny Tides Therapy`,
+    subject: `Reminder: Tiny Tides Tummy Time Today (${dateLabel})${childName ? ` - ${childName}` : ''}`,
+    text: `Hi there!\n\nJust a friendly reminder that ${childName ? `${childName}'s` : 'your'} Tummy Time session is today, ${dateLabel}${location ? ` at ${location}` : ''}.${locationDetails ? `\n\n${locationDetails}` : ''}\n\nWe can't wait to see you!\n\n- Tiny Tides Therapy`,
     ...(attachments?.length ? { attachments } : {}),
   }
 

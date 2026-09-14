@@ -44,10 +44,11 @@ const LOCATION_ATTACHMENTS: Record<
     ],
 }
 
-// Computes MM/DD/YYYY for "tomorrow" in the practice's local timezone, since
+// Computes MM/DD/YYYY for "today" in the practice's local timezone, since
 // this cron runs on Vercel's UTC clock but the event dates stored in Airtable
-// are local calendar dates.
-function tomorrowDateString(): string {
+// are local calendar dates. Runs at 8am ET, a same-day reminder ahead of the
+// 9am session.
+function todayDateString(): string {
   const parts = new Intl.DateTimeFormat('en-US', {
     timeZone: 'America/New_York',
     year: 'numeric',
@@ -56,12 +57,7 @@ function tomorrowDateString(): string {
   }).formatToParts(new Date())
   const map = Object.fromEntries(parts.map((p) => [p.type, p.value]))
 
-  const today = new Date(Number(map.year), Number(map.month) - 1, Number(map.day))
-  today.setDate(today.getDate() + 1)
-
-  const mm = String(today.getMonth() + 1).padStart(2, '0')
-  const dd = String(today.getDate()).padStart(2, '0')
-  return `${mm}/${dd}/${today.getFullYear()}`
+  return `${map.month}/${map.day}/${map.year}`
 }
 
 export const GET: APIRoute = async ({ request }) => {
@@ -72,7 +68,7 @@ export const GET: APIRoute = async ({ request }) => {
     return new Response('Unauthorized', { status: 401 })
   }
 
-  const dateStr = tomorrowDateString()
+  const dateStr = todayDateString()
   console.log(`[tummy-time-reminders] Running for date: ${dateStr}`)
 
   const scheduledLocation = LOCATION_BY_DATE[dateStr]
