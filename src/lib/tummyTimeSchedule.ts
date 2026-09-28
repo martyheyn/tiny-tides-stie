@@ -10,8 +10,8 @@ export type TummyTimeDate = {
 // which location's directions to include, independent of what a given
 // Airtable record has stored).
 export const availableDates: TummyTimeDate[] = [
-  { label: 'September 14, 2026 (Monday) Patterson, 09:00–09:45am', value: '09/14/2026', location: 'Patterson' },
-  { label: 'September 21, 2026 (Monday) Patterson, 09:00–09:45am', value: '09/21/2026', location: 'Patterson' },
+  { label: 'October 12, 2026 (Monday) Patterson, 09:00–09:45am', value: '10/12/2026', location: 'Patterson' },
+  { label: 'October 26, 2026 (Monday) Patterson, 09:00–09:45am', value: '10/26/2026', location: 'Patterson' },
 ]
 
 // Parking/meeting directions, keyed by location name. Used in both the
