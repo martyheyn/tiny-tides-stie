@@ -27,7 +27,7 @@
     "astro": "^7.1.1",
     "esm-env": "^1.2.1",
     "fuse.js": "^7.5.0",
-    "nodemailer": "^9.0.3",
+    "nodemailer": "^10.0.15",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.1",
@@ -37,8 +37,7 @@
     "typescript": "^5.7.2"
   },
   "devDependencies": {
-    "@types/google.maps": "^3.58.1",
-    "@types/nodemailer": "^8.0.1"
+    "@types/google.maps": "^3.58.1"
   },
   "overrides": {
     "path-to-regexp": "^6.3.0"
