@@ -147,7 +147,6 @@ const user = Astro.locals.user
   <main slot='main'>
     <Signin client:load />
   </main>
-  <button slot='close'>Close modal</button>
 </Modal>
 
 
@@ -208,10 +207,6 @@ const user = Astro.locals.user
     openBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       if (!modal.open) modal.showModal();
-    });
-
-    modal.addEventListener('click', (event) => {
-      if (event.target === modal) modal.close();
     });
   };
 

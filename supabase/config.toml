@@ -238,6 +238,16 @@ otp_expiry = 3600
 # admin_email = "admin@email.com"
 # sender_name = "Admin"
 
+# Sign-in code email. Local dev only — hosted Supabase uses the templates in
+# the dashboard, so paste the same file there for both templates.
+[auth.email.template.magic_link]
+subject = "Your Tiny Tides sign-in code"
+content_path = "./supabase/templates/sign_in_code.html"
+
+[auth.email.template.confirmation]
+subject = "Your Tiny Tides sign-in code"
+content_path = "./supabase/templates/sign_in_code.html"
+
 # Uncomment to customize email template
 # [auth.email.template.invite]
 # subject = "You have been invited"

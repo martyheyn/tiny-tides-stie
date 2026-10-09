@@ -1,5 +1,14 @@
 <script lang="ts">
   import { createBrowserClient } from '@supabase/ssr'
+  import { onMount } from 'svelte'
+
+  // Remembers that "Get Course" was clicked while signed out, so after the
+  // sign-in code reloads the page we go straight on to checkout instead of
+  // making the user find and click the button again.
+  const CHECKOUT_AFTER_SIGNIN_KEY = 'checkoutAfterSignin'
+  // Long enough to fetch a code from email, short enough that a later,
+  // unrelated sign-in doesn't surprise someone with a Stripe redirect.
+  const CHECKOUT_AFTER_SIGNIN_TTL_MS = 30 * 60 * 1000
 
   let {
     slug,
@@ -17,6 +26,41 @@
   let user = $state()
   $inspect(user)
 
+  function openSigninModal() {
+    try {
+      sessionStorage.setItem(
+        CHECKOUT_AFTER_SIGNIN_KEY,
+        JSON.stringify({ slug, at: Date.now() }),
+      )
+    } catch {
+      // Storage unavailable (private mode etc.) -> user just clicks again
+    }
+    const modal = document.getElementById(modalId) as HTMLDialogElement | null
+    modal?.showModal()
+  }
+
+  onMount(() => {
+    let pending: { slug?: string; at?: number } | null = null
+    try {
+      pending = JSON.parse(sessionStorage.getItem(CHECKOUT_AFTER_SIGNIN_KEY) ?? 'null')
+      // Removed synchronously so only the first PurchaseButton on the page acts on it
+      sessionStorage.removeItem(CHECKOUT_AFTER_SIGNIN_KEY)
+    } catch {
+      return
+    }
+    if (
+      pending?.slug !== slug ||
+      !pending.at ||
+      Date.now() - pending.at > CHECKOUT_AFTER_SIGNIN_TTL_MS
+    ) {
+      return
+    }
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) handlePurchase()
+    })
+  })
+
   async function handlePurchase() {
     errorMsg = ''
 
@@ -28,8 +72,7 @@
 
     if (!user) {
       // 2️⃣ Not signed in → show modal
-      const modal = document.getElementById(modalId) as HTMLDialogElement | null
-      modal?.showModal()
+      openSigninModal()
       return
     }
 
@@ -48,8 +91,7 @@
 
       if (response.status === 401) {
         // Client-side session looked valid but the server disagrees (e.g. stale/expired token) -> re-prompt sign in
-        const modal = document.getElementById(modalId) as HTMLDialogElement | null
-        modal?.showModal()
+        openSigninModal()
         return
       }
 

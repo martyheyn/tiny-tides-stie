@@ -6,7 +6,10 @@ const IP_WINDOW_MS = 60 * 60 * 1000
 const IP_REQUEST_LIMIT = 20
 
 export const POST: APIRoute = async ({ request, cookies }) => {
-  const { email } = await request.json()
+  const body = await request.json()
+  // Normalize so `Jane@x.com` and `jane@x.com ` share one rate-limit bucket
+  // and one Supabase user.
+  const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : ''
 
   const supabase = createBEClient({ request, cookies })
 
@@ -24,7 +27,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     .gte('created_at', new Date(Date.now() - EMAIL_COOLDOWN_MS).toISOString())
 
   if ((recentForEmail ?? 0) > 0) {
-    return new Response('Please wait a minute before requesting another magic link.', { status: 429 })
+    return new Response('Please wait a minute before requesting another code.', { status: 429 })
   }
 
   const { count: recentForIp } = await serviceClient
@@ -37,18 +40,25 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     return new Response('Too many requests. Please try again later.', { status: 429 })
   }
 
-  let redirectTo = `${request.headers.get('origin')}/auth/callback`
+  // The email template builds the fallback link as
+  // `{{ .RedirectTo }}&token_hash=...&type=email`, so this must always end in
+  // a query string (hence `next=` even when empty).
+  let next = ''
 
   const referer = request.headers.get('referer')
 
   if (referer) {
     try {
       const refUrl = new URL(referer)
-      redirectTo += `?next=${(refUrl.pathname + refUrl.search).slice(1)}`
+      refUrl.searchParams.delete('auth_error')
+      next = (refUrl.pathname + refUrl.search).slice(1)
     } catch (e) {
       console.warn('Invalid referer header:', referer)
     }
   }
+
+  const redirectTo = `${request.headers.get('origin')}/auth/confirm?next=${encodeURIComponent(next)}`
+
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
@@ -71,7 +81,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   await serviceClient.from('otp_request_log').insert({ email, ip })
 
   return new Response(
-    JSON.stringify({ message: 'Magic link sent! Check your email.' }),
+    JSON.stringify({ message: 'Code sent! Check your email.' }),
     { status: 200 },
   )
 }

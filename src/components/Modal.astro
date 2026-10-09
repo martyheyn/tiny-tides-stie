@@ -1,16 +1,28 @@
 ---
-const { id = "modal" } = Astro.props;
+const { id = "modal", title = "Dialog" } = Astro.props;
 ---
 
-<dialog id={id} class="astro-dialog" aria-labelledby={`${id}-title`}>
-  <div class="px-12 pt-8 pb-4" role="document">
+<!-- closedby="closerequest": only the close button or Escape close it,
+     never a click on the backdrop (users were losing a half-entered sign-in
+     code by clicking outside the modal). -->
+<dialog id={id} class="astro-dialog" aria-label={title} closedby="closerequest">
+  <form method="dialog" class="absolute top-3 right-3">
+    <button
+      type="submit"
+      aria-label="Close"
+      class="flex items-center justify-center w-9 h-9 rounded-full text-slate-500 hover:text-slate-800 hover:bg-slate-100 cursor-pointer transition-colors"
+    >
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" />
+      </svg>
+    </button>
+  </form>
+  <div class="px-6 sm:px-10 pt-10 pb-8" role="document">
     <div class="dialog-body">
       <slot name="main" />
     </div>
   </div>
 </dialog>
-
-<div id={`${id}-backdrop`} class="astro-dialog-backdrop" aria-hidden="true" hidden></div>
 
 <style>
     .astro-dialog {
@@ -19,6 +31,8 @@ const { id = "modal" } = Astro.props;
         border-radius: 0.75rem;
         max-width: 520px;
         width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
         box-shadow: 0 8px 32px rgba(0,0,0,0.25);
         background: white;
         position: fixed;
@@ -34,42 +48,8 @@ const { id = "modal" } = Astro.props;
         background: rgba(0, 0, 0, 0.5);
     }
 
-    /* explicit fallback backdrop — covers whole viewport */
-    .astro-dialog-backdrop {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.5);
-        z-index: 999;
-    }
-
-    /* hide the dialog by default in fallback mode (we'll toggle open attribute/class) */
+    /* hide the dialog when closed */
     .astro-dialog:not([open]) {
         display: none;
     }
 </style>
-
-<script type="module" is:inline>
-    const id = "modal";
-    const dialog = document.getElementById(id);
-    const backdrop = document.getElementById(`${id}-backdrop`);
-
-    if (!dialog) {
-        // nothing to do (defensive)
-        console.warn('Modal: dialog element not found for id', id);
-    } else {
-        const isNativeDialog = typeof dialog.showModal === 'function';
-
-        // click on fallback backdrop closes the modal
-        if (backdrop) {
-            backdrop.addEventListener('click', () => {
-            if (isNativeDialog) {
-                dialog.close();
-            } else {
-                dialog.removeAttribute('open');
-                backdrop.hidden = true;
-            }
-            });
-        }
-
-    } 
-</script>
