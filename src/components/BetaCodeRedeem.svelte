@@ -104,7 +104,7 @@
   }
 </script>
 
-<!-- {#if expanded} -->
+{#if expanded}
   <form onsubmit={handleRedeem} class="flex flex-col items-center gap-2">
     <div class="flex gap-2">
       <input
@@ -112,7 +112,7 @@
         placeholder="DISCOUNT-CODE"
         bind:value={code}
         disabled={loading || redeemed}
-        class="py-2 px-3 text-black bg-[#fcfeff] border focus:outline-none focus:border-blue-300 rounded-md transition duration-150 ease-in-out uppercase disabled:opacity-50"
+        class="py-2 px-3 text-black !bg-[#fcfeff] border focus:outline-none focus:border-blue-300 rounded-md transition duration-150 ease-in-out uppercase disabled:opacity-50"
       />
       <button
         type="submit"
@@ -129,7 +129,7 @@
       </button>
     </div>
   </form>
-<!-- {:else}
+{:else}
   <button
     type="button"
     onclick={handleToggleClick}
@@ -138,7 +138,7 @@
   >
     Have a discount code?
   </button>
-{/if} -->
+{/if}
 
 {#if notification.message}
   <div class="w-full max-w-xs">
