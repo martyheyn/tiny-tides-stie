@@ -2,6 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 import Button from '../../../components/Button.astro'
 import { stripe } from '../../../lib/Stripe'
+import { fulfillCheckoutSession, signInGuestBuyer } from '../../../lib/fulfillCheckout'
 
 const { course: courseSlug } = Astro.params
 const sessionId = Astro.url.searchParams.get('session_id')
@@ -30,6 +31,35 @@ if (!paid) {
   return Astro.redirect(`/courses/${courseSlug}`)
 }
 
+// Don't wait on the webhook: record the purchase here too (idempotent) so the
+// course is unlocked the moment the buyer lands on this page.
+let purchaseEmail = ''
+let needsSignIn = false
+try {
+  const fulfilled = await fulfillCheckoutSession(session)
+  purchaseEmail = fulfilled.email
+
+  const currentUser = Astro.locals.user
+  // console.log("currentUser", currentUser)
+  let signedIn = currentUser?.id === fulfilled.userId
+  if (!currentUser) {
+    signedIn = await signInGuestBuyer({
+      session,
+      fulfilled,
+      request: Astro.request,
+      cookies: Astro.cookies,
+    })
+  }
+  // Accounts that already owned a course before this checkout (or a signed-out
+  // revisit after the one-time auto sign-in) sign in with an emailed code.
+  needsSignIn = !signedIn
+} catch (err: any) {
+  // The webhook will still record the purchase; the buyer can sign in once it has.
+  console.error('Confirmation page fulfillment failed', session.id, err.message)
+  needsSignIn = true
+  purchaseEmail = session.customer_details?.email ?? ''
+}
+
 const courseTitle = session.metadata?.course_title ?? 'your course'
 const startPath = session.metadata?.start_path ?? `/courses/${courseSlug}`
 
@@ -56,19 +86,56 @@ const pageTitle = `You're enrolled - ${courseTitle}`
       A confirmation email is on its way to your inbox.
     </p>
 
-    <a href={startPath}>
-      <Button
-        text="Start the Course"
-        textColor="#173f69bf"
-        textSize="text-xl"
-      />
-    </a>
+    {
+      needsSignIn ? (
+        <>
+          <p class="text-base text-gray-700 max-w-md">
+            Your course is saved to{' '}
+            <span class="font-semibold">{purchaseEmail || 'your email'}</span>.
+            Sign in with the code we email you to start watching.
+          </p>
+          {/* div, not button: Button.astro already renders a <button> */}
+          <div id="confirmed-signin-btn">
+            <Button
+              text="Sign in to start"
+              textColor="#173f69bf"
+              textSize="text-xl"
+            />
+          </div>
+        </>
+      ) : (
+        <>
+          <a href={startPath}>
+            <Button
+              text="Start the Course"
+              textColor="#173f69bf"
+              textSize="text-xl"
+            />
+          </a>
 
-    <a
-      href="/profile/mycourses"
-      class="text-sm text-gray-600 underline hover:text-gray-900"
-    >
-      Go to My Courses
-    </a>
+          <a
+            href="/profile/mycourses"
+            class="text-sm text-gray-600 underline hover:text-gray-900"
+          >
+            Go to My Courses
+          </a>
+        </>
+      )
+    }
   </div>
 </BaseLayout>
+
+<script>
+  // Opens the navbar's sign-in modal (Navbar.astro renders #signin-dialog on
+  // every page).
+  const attachSigninButton = () => {
+    document
+      .getElementById('confirmed-signin-btn')
+      ?.addEventListener('click', () => {
+        const modal = document.getElementById('signin-dialog') as HTMLDialogElement | null
+        if (modal && !modal.open) modal.showModal()
+      })
+  }
+
+  document.addEventListener('astro:page-load', attachSigninButton)
+</script>

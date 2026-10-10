@@ -1,14 +1,17 @@
 <script lang="ts">
   import { createBrowserClient } from '@supabase/ssr'
-  import { onMount } from 'svelte'
+  // Pay-first checkout (guest checkout, sign-in happens on the confirmation
+  // page) replaced "sign in before checkout". The sign-in-first pieces are
+  // commented out below rather than deleted in case we switch back.
+  // import { onMount } from 'svelte'
 
-  // Remembers that "Get Course" was clicked while signed out, so after the
-  // sign-in code reloads the page we go straight on to checkout instead of
-  // making the user find and click the button again.
-  const CHECKOUT_AFTER_SIGNIN_KEY = 'checkoutAfterSignin'
-  // Long enough to fetch a code from email, short enough that a later,
-  // unrelated sign-in doesn't surprise someone with a Stripe redirect.
-  const CHECKOUT_AFTER_SIGNIN_TTL_MS = 30 * 60 * 1000
+  // // Remembers that "Get Course" was clicked while signed out, so after the
+  // // sign-in code reloads the page we go straight on to checkout instead of
+  // // making the user find and click the button again.
+  // const CHECKOUT_AFTER_SIGNIN_KEY = 'checkoutAfterSignin'
+  // // Long enough to fetch a code from email, short enough that a later,
+  // // unrelated sign-in doesn't surprise someone with a Stripe redirect.
+  // const CHECKOUT_AFTER_SIGNIN_TTL_MS = 30 * 60 * 1000
 
   let {
     slug,
@@ -26,40 +29,40 @@
   let user = $state()
   $inspect(user)
 
-  function openSigninModal() {
-    try {
-      sessionStorage.setItem(
-        CHECKOUT_AFTER_SIGNIN_KEY,
-        JSON.stringify({ slug, at: Date.now() }),
-      )
-    } catch {
-      // Storage unavailable (private mode etc.) -> user just clicks again
-    }
-    const modal = document.getElementById(modalId) as HTMLDialogElement | null
-    modal?.showModal()
-  }
+  // function openSigninModal() {
+  //   try {
+  //     sessionStorage.setItem(
+  //       CHECKOUT_AFTER_SIGNIN_KEY,
+  //       JSON.stringify({ slug, at: Date.now() }),
+  //     )
+  //   } catch {
+  //     // Storage unavailable (private mode etc.) -> user just clicks again
+  //   }
+  //   const modal = document.getElementById(modalId) as HTMLDialogElement | null
+  //   modal?.showModal()
+  // }
 
-  onMount(() => {
-    let pending: { slug?: string; at?: number } | null = null
-    try {
-      pending = JSON.parse(sessionStorage.getItem(CHECKOUT_AFTER_SIGNIN_KEY) ?? 'null')
-      // Removed synchronously so only the first PurchaseButton on the page acts on it
-      sessionStorage.removeItem(CHECKOUT_AFTER_SIGNIN_KEY)
-    } catch {
-      return
-    }
-    if (
-      pending?.slug !== slug ||
-      !pending.at ||
-      Date.now() - pending.at > CHECKOUT_AFTER_SIGNIN_TTL_MS
-    ) {
-      return
-    }
+  // onMount(() => {
+  //   let pending: { slug?: string; at?: number } | null = null
+  //   try {
+  //     pending = JSON.parse(sessionStorage.getItem(CHECKOUT_AFTER_SIGNIN_KEY) ?? 'null')
+  //     // Removed synchronously so only the first PurchaseButton on the page acts on it
+  //     sessionStorage.removeItem(CHECKOUT_AFTER_SIGNIN_KEY)
+  //   } catch {
+  //     return
+  //   }
+  //   if (
+  //     pending?.slug !== slug ||
+  //     !pending.at ||
+  //     Date.now() - pending.at > CHECKOUT_AFTER_SIGNIN_TTL_MS
+  //   ) {
+  //     return
+  //   }
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) handlePurchase()
-    })
-  })
+  //   supabase.auth.getSession().then(({ data: { session } }) => {
+  //     if (session?.user) handlePurchase()
+  //   })
+  // })
 
   async function handlePurchase() {
     errorMsg = ''
@@ -70,13 +73,13 @@
     } = await supabase.auth.getSession()
     user = session?.user
 
-    if (!user) {
-      // 2️⃣ Not signed in → show modal
-      openSigninModal()
-      return
-    }
+    // if (!user) {
+    //   // 2️⃣ Not signed in → show modal
+    //   openSigninModal()
+    //   return
+    // }
 
-    // 3️⃣ Logged in → request checkout session
+    // 3️⃣ Request checkout session (signed in or guest)
     try {
       loading = true
 
@@ -89,11 +92,11 @@
         }),
       })
 
-      if (response.status === 401) {
-        // Client-side session looked valid but the server disagrees (e.g. stale/expired token) -> re-prompt sign in
-        openSigninModal()
-        return
-      }
+      // if (response.status === 401) {
+      //   // Client-side session looked valid but the server disagrees (e.g. stale/expired token) -> re-prompt sign in
+      //   openSigninModal()
+      //   return
+      // }
 
       const stripeRes = await response.json()
 
@@ -137,10 +140,12 @@
 
   {#if loading}
     Redirecting…
-  {:else if lockBtn && !user}
+  <!-- {:else if lockBtn && !user}
     Must be signed in access get course
   {:else if lockBtn && user}
-    Must purchases course to access content
+    Must purchases course to access content -->
+  {:else if lockBtn}
+    Get the course to unlock all videos
   {:else}
     Get Course
   {/if}

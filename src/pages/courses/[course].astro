@@ -1,9 +1,12 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import Modal from '../../components/Modal.astro'
-import Signin from '../../components/signin/Signin.svelte'
+// Pay-first checkout: no sign-in modal needed here (the navbar still has one
+// for returning buyers), and the beta-code box is retired in favor of Stripe
+// promotion codes at checkout. Commented out rather than deleted.
+// import Modal from '../../components/Modal.astro'
+// import Signin from '../../components/signin/Signin.svelte'
 import PurchaseButton from '../../components/PurchaseButton.svelte'
-import BetaCodeRedeem from '../../components/BetaCodeRedeem.svelte'
+// import BetaCodeRedeem from '../../components/BetaCodeRedeem.svelte'
 import { createBEClient } from '../../lib/SupabaseServer'
 import type { MarkdownInstance } from 'astro'
 import { getSignedUrl } from '@aws-sdk/cloudfront-signer'
@@ -167,6 +170,21 @@ if (
               ) : (
                 <>
                   <PurchaseButton slug={courseSlug} client:load />
+                  {!user && (
+                    <div class="flex flex-col items-center gap-2 mt-4 text-center">
+                      <span class="text-base text-gray-700">
+                        Already purchased this course? Sign in for access.
+                      </span>
+                      {/* Opens the navbar's sign-in modal (see script below) */}
+                      <button
+                        type="button"
+                        data-open-signin
+                        class="px-5 py-2 text-base font-semibold text-[#173f69] bg-white border border-[#173f69]/30 hover:border-[#173f69] rounded-md shadow-sm hover:shadow-md cursor-pointer transition-all duration-300 ease-in-out"
+                      >
+                        Sign in
+                      </button>
+                    </div>
+                  )}
                   {/* <BetaCodeRedeem
                     courseId={courseData.frontmatter.id}
                     startUrl={startUrl}
@@ -260,11 +278,11 @@ if (
   </div>
 </BaseLayout>
 
-<Modal id="signin-dialog" title="Signin Modal">
+{/* <Modal id="signin-dialog" title="Signin Modal">
   <main slot="main">
     <Signin client:load />
   </main>
-</Modal>
+</Modal> */}
 
 <script>
   // Astro's ClientRouter swaps in this page's DOM via client-side navigation
@@ -280,6 +298,19 @@ if (
     }
   }
 
+  // "Already purchased? Sign in" button -> the sign-in modal that Navbar.astro
+  // renders on every page. After the code is verified the page reloads and
+  // shows "Go to the Course!" for buyers.
+  const attachSigninButtons = () => {
+    document.querySelectorAll('[data-open-signin]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const modal = document.getElementById('signin-dialog') as HTMLDialogElement | null
+        if (modal && !modal.open) modal.showModal()
+      })
+    })
+  }
+
+  document.addEventListener('astro:page-load', attachSigninButtons)
   document.addEventListener('astro:page-load', handleNavigation) // Astro-specific event
   document.addEventListener('DOMContentLoaded', handleNavigation)
 </script>

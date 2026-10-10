@@ -14,12 +14,15 @@ export const POST: APIRoute = async (context) => {
     const { baseUrl, slug } = await context.request.json()
     const { data: user } = await supabase.auth.getUser()
 
-    if (!user.user?.id) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' },
-      })
-    }
+    // Pay-first: signed-out visitors check out as guests. Stripe collects their
+    // email and fulfillCheckoutSession() creates/finds the account from it.
+    // Previously sign-in was required before checkout:
+    // if (!user.user?.id) {
+    //   return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+    //     status: 401,
+    //     headers: { 'Content-Type': 'application/json' },
+    //   })
+    // }
 
     const { data: course, error } = await supabase
       .from('course')
@@ -88,8 +91,12 @@ export const POST: APIRoute = async (context) => {
           quantity: 1,
         },
       ],
+      // Signed-in buyers: lock checkout to their account's email so the
+      // purchase and receipt line up with the account they're using.
+      ...(user.user?.email ? { customer_email: user.user.email } : {}),
       metadata: {
-        user_id: user.user?.id,
+        // Omitted for guest checkouts -- no account exists yet
+        ...(user.user?.id ? { user_id: user.user.id } : {}),
         course_id: course?.id,
         course_slug: slug,
         course_title: courseTitle,
