@@ -5,7 +5,7 @@ import { Image } from 'astro:assets'
 ---
 
 <div
-  class="w-full flex flex-col gap-y-6 justify-between items-center service-landing-item bg-white/30 rounded-md p-6 text-[#031930bf]"
+  class="w-full flex flex-col gap-y-6 items-center service-landing-item bg-white/60 rounded-2xl p-8 shadow-lg shadow-blue-950/10 ring-1 ring-white text-[#031930bf]"
 >
   <a
     href={link}
@@ -19,15 +19,14 @@ import { Image } from 'astro:assets'
     />
   </a>
 
-  <div
-    class="max-w-87.5 md:max-w-75 md:min-h-50 flex flex-col justify-between gap-y-2"
-  >
+  <div class="max-w-md flex flex-col items-center gap-y-3">
     <a
       href={link}
-      class="hover:scale-102 transition-all duration-200 ease-in-out flex justify-center items-center h-full"
+      class="hover:scale-102 transition-all duration-200 ease-in-out"
     >
-      <p class="text-2xl italic font-semibold text-center mb-1">{title}</p>
+      <p class="text-2xl italic font-semibold text-center">{title}</p>
     </a>
+    <span class="block w-12 h-1 rounded-full bg-secondary"></span>
     <p class="text-center">{description}</p>
   </div>
 </div>

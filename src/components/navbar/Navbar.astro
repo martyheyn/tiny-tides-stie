@@ -55,7 +55,7 @@ const user = Astro.locals.user
           </div>
 
           <div
-            class="absolute bg-[#232020]/80 rounded-sm mx-4 w-40 z-20 -right-12 -bottom-60.25 transition-all duration-300 ease-in-out opacity-0 transform -translate-y-4 invisible flex flex-col"
+            class="absolute bg-[#232020]/80 rounded-sm mx-4 w-40 z-20 -right-12 top-full mt-px transition-all duration-300 ease-in-out opacity-0 transform -translate-y-4 invisible flex flex-col"
             id="services-dropdown"
           >
             <a
@@ -106,13 +106,13 @@ const user = Astro.locals.user
         )} 
 
         {user && (
-          <div class="sm:my-4 relative" id="user-navitem">
+          <div class="sm:py-4 relative" id="user-navitem">
             <div class="flex items-center cursor-pointer p-1 rounded-3xl text-black transition-all duration-300 ease-in-out hover:bg-black/30  hover:scale-103">
               <svg xmlns="http://www.w3.org/2000/svg" stroke="white" fill="white" width="32" height="32" viewBox="0 0 32 32" style="enable-background:new 0 0 32 32" xml:space="preserve"><path d="M16 31C7.729 31 1 24.271 1 16S7.729 1 16 1s15 6.729 15 15-6.729 15-15 15zm0-28C8.832 3 3 8.832 3 16s5.832 13 13 13 13-5.832 13-13S23.168 3 16 3z"/><circle cx="16" cy="15.133" r="4.267"/><path d="M16 30c2.401 0 4.66-.606 6.635-1.671-.425-3.229-3.18-5.82-6.635-5.82s-6.21 2.591-6.635 5.82A13.935 13.935 0 0 0 16 30z"/></svg>
             </div>
 
             <div
-              class="absolute bg-[#232020]/80 rounded-sm mx-4 w-40 z-50 -right-20 -bottom-32.75 transition-all duration-300 ease-in-out opacity-0 pointer-events-none transform -translate-y-4 flex flex-col"
+              class="absolute bg-[#232020]/80 rounded-sm mx-4 w-40 z-50 -right-20 top-full mt-px transition-all duration-300 ease-in-out opacity-0 pointer-events-none transform -translate-y-4 flex flex-col"
               id="user-dropdown"
             >
               {/* <a
@@ -216,9 +216,11 @@ const user = Astro.locals.user
   // Reattach after Astro swaps new content in
   document.addEventListener('astro:after-swap', attachModalListeners);
 
-  const signoutBtn = document.getElementById('signout-btn')
-  if (signoutBtn) {
-    document.addEventListener('click', async (event) => {
+  // Attached unconditionally: with ClientRouter this script only runs on the
+  // first full page load, so if that load was signed out (e.g. the checkout
+  // confirmation page, which signs the buyer in mid-render) the Signout button
+  // only appears after a later client-side navigation swaps in a new navbar.
+  document.addEventListener('click', async (event) => {
     const el = event.target as HTMLElement | null;
 
     if (el && el.closest('#signout-btn')) {
@@ -232,7 +234,6 @@ const user = Astro.locals.user
       }
     }
   });
-  }
 </script>
 
 <style>
@@ -240,7 +241,8 @@ const user = Astro.locals.user
   .expanded {
     visibility: visible;
     opacity: 1;
-    transform: translateY(0);
+    /* Tailwind v4's -translate-y-* sets `translate`, not `transform` */
+    translate: 0 0;
     pointer-events: auto;
   }
 </style>

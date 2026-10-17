@@ -14,6 +14,7 @@ import Step from '../components/Step.astro'
 import BreastFeedingImg from '../../public/assets/images/breast_feeding_icon.png'
 import BabyFeedingImg from '../../public/assets/images/infant_feeding_icon.png'
 import BabyCrawlingImg from '../../public/assets/images/infant_crawling_icon.png'
+import ToddlerBlocks from '../../public/assets/images/toddler_blocks.png'
 import Logo from '../components/Logo.astro'
 import Testamonials from '../components/Testamonials.astro'
 
@@ -22,23 +23,30 @@ import { Image } from 'astro:assets'
 const services = [
   {
     img: BabyCrawlingImg,
-    title: 'Occupational Therapy',
+    title: 'Occupational Therapy for Infants',
     description:
-      "Don’t “wait it out” when it comes to your baby's development! Early OT intervention can help set your little one up for success with meeting milestones and provide a strong foundation for future growth and independence.",
+      "Don’t “wait it out” when it comes to your baby's development! Early OT intervention can help set your little one up for success with meeting milestones and provide a strong foundation for future growth and independence. We help babies with feeding, meeting milestones like reaching, rolling, sitting, and crawling, as well as supporting sensory processing, regulation/sleep, body tension, and more.",
+    link: '/what-we-treat/#occupational-therapy',
+  },
+  {
+    img: ToddlerBlocks,
+    title: 'Occupational Therapy for Children up to age 5',
+    description:
+      "We also support toddlers and preschoolers as they grow, learn, play, and explore the world around them. Through individualized pediatric occupational and feeding therapy, we help children build the skills they need for everyday life, while empowering caregivers with practical strategies to use at home. We help children with fine and gross motor skills, sensory processing and emotional regulation, feeding, play skills, transitions, and more.",
     link: '/what-we-treat/#occupational-therapy',
   },
   {
     img: BreastFeedingImg,
-    title: 'Lactation Counseling',
+    title: 'Lactation Support',
     description:
-      'Breastfeeding can be TOUGH! Tiny Tides offers tailored strategies to support successful breastfeeding. Let’s work together to enhance the feeding experience with your little one.',
+      'Infant feeding is challenging, but we can help! We offer individualized strategies to support lactation and breastfeeding.  We also support infants experiencing tongue and lip tie, as well as other feeding difficulties. Let’s work together to enhance the feeding experience with your little one.',
     link: '/what-we-treat/#lactation-consulting',
   },
   {
     img: BabyFeedingImg,
     title: 'Feeding Therapy',
     description:
-      'Whether you are struggling with bottle feeding, transitioning to solids, or picky eating, Tiny Tides provides individualized support to help you and your little one reach your feeding goals.',
+      'Whether you are struggling with bottle feeding, starting solid foods, selective or picky eating, or concerns about your child’s feeding and growth, we can help you and your little one reach your feeding goals through a responsive, holistic approach.',
     link: '/what-we-treat/#transition-to-solids',
   },
 ]
@@ -134,7 +142,7 @@ const services = [
           </p>
 
           <div
-            class="md:max-w-6xl grid grid-cols-1 md:grid-cols-3 content-center w-full gap-y-16 md:gap-y-0 md:gap-x-4 lg:gap-x-16"
+            class="md:max-w-6xl grid grid-cols-1 md:grid-cols-2 content-center w-full gap-12"
           >
             {
               services.map((service) => (
