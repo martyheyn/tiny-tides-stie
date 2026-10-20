@@ -14,6 +14,7 @@ first_chapter: 'intro'
 first_video: 'intro'
 preview_vid: 'intro-to-solids/intro.mp4'
 tags: ['astro', 'course', 'intro-to-solids']
+img: "https://dkbi9cj3nodif.cloudfront.net/tummy_time_in_park_riverside.jpg"
 ---
 
 
